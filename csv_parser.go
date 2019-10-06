@@ -2,7 +2,6 @@ package tagger
 
 import (
 	"bufio"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -18,6 +17,7 @@ type CSVParser struct {
 }
 
 var (
+	// ErrEmptyFrame ...
 	ErrEmptyFrame = errors.New("frame line contains no data")
 )
 
@@ -90,13 +90,6 @@ func (p *CSVParser) Parse() (Film, error) {
 
 		film.Frames = append(film.Frames, frame)
 	}
-
-	j, err := json.MarshalIndent(film, "", "  ")
-	if err != nil {
-		return film, err
-	}
-
-	fmt.Println(string(j))
 
 	return film, err
 }
