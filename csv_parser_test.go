@@ -35,6 +35,7 @@ func TestCSVParser(t *testing.T) {
 				MaxAperture: 22,
 				Tv:          "=\"1/8000\"",
 				Av:          22,
+				ISO:         200,
 			},
 			{
 				Flag:        true,
@@ -43,6 +44,7 @@ func TestCSVParser(t *testing.T) {
 				MaxAperture: 2.8,
 				Tv:          "=\"15\"\"\"",
 				Av:          1.4,
+				ISO:         200,
 			},
 		},
 	}, film)

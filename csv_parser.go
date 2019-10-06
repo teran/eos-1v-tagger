@@ -80,6 +80,7 @@ func (p *CSVParser) Parse() (Film, error) {
 			log.Printf("error parsing frame data: %s: `%s`", err, frameStr)
 			continue
 		}
+		frame.ISO = film.ISO
 
 		film.Frames = append(film.Frames, frame)
 	}
