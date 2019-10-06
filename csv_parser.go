@@ -3,9 +3,9 @@ package tagger
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -16,6 +16,10 @@ import (
 type CSVParser struct {
 	rc io.ReadCloser
 }
+
+var (
+	ErrEmptyFrame = errors.New("frame line contains no data")
+)
 
 // NewCSVParser creates new CSVParser object
 func NewCSVParser(fn string) (*CSVParser, error) {
@@ -77,8 +81,10 @@ func (p *CSVParser) Parse() (Film, error) {
 
 		frame, err := parseFrameData(frameStr)
 		if err != nil {
-			log.Printf("error parsing frame data: %s: `%s`", err, frameStr)
-			continue
+			if err == ErrEmptyFrame {
+				continue
+			}
+			return Film{}, err
 		}
 		frame.ISO = film.ISO
 
@@ -131,6 +137,11 @@ func parseFrameData(s string) (Frame, error) {
 		return Frame{}, fmt.Errorf("wrong amount of columns for frame: %d: `%s`", len(ss), s)
 	}
 
+	// ss[2:] is everything except flag and number fields
+	if isEmptySliceOfStrings(ss[2:]) {
+		return Frame{}, ErrEmptyFrame
+	}
+
 	frameID, err := strconv.ParseInt(ss[1], 10, 64)
 	if err != nil {
 		return Frame{}, err
@@ -181,4 +192,13 @@ func parseFrameData(s string) (Frame, error) {
 		ISO:         iso,
 	}
 	return f, nil
+}
+
+func isEmptySliceOfStrings(ss []string) bool {
+	for _, s := range ss {
+		if strings.TrimSpace(s) != "" {
+			return false
+		}
+	}
+	return true
 }
