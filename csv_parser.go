@@ -175,12 +175,19 @@ func parseFrameData(s string) (Frame, error) {
 		return Frame{}, err
 	}
 
+	tv, err := func() (string, error) {
+		tv := ss[4]
+		tv = strings.Replace(tv, `"`, "", -1)
+		tv = strings.Replace(tv, "=", "", -1)
+		return tv, nil
+	}()
+
 	f := Frame{
 		Flag:        flag,
 		Number:      frameID,
 		FocalLength: focalLength,
 		MaxAperture: maxAperture,
-		Tv:          ss[4],
+		Tv:          tv,
 		Av:          av,
 		ISO:         iso,
 	}
