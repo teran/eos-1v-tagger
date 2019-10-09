@@ -33,16 +33,16 @@ type (
 		Tv                   string
 		Av                   float64
 		ISO                  int64
-		ExposureCompensation interface{}
-		FlashCompensation    interface{}
-		FlashMode            interface{}
-		MeteringMode         interface{}
-		ShoothingMode        interface{}
-		FilmAdvanceMode      interface{}
-		AFMode               interface{}
-		BulbExposureTime     interface{}
+		ExposureCompensation float64
+		FlashCompensation    float64
+		FlashMode            string
+		MeteringMode         string
+		ShoothingMode        string
+		FilmAdvanceMode      string
+		AFMode               string
+		BulbExposureTime     string
 		Timestamp            time.Time
-		MultipleExposure     interface{}
+		MultipleExposure     string
 		BatteryLoadedDate    time.Time
 		Remarks              string
 	}

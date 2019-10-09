@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -160,6 +161,13 @@ func parseFrameData(s string) (Frame, error) {
 		return Frame{}, err
 	}
 
+	tv, err := func() (string, error) {
+		tv := ss[4]
+		tv = strings.Replace(tv, `"`, "", -1)
+		tv = strings.Replace(tv, "=", "", -1)
+		return tv, nil
+	}()
+
 	av, err := strconv.ParseFloat(ss[5], 64)
 	if err != nil {
 		return Frame{}, err
@@ -175,21 +183,36 @@ func parseFrameData(s string) (Frame, error) {
 		return Frame{}, err
 	}
 
-	tv, err := func() (string, error) {
-		tv := ss[4]
-		tv = strings.Replace(tv, `"`, "", -1)
-		tv = strings.Replace(tv, "=", "", -1)
-		return tv, nil
-	}()
+	expcomp, err := strconv.ParseFloat(ss[7], 64)
+	if err != nil {
+		return Frame{}, err
+	}
+
+	flashcomp, err := strconv.ParseFloat(ss[8], 64)
+	if err != nil {
+		return Frame{}, err
+	}
 
 	f := Frame{
-		Flag:        flag,
-		Number:      frameID,
-		FocalLength: focalLength,
-		MaxAperture: maxAperture,
-		Tv:          tv,
-		Av:          av,
-		ISO:         iso,
+		Flag:                 flag,
+		Number:               frameID,
+		FocalLength:          focalLength,
+		MaxAperture:          maxAperture,
+		Tv:                   tv,
+		Av:                   av,
+		ISO:                  iso,
+		ExposureCompensation: expcomp,
+		FlashCompensation:    flashcomp,
+		FlashMode:            ss[9],
+		MeteringMode:         ss[10],
+		ShoothingMode:        ss[11],
+		FilmAdvanceMode:      ss[12],
+		AFMode:               ss[13],
+		BulbExposureTime:     ss[14],
+		Timestamp:            maybeParseTimestamp(ss[15], ss[16]),
+		MultipleExposure:     ss[17],
+		BatteryLoadedDate:    maybeParseTimestamp(ss[18], ss[19]),
+		Remarks:              ss[20],
 	}
 	return f, nil
 }
@@ -201,4 +224,18 @@ func isEmptySliceOfStrings(ss []string) bool {
 		}
 	}
 	return true
+}
+
+func maybeParseTimestamp(d, t string) time.Time {
+	if d == "" || t == "" {
+		return time.Time{}
+	}
+
+	ts, err := time.Parse(TimestampFormat, fmt.Sprintf("%vT%v", d, t))
+	if err != nil {
+		log.Printf("error parsing timestamp: `%sT%s`: %s", d, t, err)
+		return time.Time{}
+	}
+
+	return ts
 }
