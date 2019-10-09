@@ -205,7 +205,7 @@ func parseFrameData(s string) (Frame, error) {
 		FlashCompensation:    flashcomp,
 		FlashMode:            ss[9],
 		MeteringMode:         ss[10],
-		ShoothingMode:        ss[11],
+		ShootingMode:         ss[11],
 		FilmAdvanceMode:      ss[12],
 		AFMode:               ss[13],
 		BulbExposureTime:     ss[14],

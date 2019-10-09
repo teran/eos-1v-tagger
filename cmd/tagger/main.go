@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
-	"time"
 
 	tagger "github.com/teran/eos-1v-tagger"
 )
@@ -22,39 +20,44 @@ func main() {
 	}
 
 	for _, f := range film.Frames {
-		fmt.Printf(
-			strings.Join([]string{
-				`exiftool`,
-				`-overwrite_original`,
-				`-FocalLength="%dmm"`,
-				`-ExposureTime="%s"`,
-				`-ShutterSpeedValue="%s"`,
-				`-FNumber="%v"`,
-				`-ApertureValue="%v"`,
-				`-ISO="%d"`,
-				`-ISOSpeed="%d"`,
-				`-ExposureCompensation="%v"`,
-				`-MeteringMode="%v"`,
-				`-ShootingMode="%v"`,
-				`-FocusMode="%v"`,
-				`-DateTimeOriginal="%s"`,
-				`-ModifyDate="%s"`,
-				`FILM_%05d.dng`,
-			}, " ")+"\n",
-			f.FocalLength,
-			f.Tv,
-			f.Tv,
-			f.Av,
-			f.Av,
-			f.ISO,
-			f.ISO,
-			f.ExposureCompensation,
-			f.MeteringMode,
-			f.ShoothingMode,
-			f.AFMode,
-			f.Timestamp.Format(time.RFC3339),
-			f.Timestamp.Format(time.RFC3339),
-			f.Number,
-		)
+		et := tagger.NewExifTool(fmt.Sprintf("FILM_%05d.dng", f.Number))
+
+		if f.AFMode != "" {
+			et.FocusMode(f.AFMode)
+		}
+
+		if f.Av > 0 {
+			et.Aperture(f.Av)
+		}
+
+		if f.ExposureCompensation > 0 {
+			et.ExposureCompensation(f.ExposureCompensation)
+		}
+
+		if f.FocalLength > 0 {
+			et.FocalLength(f.FocalLength)
+		}
+
+		if f.ISO > 0 {
+			et.ISO(f.ISO)
+		}
+
+		if f.MeteringMode != "" {
+			et.MeteringMode(f.MeteringMode)
+		}
+
+		if f.ShootingMode != "" {
+			et.ShootingMode(f.ShootingMode)
+		}
+
+		if !f.Timestamp.IsZero() {
+			et.Timestamp(f.Timestamp)
+		}
+
+		if f.Tv != "" {
+			et.Exposure(f.Tv)
+		}
+
+		fmt.Println(et.Cmd())
 	}
 }

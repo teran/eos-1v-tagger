@@ -6,6 +6,8 @@ const (
 	// TimestampFormat ...
 	TimestampFormat = "1/2/2006T15:04:05"
 
+	exifToolDefaultCmd = `exiftool -overwrite_original`
+
 	frameHeader = `,Frame No.,Focal length,Max. aperture,Tv,Av,ISO (M)` +
 		`,Exposure compensation,Flash exposure compensation,Flash mode,` +
 		`Metering mode,Shooting mode,Film advance mode,AF mode,Bulb exposure ` +
@@ -37,7 +39,7 @@ type (
 		FlashCompensation    float64
 		FlashMode            string
 		MeteringMode         string
-		ShoothingMode        string
+		ShootingMode         string
 		FilmAdvanceMode      string
 		AFMode               string
 		BulbExposureTime     string
@@ -47,3 +49,15 @@ type (
 		Remarks              string
 	}
 )
+
+// ExifToolOption type
+type ExifToolOption struct {
+	key   string
+	value string
+}
+
+// ExifTool type
+type ExifTool struct {
+	filename string
+	options  []ExifToolOption
+}
