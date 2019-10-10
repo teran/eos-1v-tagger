@@ -4,12 +4,30 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"runtime"
+	"strconv"
+	"time"
 )
 
-const (
-	usageMessage = "Usage: tagger [OPTIONS] file.csv\n\nOptions:\n"
+// LD vars
+var (
+	ldVersion   = "undefined"
+	ldTimestamp = "0"
 )
 
+// help message prefix/suffix
+var (
+	usagePrefix = "Usage: tagger [OPTIONS] file.csv\n\nOptions:\n"
+	usageSuffix = fmt.Sprintf("\nVersion: %s, build with %s at %s\n", ldVersion, runtime.Version(), func() string {
+		tsI, err := strconv.ParseInt(ldTimestamp, 10, 64)
+		if err != nil {
+			panic(err)
+		}
+		return time.Unix(tsI, 0).Format(time.RFC3339)
+	}())
+)
+
+// Flags
 var (
 	displayHelp     bool   = false
 	filenamePattern string = "FILM_%05d.dng"
@@ -18,9 +36,9 @@ var (
 
 func parseFlags() {
 	flag.Usage = func() {
-		fmt.Print(usageMessage)
-
+		fmt.Print(usagePrefix)
 		flag.PrintDefaults()
+		fmt.Print(usageSuffix)
 	}
 
 	flag.BoolVar(&displayHelp, "help", displayHelp, "display help message")
