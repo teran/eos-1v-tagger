@@ -1,6 +1,7 @@
 package tagger
 
 import (
+	"strings"
 	"testing"
 	"time"
 
@@ -10,7 +11,10 @@ import (
 func TestCSVParser(t *testing.T) {
 	r := require.New(t)
 
-	p, err := NewCSVParser("testdata/sample.CSV")
+	tz, err := LocationByTimeZone("CET")
+	r.NoError(err)
+
+	p, err := NewCSVParser("testdata/sample.CSV", tz)
 	r.NoError(err)
 	r.NotNil(p)
 
@@ -24,7 +28,7 @@ func TestCSVParser(t *testing.T) {
 	r.Equal(Film{
 		ID:                  "03-758",
 		Title:               "Sample",
-		FilmLoadedTimestamp: mustParseTimestamp("09/01/2010T14:00:00"),
+		FilmLoadedTimestamp: mustParseTimestamp(t, "09/01/2010T14:00:00", tz),
 		FrameCount:          36,
 		ISO:                 200,
 		Frames: []Frame{
@@ -41,7 +45,7 @@ func TestCSVParser(t *testing.T) {
 				ShootingMode:      "Program AE",
 				FilmAdvanceMode:   "Single-frame",
 				AFMode:            "One-Shot AF",
-				Timestamp:         time.Date(2010, 11, 9, 18, 31, 26, 0, time.UTC),
+				Timestamp:         mustParseTimestamp(t, "11/09/2010T18:31:26", tz),
 				MultipleExposure:  "OFF",
 				BatteryLoadedDate: time.Time{},
 			},
@@ -58,7 +62,7 @@ func TestCSVParser(t *testing.T) {
 				ShootingMode:         "Program AE",
 				FilmAdvanceMode:      "Single-frame",
 				AFMode:               "One-Shot AF",
-				Timestamp:            time.Date(2010, 12, 9, 18, 32, 55, 0, time.UTC),
+				Timestamp:            mustParseTimestamp(t, "12/09/2010T18:32:55", tz),
 				MultipleExposure:     "OFF",
 				BatteryLoadedDate:    time.Time{},
 				ExposureCompensation: -5,
@@ -68,11 +72,15 @@ func TestCSVParser(t *testing.T) {
 	}, film)
 }
 
-func mustParseTimestamp(ts string) time.Time {
-	tt, err := time.Parse(TimestampFormat, ts)
-	if err != nil {
-		panic(err)
-	}
+func mustParseTimestamp(t *testing.T, ts string, tz *time.Location) time.Time {
+	r := require.New(t)
+
+	tts := strings.Split(ts, "T")
+	r.Len(tts, 2)
+
+	tt := maybeParseTimestamp(tts[0], tts[1], tz)
+	r.NotNil(tt)
+	r.False(tt.IsZero())
 
 	return tt
 }

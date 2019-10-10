@@ -11,8 +11,9 @@ const (
 )
 
 var (
-	filenamePattern string = "FILM_%05d.dng"
 	displayHelp     bool   = false
+	filenamePattern string = "FILM_%05d.dng"
+	timezone        string = "UTC"
 )
 
 func parseFlags() {
@@ -22,8 +23,9 @@ func parseFlags() {
 		flag.PrintDefaults()
 	}
 
-	flag.StringVar(&filenamePattern, "filename-pattern", filenamePattern, "filename pattern for generate exiftool command. %d means frame number on the film.")
 	flag.BoolVar(&displayHelp, "help", displayHelp, "display help message")
+	flag.StringVar(&filenamePattern, "filename-pattern", filenamePattern, "filename pattern for generate exiftool command. %d means frame number on the film")
+	flag.StringVar(&timezone, "timezone", timezone, "location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow')")
 
 	flag.Parse()
 

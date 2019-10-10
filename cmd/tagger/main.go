@@ -11,7 +11,12 @@ import (
 func main() {
 	parseFlags()
 
-	t, err := tagger.NewCSVParser(flag.Arg(0))
+	tz, err := tagger.LocationByTimeZone(timezone)
+	if err != nil {
+		log.Fatalf("error looking up timezone: %s", err)
+	}
+
+	t, err := tagger.NewCSVParser(flag.Arg(0), tz)
 	if err != nil {
 		log.Fatalf("error initializing CSV parser: %s", err)
 	}
