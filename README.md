@@ -12,10 +12,14 @@ Usage
 -----
 
 ```shell
-tagger CSV_FILE
-```
+Usage: tagger [OPTIONS] file.csv
 
-At the momment it suppose you have the following format film scan files: `FILM_%5f.dng`, for example: `FILM_00001.dng` so exiftool commands are generated based on that file naming scheme.
+Options:
+  -filename-pattern string
+        filename pattern for generate exiftool command. %d means frame number on the film. (default "FILM_%05d.dng")
+  -help
+        display help message
+```
 
 NOTICES
 -------

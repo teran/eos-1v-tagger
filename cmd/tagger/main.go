@@ -1,15 +1,17 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
-	"os"
 
 	tagger "github.com/teran/eos-1v-tagger"
 )
 
 func main() {
-	t, err := tagger.NewCSVParser(os.Args[1])
+	parseFlags()
+
+	t, err := tagger.NewCSVParser(flag.Arg(0))
 	if err != nil {
 		log.Fatalf("error initializing CSV parser: %s", err)
 	}
@@ -20,7 +22,7 @@ func main() {
 	}
 
 	for _, f := range film.Frames {
-		et := tagger.NewExifTool(fmt.Sprintf("FILM_%05d.dng", f.Number))
+		et := tagger.NewExifTool(fmt.Sprintf(filenamePattern, f.Number))
 
 		if f.AFMode != "" {
 			et.FocusMode(f.AFMode)
