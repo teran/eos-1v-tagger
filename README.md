@@ -25,6 +25,26 @@ Options:
 Version: 0.1-alpha.5, build with go1.13.1 at 2019-10-11T00:01:11+03:00
 ```
 
+So you could try to do the following:
+
+```shell
+tagger -timezone='Europe/Berlin' -filename-pattern='FILM138_%05d.tiff' Downloads/138.csv
+```
+
+... and it will print you something like this:
+
+```shell
+exiftool -overwrite_original -FocusMode="One-Shot AF" -FNumber="1.4" -ApertureValue="1.4" -FocalLength="35mm" -ISO="400" -ISOSpeed="400" -MeteringMode="Evaluative" -ShootingMode="Aperture-priority AE" -DateTimeOriginal="2019-09-21T14:04:21+02:00" -ModifyDate="2019-09-21T14:04:21+02:00" -ExposureTime="1/8000" -ShutterSpeedValue="1/8000" "FILM138_00001.tiff"
+exiftool -overwrite_original -FocusMode="One-Shot AF" -FNumber="2.5" -ApertureValue="2.5" -FocalLength="35mm" -ISO="400" -ISOSpeed="400" -MeteringMode="Evaluative" -ShootingMode="Aperture-priority AE" -DateTimeOriginal="2019-09-21T14:05:40+02:00" -ModifyDate="2019-09-21T14:05:40+02:00" -ExposureTime="1/3200" -ShutterSpeedValue="1/3200" "FILM138_00002.tiff"
+..........
+```
+
+The tags list generated with exiftool depends on the data present in CSV.
+Then you could check carefully the data provided and run these command to apply EXIF metadata.
+
+*Please note:* you need to have [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) installed on your system.
+
+
 NOTICES
 -------
 
