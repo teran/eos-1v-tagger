@@ -16,11 +16,13 @@ Usage: tagger [OPTIONS] file.csv
 
 Options:
   -filename-pattern string
-      filename pattern for generate exiftool command. %d means frame number on the film (default "FILM_%05d.dng")
+        filename pattern for generate exiftool command. %d means frame number on the film (default "FILM_%05d.dng")
   -help
-      display help message
+        display help message
   -timezone string
-      location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow') (default "UTC")
+        location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow') (default "UTC")
+
+Version: 0.1-alpha.5, build with go1.13.1 at 2019-10-11T00:01:11+03:00
 ```
 
 NOTICES
