@@ -55,6 +55,13 @@ func (e *ExifTool) FocusMode(m string) *ExifTool {
 	return e
 }
 
+// GeoTag adds `-geotag` to exiftool command
+func (e *ExifTool) GeoTag(filename string) *ExifTool {
+	e.add("GeoTag", filename)
+
+	return e
+}
+
 // ISO sets ISO parameters to exiftool command
 func (e *ExifTool) ISO(v int64) *ExifTool {
 	vs := strconv.FormatInt(v, 10)

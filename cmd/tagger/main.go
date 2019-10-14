@@ -29,6 +29,10 @@ func main() {
 	for _, f := range film.Frames {
 		et := tagger.NewExifTool(fmt.Sprintf(filenamePattern, f.Number))
 
+		if geotag != "" {
+			et.GeoTag(geotag)
+		}
+
 		if f.AFMode != "" {
 			et.FocusMode(f.AFMode)
 		}

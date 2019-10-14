@@ -100,6 +100,14 @@ func TestExiftoolOptions(t *testing.T) {
 			},
 			expCommand: `-DateTimeOriginal="2019-08-21T14:06:13Z" -ModifyDate="2019-08-21T14:06:13Z" "test-file-with-timestamp"`,
 		},
+		{
+			name:  "geotag specified",
+			fname: "test-file-with-geotag",
+			f: func(e *ExifTool) {
+				e.GeoTag("blah.log")
+			},
+			expCommand: `-GeoTag="blah.log" "test-file-with-geotag"`,
+		},
 	}
 
 	for _, tc := range tcs {
