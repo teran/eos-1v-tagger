@@ -116,6 +116,30 @@ func TestExiftoolOptions(t *testing.T) {
 			},
 			expCommand: `-DateTimeDigitized<"CreateDate" "test-file-with-date-time-digitized"`,
 		},
+		{
+			name:  "make specified",
+			fname: "test-file-with-make",
+			f: func(e *ExifTool) {
+				e.Make("TestDevice/1.0")
+			},
+			expCommand: `-Make="TestDevice/1.0" "test-file-with-make"`,
+		},
+		{
+			name:  "model specified",
+			fname: "test-file-with-model",
+			f: func(e *ExifTool) {
+				e.Model("TestModel/1.0")
+			},
+			expCommand: `-Model="TestModel/1.0" "test-file-with-model"`,
+		},
+		{
+			name:  "serial number specified",
+			fname: "test-file-with-serial-number",
+			f: func(e *ExifTool) {
+				e.SerialNumber("1234567890!")
+			},
+			expCommand: `-SerialNumber="1234567890!" "test-file-with-serial-number"`,
+		},
 	}
 
 	for _, tc := range tcs {

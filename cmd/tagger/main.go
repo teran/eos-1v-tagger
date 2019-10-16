@@ -69,6 +69,18 @@ func main() {
 			et.SetDateTimeDigitizedFromCreateDate()
 		}
 
+		if make != "" {
+			et.Make(make)
+		}
+
+		if model != "" {
+			et.Model(model)
+		}
+
+		if serialNumber != "" {
+			et.SerialNumber(serialNumber)
+		}
+
 		fmt.Println(et.Cmd())
 
 		if geotag != "" {

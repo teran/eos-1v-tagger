@@ -16,15 +16,23 @@ Usage: tagger [OPTIONS] file.csv
 
 Options:
   -filename-pattern string
-      filename pattern for generate exiftool command. %d means frame number on the film (default "FILM_%05d.dng")
+        filename pattern for generate exiftool command. %d means frame number on the film (default "FILM_%05d.dng")
   -geotag string
-      GPS track log file to set location data, supported formats are the ones supported by exiftool. Please refer to exiftool docs for details.
+        GPS track log file to set location data, supported formats are the ones supported by exiftool. Please refer to exiftool docs for details.
   -help
-      display help message
+        display help message
+  -make string
+        Make tag value. NOTE: it will overwrite the value set by your film scanner software
+  -model string
+        Model tag value. NOTE: it will overwrite the value set by your film scanner software
+  -serial-number string
+        SerialNumber tag value. NOTE: it will overwrite the value set by your film scanner software
+  -set-digitized
+        set DateTimeDigitized from CreateDate field
   -timezone string
-      location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow') (default "UTC")
+        location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow') (default "UTC")
 
-Version: 0.1-alpha.6, build with go1.13.1 at 2019-10-14T00:01:11+03:00
+Version: 0.1-alpha.8, build with go1.13.1 at 2019-10-17T02:14:02+03:00
 ```
 
 So you could try to do the following:

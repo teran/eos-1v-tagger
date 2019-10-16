@@ -71,9 +71,30 @@ func (e *ExifTool) ISO(v int64) *ExifTool {
 	return e
 }
 
+// Make sets Make parameters to exiftool command
+func (e *ExifTool) Make(m string) *ExifTool {
+	e.add("Make", m)
+
+	return e
+}
+
+// Model sets Model parameters to exiftool command
+func (e *ExifTool) Model(m string) *ExifTool {
+	e.add("Model", m)
+
+	return e
+}
+
 // MeteringMode sets metering mode parameters to exiftool command
 func (e *ExifTool) MeteringMode(m string) *ExifTool {
 	e.add("MeteringMode", m)
+
+	return e
+}
+
+// SerialNumber sets SerialNumber parameters to exiftool command
+func (e *ExifTool) SerialNumber(sn string) *ExifTool {
+	e.add("SerialNumber", sn)
 
 	return e
 }
