@@ -65,6 +65,10 @@ func main() {
 			et.Exposure(f.Tv)
 		}
 
+		if setDigitized {
+			et.SetDateTimeDigitizedFromCreateDate()
+		}
+
 		fmt.Println(et.Cmd())
 
 		if geotag != "" {

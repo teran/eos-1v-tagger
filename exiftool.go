@@ -94,10 +94,24 @@ func (e *ExifTool) Timestamp(t time.Time) *ExifTool {
 	return e
 }
 
+// SetDateTimeDigitizedFromCreateDate sets SetDateTimeDigitized from CreateDate field
+func (e *ExifTool) SetDateTimeDigitizedFromCreateDate() {
+	e.copy("CreateDate", "DateTimeDigitized")
+}
+
 func (e *ExifTool) add(k, v string) {
 	e.options = append(e.options, ExifToolOption{
-		key:   k,
-		value: v,
+		key:      k,
+		value:    v,
+		operator: "=",
+	})
+}
+
+func (e *ExifTool) copy(from, to string) {
+	e.options = append(e.options, ExifToolOption{
+		key:      to,
+		value:    from,
+		operator: "<",
 	})
 }
 
@@ -106,7 +120,7 @@ func (e *ExifTool) Cmd() string {
 	cmd := exifToolDefaultCmd
 	for _, o := range e.options {
 		cmd += " "
-		cmd += fmt.Sprintf(`-%s="%s"`, o.key, o.value)
+		cmd += "-" + o.key + o.operator + strconv.Quote(o.value)
 	}
 
 	cmd += fmt.Sprintf(` "%s"`, e.filename)

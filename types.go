@@ -52,8 +52,9 @@ type (
 
 // ExifToolOption type
 type ExifToolOption struct {
-	key   string
-	value string
+	key      string
+	value    string
+	operator string
 }
 
 // ExifTool type
