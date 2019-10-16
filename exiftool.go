@@ -78,6 +78,11 @@ func (e *ExifTool) MeteringMode(m string) *ExifTool {
 	return e
 }
 
+// SetDateTimeDigitizedFromCreateDate sets SetDateTimeDigitized from CreateDate field
+func (e *ExifTool) SetDateTimeDigitizedFromCreateDate() {
+	e.copy("CreateDate", "DateTimeDigitized")
+}
+
 // ShootingMode sets shooting mode parameters to exiftool command
 func (e *ExifTool) ShootingMode(m string) *ExifTool {
 	e.add("ShootingMode", m)
@@ -92,11 +97,6 @@ func (e *ExifTool) Timestamp(t time.Time) *ExifTool {
 	e.add("ModifyDate", ts)
 
 	return e
-}
-
-// SetDateTimeDigitizedFromCreateDate sets SetDateTimeDigitized from CreateDate field
-func (e *ExifTool) SetDateTimeDigitizedFromCreateDate() {
-	e.copy("CreateDate", "DateTimeDigitized")
 }
 
 func (e *ExifTool) add(k, v string) {
