@@ -143,7 +143,7 @@ func (e *ExifTool) Cmd() string {
 	cmd := exifToolDefaultCmd
 	for _, o := range e.options {
 		cmd += " "
-		cmd += "-" + o.key + o.operator + strconv.Quote(o.value)
+		cmd += strconv.Quote("-" + o.key + o.operator + o.value)
 	}
 
 	cmd += fmt.Sprintf(` "%s"`, e.filename)
