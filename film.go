@@ -19,6 +19,8 @@ func (f Film) IsEmpty() bool {
 	switch {
 	case f.ID != 0:
 		return false
+	case f.CameraID != 0:
+		return false
 	case f.Title != "":
 		return false
 	case !f.FilmLoadedTimestamp.IsZero():
@@ -31,7 +33,6 @@ func (f Film) IsEmpty() bool {
 		return false
 	case len(f.Frames) > 0:
 		return false
-	default:
-		return true
 	}
+	return true
 }
