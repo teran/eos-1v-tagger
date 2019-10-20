@@ -76,6 +76,23 @@ This will generate [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) co
 * Timestamps: original photo timetamp to the one set in camera aligned to `Europe/Moscow` timezone, digitized to the one present in `CreateDate` tag
 * All the data present in CSV like aperture, exposure, ISO, focal length, etc.
 
+Build & test
+------------
+
+Since tagger is written in Go the compiler is required and could installed from [Go official website](https://golang.org).
+
+Build tagger from source in the most trivial case:
+
+```shell
+go build -o ./tagger ./cmd/tagger/...
+```
+
+To run tests(if changes made, for instance):
+
+```shell
+go test ./...
+```
+
 NOTICES
 -------
 
