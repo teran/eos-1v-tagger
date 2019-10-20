@@ -82,7 +82,10 @@ func (p *CSVParser) Parse() (Film, error) {
 			}
 			return Film{}, err
 		}
-		frame.ISO = film.ISO
+
+		if frame.ISO == 0 {
+			frame.ISO = film.ISO
+		}
 
 		film.Frames = append(film.Frames, frame)
 	}
