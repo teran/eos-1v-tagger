@@ -31,7 +31,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.ISO(200)
 			},
-			expCommand: `-ISO="200" -ISOSpeed="200" "test-file-with-iso"`,
+			expCommand: `"-ISO=200" "-ISOSpeed=200" "test-file-with-iso"`,
 		},
 		{
 			name:  "aperture specified",
@@ -39,7 +39,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.Aperture(1.4)
 			},
-			expCommand: `-FNumber="1.4" -ApertureValue="1.4" "test-file-with-aperture"`,
+			expCommand: `"-FNumber=1.4" "-ApertureValue=1.4" "test-file-with-aperture"`,
 		},
 		{
 			name:  "focal length specified",
@@ -47,7 +47,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.FocalLength(35)
 			},
-			expCommand: `-FocalLength="35mm" "test-file-with-focal-length"`,
+			expCommand: `"-FocalLength=35mm" "test-file-with-focal-length"`,
 		},
 		{
 			name:  "exposure time specified",
@@ -55,7 +55,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.Exposure("1/2566")
 			},
-			expCommand: `-ExposureTime="1/2566" -ShutterSpeedValue="1/2566" "test-file-with-exposure"`,
+			expCommand: `"-ExposureTime=1/2566" "-ShutterSpeedValue=1/2566" "test-file-with-exposure"`,
 		},
 		{
 			name:  "exposure compensation specified",
@@ -63,7 +63,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.ExposureCompensation(0.5)
 			},
-			expCommand: `-ExposureCompensation="0.5" "test-file-with-exposure-compensation"`,
+			expCommand: `"-ExposureCompensation=0.5" "test-file-with-exposure-compensation"`,
 		},
 		{
 			name:  "metering mode specified",
@@ -71,7 +71,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.MeteringMode("Evaluative")
 			},
-			expCommand: `-MeteringMode="Evaluative" "test-file-with-metering-mode"`,
+			expCommand: `"-MeteringMode=Evaluative" "test-file-with-metering-mode"`,
 		},
 		{
 			name:  "shooting mode specified",
@@ -79,7 +79,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.ShootingMode("Aperture-priority AE")
 			},
-			expCommand: `-ShootingMode="Aperture-priority AE" "test-file-with-shooting-mode"`,
+			expCommand: `"-ShootingMode=Aperture-priority AE" "test-file-with-shooting-mode"`,
 		},
 		{
 			name:  "focus mode specified",
@@ -87,7 +87,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.FocusMode("One-Shot AF")
 			},
-			expCommand: `-FocusMode="One-Shot AF" "test-file-with-focus-mode"`,
+			expCommand: `"-FocusMode=One-Shot AF" "test-file-with-focus-mode"`,
 		},
 		{
 			name:  "timestamp specified",
@@ -98,7 +98,7 @@ func TestExiftoolOptions(t *testing.T) {
 
 				e.Timestamp(ts)
 			},
-			expCommand: `-DateTimeOriginal="2019-08-21T14:06:13Z" -ModifyDate="2019-08-21T14:06:13Z" "test-file-with-timestamp"`,
+			expCommand: `"-DateTimeOriginal=2019-08-21T14:06:13Z" "-ModifyDate=2019-08-21T14:06:13Z" "test-file-with-timestamp"`,
 		},
 		{
 			name:  "geotag specified",
@@ -106,7 +106,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.GeoTag("blah.log")
 			},
-			expCommand: `-GeoTag="blah.log" "test-file-with-geotag"`,
+			expCommand: `"-GeoTag=blah.log" "test-file-with-geotag"`,
 		},
 		{
 			name:  "DateTimeDigitized copied from CreateDate",
@@ -114,7 +114,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.SetDateTimeDigitizedFromCreateDate()
 			},
-			expCommand: `-DateTimeDigitized<"CreateDate" "test-file-with-date-time-digitized"`,
+			expCommand: `"-DateTimeDigitized<CreateDate" "test-file-with-date-time-digitized"`,
 		},
 		{
 			name:  "make specified",
@@ -122,7 +122,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.Make("TestDevice/1.0")
 			},
-			expCommand: `-Make="TestDevice/1.0" "test-file-with-make"`,
+			expCommand: `"-Make=TestDevice/1.0" "test-file-with-make"`,
 		},
 		{
 			name:  "model specified",
@@ -130,7 +130,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.Model("TestModel/1.0")
 			},
-			expCommand: `-Model="TestModel/1.0" "test-file-with-model"`,
+			expCommand: `"-Model=TestModel/1.0" "test-file-with-model"`,
 		},
 		{
 			name:  "serial number specified",
@@ -138,7 +138,7 @@ func TestExiftoolOptions(t *testing.T) {
 			f: func(e *ExifTool) {
 				e.SerialNumber("1234567890!")
 			},
-			expCommand: `-SerialNumber="1234567890!" "test-file-with-serial-number"`,
+			expCommand: `"-SerialNumber=1234567890!" "test-file-with-serial-number"`,
 		},
 	}
 
