@@ -50,6 +50,10 @@ func (p *CSVParser) Parse() (Film, error) {
 		return Film{}, err
 	}
 
+	if !isFilmHeader(filmDataStr) {
+		return Film{}, errors.New("error parsing film data header: wrong format")
+	}
+
 	remarks, err := rd.ReadString('\n')
 	if err != nil {
 		return Film{}, err
@@ -71,7 +75,7 @@ func (p *CSVParser) Parse() (Film, error) {
 			return film, err
 		}
 		frameStr = strings.TrimSpace(frameStr)
-		if frameStr == "" || frameStr == frameHeader {
+		if frameStr == "" || isFrameHeader(frameStr) {
 			continue
 		}
 
@@ -236,4 +240,12 @@ func maybeParseTimestamp(d, t string, tz *time.Location) time.Time {
 	}
 
 	return ts
+}
+
+func isFilmHeader(s string) bool {
+	return strings.HasPrefix(strings.TrimLeft(s, "*"), ",Film ID,")
+}
+
+func isFrameHeader(s string) bool {
+	return strings.HasPrefix(strings.TrimLeft(s, "*"), ",Frame No.,")
 }

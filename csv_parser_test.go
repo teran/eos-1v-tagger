@@ -72,6 +72,82 @@ func TestCSVParser(t *testing.T) {
 	}, film)
 }
 
+func TestIsFilmHeader(t *testing.T) {
+	r := require.New(t)
+
+	type testCase struct {
+		name      string
+		input     string
+		expResult bool
+	}
+
+	tcs := []testCase{
+		{
+			name:      "normal film header",
+			input:     `*,Film ID,03-758,Title,Sample,Date and time film loaded,9/1/2010,14:00:00,Frame count,36,ISO (DX),200`,
+			expResult: true,
+		},
+		{
+			name:      "normal film header with no asterisk",
+			input:     `,Film ID,03-758,Title,Sample,Date and time film loaded,9/1/2010,14:00:00,Frame count,36,ISO (DX),200`,
+			expResult: true,
+		},
+		{
+			name:      "not a film header",
+			input:     `blah`,
+			expResult: false,
+		},
+		{
+			name:      "empty line",
+			input:     `blah`,
+			expResult: false,
+		},
+	}
+
+	for _, tc := range tcs {
+		result := isFilmHeader(tc.input)
+		r.Equalf(tc.expResult, result, tc.name)
+	}
+}
+
+func TestIsFrameHeader(t *testing.T) {
+	r := require.New(t)
+
+	type testCase struct {
+		name      string
+		input     string
+		expResult bool
+	}
+
+	tcs := []testCase{
+		{
+			name:      "normal film header",
+			input:     `*,Frame No.,Focal length,Max. aperture,Tv,Av,ISO (M),Exposure compensation,Flash exposure compensation,Flash mode,Metering mode,Shooting mode,Film advance mode,AF mode,Bulb exposure time,Date,Time,Multiple exposure,Battery-loaded date,Battery-loaded time,Remarks`,
+			expResult: true,
+		},
+		{
+			name:      "normal film header with no asterisk",
+			input:     `,Frame No.,Focal length,Max. aperture,Tv,Av,ISO (M),Exposure compensation,Flash exposure compensation,Flash mode,Metering mode,Shooting mode,Film advance mode,AF mode,Bulb exposure time,Date,Time,Multiple exposure,Battery-loaded date,Battery-loaded time,Remarks`,
+			expResult: true,
+		},
+		{
+			name:      "not a film header",
+			input:     `blah`,
+			expResult: false,
+		},
+		{
+			name:      "empty line",
+			input:     `blah`,
+			expResult: false,
+		},
+	}
+
+	for _, tc := range tcs {
+		result := isFrameHeader(tc.input)
+		r.Equalf(tc.expResult, result, tc.name)
+	}
+}
+
 func mustParseTimestamp(t *testing.T, ts string, tz *time.Location) time.Time {
 	r := require.New(t)
 
