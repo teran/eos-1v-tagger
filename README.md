@@ -6,7 +6,13 @@ Intro
 
 Here's Golang library and CLI binary to parse CSV's from Canon ES-E1 software to allow EXIF tagging film scans according to metadata from such CSV's.
 
-Development status: Just started
+**Development status:** Just started
+
+What it does
+------------
+
+CLI tool called tagger generates [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) commands with metadata right from Canon ES-E1 (via CSV export).
+This allows to set exposure, focal length, ISO, timestamp, and much more, even GPS data if you have recorded GPS track log via smartphone, tracker or whatever else allows to write GPS track log.
 
 Usage
 -----
@@ -54,6 +60,21 @@ Then you could check carefully the data provided and run these command to apply 
 
 *Please note:* you need to have [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) installed on your system.
 
+Some real-life examples
+-----------------------
+
+```shell
+tagger -geotag ~/Downloads/walk-at-21-09-2019.gpx -make="Ilford Delta" -model="Canon EOS 1V" -serial-number="XXXXX" -timezone='Europe/Moscow' -filename-pattern="FILM139_%05d.dng" -set-digitized ~/Downloads/139.csv
+```
+
+This will generate [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) commands to set:
+
+* GPS tags
+* Make to `Ilford Delta`
+* Camera model to Canon EOS 1V
+* Camera serial number to `XXXXX`
+* Timestamps: original photo timetamp to the one set in camera aligned to `Europe/Moscow` timezone, digitized to the one present in `CreateDate` tag
+* All the data present in CSV like aperture, exposure, ISO, focal length, etc.
 
 NOTICES
 -------
