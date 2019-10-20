@@ -27,7 +27,8 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 	r.NoError(err)
 	r.Equal([]Film{
 		{
-			ID:                  "01-139",
+			ID:                  139,
+			CameraID:            1,
 			Title:               "SampleTest film #139",
 			FilmLoadedTimestamp: mustParseTimestamp(t, "09/28/2019T10:21:32", tz),
 			FrameCount:          2,
@@ -75,7 +76,8 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 			},
 		},
 		{
-			ID:                  "01-140",
+			ID:                  140,
+			CameraID:            1,
 			Title:               "SampleTest film #139 part II",
 			FilmLoadedTimestamp: mustParseTimestamp(t, "10/07/2019T22:55:58", tz),
 			FrameCount:          2,

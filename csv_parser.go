@@ -115,8 +115,24 @@ func parseFilmData(s string, tz *time.Location) (Film, error) {
 		return Film{}, err
 	}
 
+	ids := strings.Split(ss[2], "-")
+	if len(ids) != 2 {
+		return Film{}, errors.New("improper film ID data")
+	}
+
+	fID, err := strconv.ParseInt(ids[1], 10, 64)
+	if err != nil {
+		return Film{}, err
+	}
+
+	cID, err := strconv.ParseInt(ids[0], 10, 64)
+	if err != nil {
+		return Film{}, err
+	}
+
 	f := Film{
-		ID:                  ss[2],
+		ID:                  fID,
+		CameraID:            cID,
 		Title:               ss[4],
 		FilmLoadedTimestamp: tt,
 		FrameCount:          fc,
