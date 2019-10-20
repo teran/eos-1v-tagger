@@ -1,21 +1,17 @@
-EOS 1V Tagger
-=============
+# EOS 1V Tagger
 
-Intro
------
+## Intro
 
 Here's Golang library and CLI binary to parse CSV's from Canon ES-E1 software to allow EXIF tagging film scans according to metadata from such CSV's.
 
 **Development status:** Just started
 
-What it does
-------------
+## What it does
 
 CLI tool called tagger generates [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) commands with metadata right from Canon ES-E1 (via CSV export).
 This allows to set exposure, focal length, ISO, timestamp, and much more, even GPS data if you have recorded GPS track log via smartphone, tracker or whatever else allows to write GPS track log.
 
-Usage
------
+## Usage
 
 ```shell
 Usage: tagger [OPTIONS] file.csv
@@ -60,8 +56,19 @@ Then you could check carefully the data provided and run these command to apply 
 
 *Please note:* you need to have [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) installed on your system.
 
-Some real-life examples
------------------------
+### filename-pattern formatting
+
+Since Go doesn't have Python-style named formatting tools I had to implement my own for purpose of named variable substitution with advance of formatting.
+Currently tagger have available three variables:
+
+* `filmID`
+* `cameraID`
+* `frameNo`
+
+You can use them as follows: `${filmID:d}` where `d` stands for 10-base digit as described in [Go's fmt package docs](https://golang.org/pkg/fmt/#pkg-overview).
+Unfortunately specifying type is required to allow formatting features like `.2f`, which means 2-digits float precision or `05d` which means 5 number digit with 10-base integer with leading zeros.
+
+## Some real-life examples
 
 ```shell
 tagger -geotag ~/Downloads/walk-at-21-09-2019.gpx -make="Ilford Delta" -model="Canon EOS 1V" -serial-number="XXXXX" -timezone='Europe/Moscow' -filename-pattern='FILM_${cameraID:02d}_${filmID:03d}_${frameNo:05d}.tiff' -set-digitized ~/Downloads/139.csv
@@ -76,8 +83,7 @@ This will generate [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) co
 * Timestamps: original photo timetamp to the one set in camera aligned to `Europe/Moscow` timezone, digitized to the one present in `CreateDate` tag
 * All the data present in CSV like aperture, exposure, ISO, focal length, etc.
 
-Build & test
-------------
+## Build & test
 
 Since tagger is written in Go the compiler is required and could installed from [Go official website](https://golang.org).
 
@@ -93,8 +99,7 @@ To run tests(if changes made, for instance):
 go test ./...
 ```
 
-NOTICES
--------
+## NOTICES
 
 * It's in **deep alpha** state
 * It's **NOT** going to make any changes to real data: just prints exiftool commands to STDOUT
@@ -104,7 +109,6 @@ NOTICES
 * It allows you to specify timezone set on EOS 1V to properly timestamp scans so please pay attention to `-timezone` flag **which defaults to UTC timezone**
 * Since tagger releases are built on the most recent version of Golang it cannot run on Windows prior to Windows 7. Technically, it should compile fine on Golang v1.10 or earlier but it's unstested and not a part of release procedure. More details could be found at [Golang v1.11 changelog](https://golang.org/doc/go1.11).
 
-Licence
--------
+## Licence
 
 This software is licenced under GPLv2 terms.
