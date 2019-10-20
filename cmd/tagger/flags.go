@@ -30,7 +30,7 @@ var (
 // Flags
 var (
 	displayHelp     bool   = false
-	filenamePattern string = "FILM_%05d.dng"
+	filenamePattern string = `FILM${filmID:d}_${frameNo:05d}.dng`
 	geotag          string = ""
 	make            string = ""
 	model           string = ""

@@ -28,7 +28,13 @@ func main() {
 
 	for _, film := range films {
 		for _, f := range film.Frames {
-			et := tagger.NewExifTool(fmt.Sprintf(filenamePattern, f.Number))
+			filename := tagger.Format(filenamePattern, map[string]interface{}{
+				"filmID":   film.ID,
+				"cameraID": film.CameraID,
+				"frameNo":  f.Number,
+			})
+
+			et := tagger.NewExifTool(filename)
 
 			if f.AFMode != "" {
 				et.FocusMode(f.AFMode)
@@ -85,7 +91,7 @@ func main() {
 			fmt.Println(et.Cmd())
 
 			if geotag != "" {
-				gt := tagger.NewExifTool(fmt.Sprintf(filenamePattern, f.Number))
+				gt := tagger.NewExifTool(filename)
 				gt.GeoTag(geotag)
 				fmt.Println(gt.Cmd())
 			}
