@@ -42,59 +42,58 @@ func (p *CSVParser) Close() error {
 }
 
 // Parse ...
-func (p *CSVParser) Parse() (Film, error) {
+func (p *CSVParser) Parse() ([]Film, error) {
 	rd := bufio.NewReader(p.rc)
 
-	filmDataStr, err := rd.ReadString('\n')
-	if err != nil {
-		return Film{}, err
-	}
-
-	if !isFilmHeader(filmDataStr) {
-		return Film{}, errors.New("error parsing film data header: wrong format")
-	}
-
-	remarks, err := rd.ReadString('\n')
-	if err != nil {
-		return Film{}, err
-	}
-	remarks = strings.TrimSpace(strings.Split(remarks, ",")[2])
-
-	film, err := parseFilmData(filmDataStr, p.tz)
-	if err != nil {
-		return film, err
-	}
-	film.Remarks = remarks
-
+	films := []Film{}
+	f := Film{}
 	for {
-		frameStr, err := rd.ReadString('\n')
-		if err == io.EOF {
-			break
-		}
+		str, err := rd.ReadString('\n')
 		if err != nil {
-			return film, err
+			if err == io.EOF {
+				break
+			}
+			return nil, err
 		}
-		frameStr = strings.TrimSpace(frameStr)
-		if frameStr == "" || isFrameHeader(frameStr) {
+		str = strings.TrimSpace(str)
+		if str == "" {
 			continue
 		}
 
-		frame, err := parseFrameData(frameStr, p.tz)
-		if err != nil {
-			if err == ErrEmptyFrame {
-				continue
+		switch {
+		case isFilmHeader(str):
+			if !f.IsEmpty() {
+				films = append(films, f)
 			}
-			return Film{}, err
-		}
 
-		if frame.ISO == 0 {
-			frame.ISO = film.ISO
-		}
+			f, err = parseFilmData(str, p.tz)
+			if err != nil {
+				return nil, err
+			}
+			break
+		case isFilmRemarksHeader(str):
+			f.Remarks = parseFilmRemarks(str)
+		case isFrameHeader(str):
+			continue
+		default:
+			fr, err := parseFrameData(str, p.tz)
+			if err != nil {
+				return nil, err
+			}
 
-		film.Frames = append(film.Frames, frame)
+			if fr.ISO == 0 {
+				fr.ISO = f.ISO
+			}
+
+			f.Frames = append(f.Frames, fr)
+		}
 	}
 
-	return film, err
+	if !f.IsEmpty() {
+		films = append(films, f)
+	}
+
+	return films, nil
 }
 
 func parseFilmData(s string, tz *time.Location) (Film, error) {
@@ -246,6 +245,15 @@ func isFilmHeader(s string) bool {
 	return strings.HasPrefix(strings.TrimLeft(s, "*"), ",Film ID,")
 }
 
+func isFilmRemarksHeader(s string) bool {
+	return strings.HasPrefix(s, ",Remarks,")
+}
+
 func isFrameHeader(s string) bool {
 	return strings.HasPrefix(strings.TrimLeft(s, "*"), ",Frame No.,")
+}
+
+func parseFilmRemarks(s string) string {
+	ss := strings.Split(s, ",")
+	return strings.Join(ss[2:], ",")
 }

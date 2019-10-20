@@ -21,72 +21,74 @@ func main() {
 		log.Fatalf("error initializing CSV parser: %s", err)
 	}
 
-	film, err := t.Parse()
+	films, err := t.Parse()
 	if err != nil {
 		log.Fatalf("error parsing CSV: %s", err)
 	}
 
-	for _, f := range film.Frames {
-		et := tagger.NewExifTool(fmt.Sprintf(filenamePattern, f.Number))
+	for _, film := range films {
+		for _, f := range film.Frames {
+			et := tagger.NewExifTool(fmt.Sprintf(filenamePattern, f.Number))
 
-		if f.AFMode != "" {
-			et.FocusMode(f.AFMode)
-		}
+			if f.AFMode != "" {
+				et.FocusMode(f.AFMode)
+			}
 
-		if f.Av > 0 {
-			et.Aperture(f.Av)
-		}
+			if f.Av > 0 {
+				et.Aperture(f.Av)
+			}
 
-		if f.ExposureCompensation > 0 {
-			et.ExposureCompensation(f.ExposureCompensation)
-		}
+			if f.ExposureCompensation > 0 {
+				et.ExposureCompensation(f.ExposureCompensation)
+			}
 
-		if f.FocalLength > 0 {
-			et.FocalLength(f.FocalLength)
-		}
+			if f.FocalLength > 0 {
+				et.FocalLength(f.FocalLength)
+			}
 
-		if f.ISO > 0 {
-			et.ISO(f.ISO)
-		}
+			if f.ISO > 0 {
+				et.ISO(f.ISO)
+			}
 
-		if f.MeteringMode != "" {
-			et.MeteringMode(f.MeteringMode)
-		}
+			if f.MeteringMode != "" {
+				et.MeteringMode(f.MeteringMode)
+			}
 
-		if f.ShootingMode != "" {
-			et.ShootingMode(f.ShootingMode)
-		}
+			if f.ShootingMode != "" {
+				et.ShootingMode(f.ShootingMode)
+			}
 
-		if !f.Timestamp.IsZero() {
-			et.Timestamp(f.Timestamp)
-		}
+			if !f.Timestamp.IsZero() {
+				et.Timestamp(f.Timestamp)
+			}
 
-		if f.Tv != "" {
-			et.Exposure(f.Tv)
-		}
+			if f.Tv != "" {
+				et.Exposure(f.Tv)
+			}
 
-		if setDigitized {
-			et.SetDateTimeDigitizedFromCreateDate()
-		}
+			if setDigitized {
+				et.SetDateTimeDigitizedFromCreateDate()
+			}
 
-		if make != "" {
-			et.Make(make)
-		}
+			if make != "" {
+				et.Make(make)
+			}
 
-		if model != "" {
-			et.Model(model)
-		}
+			if model != "" {
+				et.Model(model)
+			}
 
-		if serialNumber != "" {
-			et.SerialNumber(serialNumber)
-		}
+			if serialNumber != "" {
+				et.SerialNumber(serialNumber)
+			}
 
-		fmt.Println(et.Cmd())
+			fmt.Println(et.Cmd())
 
-		if geotag != "" {
-			gt := tagger.NewExifTool(fmt.Sprintf(filenamePattern, f.Number))
-			gt.GeoTag(geotag)
-			fmt.Println(gt.Cmd())
+			if geotag != "" {
+				gt := tagger.NewExifTool(fmt.Sprintf(filenamePattern, f.Number))
+				gt.GeoTag(geotag)
+				fmt.Println(gt.Cmd())
+			}
 		}
 	}
 }

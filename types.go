@@ -10,17 +10,6 @@ const (
 )
 
 type (
-	// Film model to store all the data about the film itself
-	Film struct {
-		ID                  string
-		Title               string
-		FilmLoadedTimestamp time.Time
-		FrameCount          int64
-		ISO                 int64
-		Remarks             string
-		Frames              []Frame
-	}
-
 	// Frame model to store all the data about particular frame
 	Frame struct {
 		Flag                 bool

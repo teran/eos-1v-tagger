@@ -8,13 +8,13 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestCSVParser(t *testing.T) {
+func TestTwoFilmsInSingleCSV(t *testing.T) {
 	r := require.New(t)
 
 	tz, err := LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/sample.CSV", tz)
+	p, err := NewCSVParser("testdata/two-films.csv", tz)
 	r.NoError(err)
 	r.NotNil(p)
 
@@ -25,48 +25,103 @@ func TestCSVParser(t *testing.T) {
 
 	film, err := p.Parse()
 	r.NoError(err)
-	r.Equal(Film{
-		ID:                  "03-758",
-		Title:               "Sample",
-		FilmLoadedTimestamp: mustParseTimestamp(t, "09/01/2010T14:00:00", tz),
-		FrameCount:          36,
-		ISO:                 200,
-		Frames: []Frame{
-			{
-				Flag:              true,
-				Number:            1,
-				FocalLength:       11,
-				MaxAperture:       22,
-				Tv:                "1/8000",
-				Av:                22,
-				ISO:               200,
-				FlashMode:         "OFF",
-				MeteringMode:      "Evaluative",
-				ShootingMode:      "Program AE",
-				FilmAdvanceMode:   "Single-frame",
-				AFMode:            "One-Shot AF",
-				Timestamp:         mustParseTimestamp(t, "11/09/2010T18:31:26", tz),
-				MultipleExposure:  "OFF",
-				BatteryLoadedDate: time.Time{},
+	r.Equal([]Film{
+		{
+			ID:                  "01-139",
+			Title:               "SampleTest film #139",
+			FilmLoadedTimestamp: mustParseTimestamp(t, "09/28/2019T10:21:32", tz),
+			FrameCount:          2,
+			ISO:                 400,
+			Remarks:             "test remarks data",
+			Frames: []Frame{
+				{
+					Flag:              false,
+					Number:            1,
+					FocalLength:       24,
+					MaxAperture:       1.4,
+					Tv:                "1/40",
+					Av:                1.4,
+					ISO:               400,
+					FlashMode:         "OFF",
+					MeteringMode:      "Evaluative",
+					ShootingMode:      "Aperture-priority AE",
+					FilmAdvanceMode:   "Single-frame",
+					AFMode:            "One-Shot AF",
+					Timestamp:         mustParseTimestamp(t, "10/7/2019T20:02:18", tz),
+					MultipleExposure:  "OFF",
+					BatteryLoadedDate: time.Time{},
+					Remarks:           "test frame #1",
+				},
+				{
+					Flag:                 true,
+					Number:               2,
+					FocalLength:          35,
+					MaxAperture:          1.4,
+					Tv:                   "1/60",
+					Av:                   1.4,
+					ISO:                  400,
+					FlashMode:            "OFF",
+					MeteringMode:         "Evaluative",
+					ShootingMode:         "Aperture-priority AE",
+					FilmAdvanceMode:      "Single-frame",
+					AFMode:               "One-Shot AF",
+					Timestamp:            mustParseTimestamp(t, "10/7/2019T20:02:29", tz),
+					MultipleExposure:     "OFF",
+					BatteryLoadedDate:    time.Time{},
+					ExposureCompensation: -5,
+					FlashCompensation:    -4.5,
+					Remarks:              "test frame #2",
+				},
 			},
-			{
-				Flag:                 true,
-				Number:               2,
-				FocalLength:          24,
-				MaxAperture:          2.8,
-				Tv:                   "15",
-				Av:                   1.4,
-				ISO:                  200,
-				FlashMode:            "OFF",
-				MeteringMode:         "Evaluative",
-				ShootingMode:         "Program AE",
-				FilmAdvanceMode:      "Single-frame",
-				AFMode:               "One-Shot AF",
-				Timestamp:            mustParseTimestamp(t, "12/09/2010T18:32:55", tz),
-				MultipleExposure:     "OFF",
-				BatteryLoadedDate:    time.Time{},
-				ExposureCompensation: -5,
-				FlashCompensation:    -4.5,
+		},
+		{
+			ID:                  "01-140",
+			Title:               "SampleTest film #139 part II",
+			FilmLoadedTimestamp: mustParseTimestamp(t, "10/07/2019T22:55:58", tz),
+			FrameCount:          2,
+			ISO:                 400,
+			Remarks:             "test remarks data 2",
+			Frames: []Frame{
+				{
+					Flag:                 false,
+					Number:               1,
+					FocalLength:          14,
+					MaxAperture:          1.4,
+					Tv:                   "1/1600",
+					Av:                   1.4,
+					ISO:                  200,
+					FlashMode:            "OFF",
+					MeteringMode:         "Evaluative",
+					ShootingMode:         "Program AE",
+					FilmAdvanceMode:      "Single-frame",
+					AFMode:               "One-Shot AF",
+					Timestamp:            mustParseTimestamp(t, "10/13/2019T14:55:38", tz),
+					MultipleExposure:     "OFF",
+					BatteryLoadedDate:    time.Time{},
+					ExposureCompensation: 1,
+					FlashCompensation:    2,
+					Remarks:              "test frame remarks #1",
+				},
+				{
+					Flag:                 true,
+					Number:               2,
+					FocalLength:          16,
+					MaxAperture:          1.4,
+					Tv:                   "1/1250",
+					Av:                   1.4,
+					ISO:                  800,
+					FlashMode:            "OFF",
+					MeteringMode:         "Evaluative",
+					ShootingMode:         "Aperture-priority AE",
+					FilmAdvanceMode:      "Single-frame",
+					AFMode:               "One-Shot AF",
+					Timestamp:            mustParseTimestamp(t, "10/13/2019T14:55:55", tz),
+					MultipleExposure:     "OFF",
+					BatteryLoadedDate:    time.Time{},
+					ExposureCompensation: -1,
+					FlashCompensation:    -2,
+					Remarks:              "test frame remarks #2",
+				},
 			},
 		},
 	}, film)

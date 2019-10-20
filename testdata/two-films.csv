@@ -1,0 +1,13 @@
+,Film ID,01-139,Title,SampleTest film #139,Date and time film loaded,9/28/2019,10:21:32,Frame count,2,ISO (DX),400
+,Remarks,test remarks data
+
+,Frame No.,Focal length,Max. aperture,Tv,Av,ISO (M),Exposure compensation,Flash exposure compensation,Flash mode,Metering mode,Shooting mode,Film advance mode,AF mode,Bulb exposure time,Date,Time,Multiple exposure,Battery-loaded date,Battery-loaded time,Remarks
+,1,24mm,1.4,="1/40",1.4,,0.0,0.0,OFF,Evaluative,Aperture-priority AE,Single-frame,One-Shot AF,,10/7/2019,20:02:18,OFF,,,test frame #1
+*,2,35mm,1.4,="1/60",1.4,,-5,-4.5,OFF,Evaluative,Aperture-priority AE,Single-frame,One-Shot AF,,10/7/2019,20:02:29,OFF,,,test frame #2
+
+,Film ID,01-140,Title,SampleTest film #139 part II,Date and time film loaded,10/7/2019,22:55:58,Frame count,2,ISO (DX),400
+,Remarks,test remarks data 2
+
+,Frame No.,Focal length,Max. aperture,Tv,Av,ISO (M),Exposure compensation,Flash exposure compensation,Flash mode,Metering mode,Shooting mode,Film advance mode,AF mode,Bulb exposure time,Date,Time,Multiple exposure,Battery-loaded date,Battery-loaded time,Remarks
+,1,14mm,1.4,="1/1600",1.4,200,1,2,OFF,Evaluative,Program AE,Single-frame,One-Shot AF,,10/13/2019,14:55:38,OFF,,,test frame remarks #1
+*,2,16mm,1.4,="1/1250",1.4,800,-1,-2,OFF,Evaluative,Aperture-priority AE,Single-frame,One-Shot AF,,10/13/2019,14:55:55,OFF,,,test frame remarks #2
