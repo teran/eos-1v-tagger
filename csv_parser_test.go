@@ -14,7 +14,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 	tz, err := LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/two-films.csv", tz)
+	p, err := NewCSVParser("testdata/two-films.csv", tz, TimestampFormatUS)
 	r.NoError(err)
 	r.NotNil(p)
 
@@ -211,7 +211,7 @@ func mustParseTimestamp(t *testing.T, ts string, tz *time.Location) time.Time {
 	tts := strings.Split(ts, "T")
 	r.Len(tts, 2)
 
-	tt := maybeParseTimestamp(tts[0], tts[1], tz)
+	tt := maybeParseTimestamp(tts[0], tts[1], tz, TimestampFormatUS)
 	r.NotNil(tt)
 	r.False(tt.IsZero())
 

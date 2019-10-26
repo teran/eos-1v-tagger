@@ -3,8 +3,11 @@ package tagger
 import "time"
 
 const (
-	// TimestampFormat ...
-	TimestampFormat = "1/2/2006T15:04:05"
+	// TimestampFormatUS ...
+	TimestampFormatUS = "1/2/2006T15:04:05"
+
+	// TimestampFormatEU ...
+	TimestampFormatEU = "2/1/2006T15:04:05"
 
 	exifToolDefaultCmd = `exiftool -overwrite_original`
 )

@@ -16,7 +16,12 @@ func main() {
 		log.Fatalf("error looking up timezone: %s", err)
 	}
 
-	t, err := tagger.NewCSVParser(flag.Arg(0), tz)
+	tf, err := TimestampFormatFactory(timestampFormat)
+	if err != nil {
+		log.Fatalf("error loading timestamp format: %s", err)
+	}
+
+	t, err := tagger.NewCSVParser(flag.Arg(0), tz, tf)
 	if err != nil {
 		log.Fatalf("error initializing CSV parser: %s", err)
 	}
@@ -97,4 +102,15 @@ func main() {
 			}
 		}
 	}
+}
+
+// TimestampFormatFactory provides timestamp format depending on settings
+func TimestampFormatFactory(tf string) (string, error) {
+	switch tf {
+	case "US":
+		return tagger.TimestampFormatUS, nil
+	case "EU":
+		return tagger.TimestampFormatEU, nil
+	}
+	return "", fmt.Errorf("unknown timestamp format: %s", tf)
 }

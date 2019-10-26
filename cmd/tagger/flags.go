@@ -36,6 +36,7 @@ var (
 	model           string = ""
 	serialNumber    string = ""
 	setDigitized    bool   = false
+	timestampFormat string = "US"
 	timezone        string = "UTC"
 )
 
@@ -53,6 +54,7 @@ func parseFlags() {
 	flag.StringVar(&model, "model", model, "Model tag value. NOTE: it will overwrite the value set by your film scanner software")
 	flag.StringVar(&serialNumber, "serial-number", serialNumber, "SerialNumber tag value. NOTE: it will overwrite the value set by your film scanner software")
 	flag.BoolVar(&setDigitized, "set-digitized", setDigitized, "set DateTimeDigitized from CreateDate field")
+	flag.StringVar(&timestampFormat, "timestamp-format", timestampFormat, "the timestamp format in the locale your're using on the system with ES-E1 software. Allowed values: 'US', 'EU'")
 	flag.StringVar(&timezone, "timezone", timezone, "location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow')")
 
 	flag.Parse()

@@ -14,8 +14,9 @@ import (
 
 // CSVParser type
 type CSVParser struct {
-	rc io.ReadCloser
-	tz *time.Location
+	rc              io.ReadCloser
+	tz              *time.Location
+	timestampFormat string
 }
 
 var (
@@ -24,15 +25,16 @@ var (
 )
 
 // NewCSVParser creates new CSVParser object
-func NewCSVParser(fn string, tz *time.Location) (*CSVParser, error) {
+func NewCSVParser(fn string, tz *time.Location, timestampFormat string) (*CSVParser, error) {
 	fp, err := os.Open(fn)
 	if err != nil {
 		return nil, err
 	}
 
 	return &CSVParser{
-		rc: fp,
-		tz: tz,
+		rc:              fp,
+		tz:              tz,
+		timestampFormat: timestampFormat,
 	}, nil
 }
 
@@ -66,7 +68,7 @@ func (p *CSVParser) Parse() ([]Film, error) {
 				films = append(films, f)
 			}
 
-			f, err = parseFilmData(str, p.tz)
+			f, err = parseFilmData(str, p.tz, p.timestampFormat)
 			if err != nil {
 				return nil, err
 			}
@@ -76,7 +78,7 @@ func (p *CSVParser) Parse() ([]Film, error) {
 		case isFrameHeader(str):
 			continue
 		default:
-			fr, err := parseFrameData(str, p.tz)
+			fr, err := parseFrameData(str, p.tz, p.timestampFormat)
 			if err != nil {
 				return nil, err
 			}
@@ -96,11 +98,11 @@ func (p *CSVParser) Parse() ([]Film, error) {
 	return films, nil
 }
 
-func parseFilmData(s string, tz *time.Location) (Film, error) {
+func parseFilmData(s string, tz *time.Location, timestmapFormat string) (Film, error) {
 	ss := strings.Split(s, ",")
 
 	ts := fmt.Sprintf("%sT%s", ss[6], ss[7])
-	tt, err := time.ParseInLocation(TimestampFormat, ts, tz)
+	tt, err := time.ParseInLocation(timestmapFormat, ts, tz)
 	if err != nil {
 		return Film{}, err
 	}
@@ -142,7 +144,7 @@ func parseFilmData(s string, tz *time.Location) (Film, error) {
 	return f, nil
 }
 
-func parseFrameData(s string, tz *time.Location) (Frame, error) {
+func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame, error) {
 	ss := strings.Split(s, ",")
 	if len(ss) != 21 {
 		return Frame{}, fmt.Errorf("wrong amount of columns for frame: %d: `%s`", len(ss), s)
@@ -226,9 +228,9 @@ func parseFrameData(s string, tz *time.Location) (Frame, error) {
 		FilmAdvanceMode:      ss[12],
 		AFMode:               ss[13],
 		BulbExposureTime:     ss[14],
-		Timestamp:            maybeParseTimestamp(ss[15], ss[16], tz),
+		Timestamp:            maybeParseTimestamp(ss[15], ss[16], tz, timestampFormat),
 		MultipleExposure:     ss[17],
-		BatteryLoadedDate:    maybeParseTimestamp(ss[18], ss[19], tz),
+		BatteryLoadedDate:    maybeParseTimestamp(ss[18], ss[19], tz, timestampFormat),
 		Remarks:              ss[20],
 	}
 	return f, nil
@@ -243,12 +245,12 @@ func isEmptySliceOfStrings(ss []string) bool {
 	return true
 }
 
-func maybeParseTimestamp(d, t string, tz *time.Location) time.Time {
+func maybeParseTimestamp(d, t string, tz *time.Location, timestampFormat string) time.Time {
 	if d == "" || t == "" {
 		return time.Time{}
 	}
 
-	ts, err := time.ParseInLocation(TimestampFormat, fmt.Sprintf("%vT%v", d, t), tz)
+	ts, err := time.ParseInLocation(timestampFormat, fmt.Sprintf("%vT%v", d, t), tz)
 	if err != nil {
 		log.Printf("error parsing timestamp: `%sT%s`: %s", d, t, err)
 		return time.Time{}
