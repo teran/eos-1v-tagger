@@ -108,8 +108,8 @@ go test ./...
 * It's in **deep alpha** state
 * It's **NOT** going to make any changes to real data: just prints exiftool commands to STDOUT
 * It relies on the data provided by ES-E1 software in CSV format(in EOS 1V Memory just export via `Data` -> `Export` -> `CSV`)
+* Since ES-E1 doesn't mark timezone and uses local regional settings there's no way to determine which date format (dd/mm/yyyy or mm/dd/yyyy) was used on CSV export, please use `-timestamp-format` option to let tagger know if EU timestamp format is set in regional settings.
 * **Always** carefully review exiftool commands *before* applying them.
-* It sets ISO for each frame from the film settings. So if you have set ISO for particular frame to the another value it will still use the one from the film properties.
 * It allows you to specify timezone set on EOS 1V to properly timestamp scans so please pay attention to `-timezone` flag **which defaults to UTC timezone**
 * Since tagger releases are built on the most recent version of Golang it cannot run on Windows prior to Windows 7. Technically, it should compile fine on Golang v1.10 or earlier but it's unstested and not a part of release procedure. More details could be found at [Golang v1.11 changelog](https://golang.org/doc/go1.11).
 
