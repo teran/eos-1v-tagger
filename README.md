@@ -18,23 +18,25 @@ Usage: tagger [OPTIONS] file.csv
 
 Options:
   -filename-pattern string
-      filename pattern for generate exiftool command. Available variables: frameNo, cameraID, filmID. d stands for digit and is required (default "FILM${filmID:d}_${frameNo:05d}.dng")
+        filename pattern for generate exiftool command. Available variables: frameNo, cameraID, filmID. More details are available in README. (default "FILM${filmID:d}_${frameNo:05d}.dng")
   -geotag string
-      GPS track log file to set location data, supported formats are the ones supported by exiftool. Please refer to exiftool docs for details.
+        GPS track log file to set location data, supported formats are the ones supported by exiftool. Please refer to exiftool docs for details.
   -help
-      display help message
+        display help message
   -make string
-      Make tag value. NOTE: it will overwrite the value set by your film scanner software
+        Make tag value. NOTE: it will overwrite the value set by your film scanner software
   -model string
-      Model tag value. NOTE: it will overwrite the value set by your film scanner software
+        Model tag value. NOTE: it will overwrite the value set by your film scanner software
   -serial-number string
-      SerialNumber tag value. NOTE: it will overwrite the value set by your film scanner software
+        SerialNumber tag value. NOTE: it will overwrite the value set by your film scanner software
   -set-digitized
-      set DateTimeDigitized from CreateDate field
+        set DateTimeDigitized from CreateDate field
+  -timestamp-format string
+        the timestamp format in the locale your're using on the system with ES-E1 software. Allowed values: 'US', 'EU' (default "US")
   -timezone string
-      location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow') (default "UTC")
+        location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow') (default "UTC")
 
-Version: undefined, build with go1.13.1 at 1970-01-01T03:00:00+03:00
+Version: undefined, build with go1.13.3 at 1970-01-01T03:00:00+03:00
 ```
 
 So you could try to do the following:
