@@ -39,7 +39,7 @@ func main() {
 				"frameNo":  f.Number,
 			})
 
-			et := tagger.NewExifTool(filename)
+			et := tagger.NewExifTool(exiftoolBinary, filename)
 
 			if f.AFMode != "" {
 				et.FocusMode(f.AFMode)
@@ -96,7 +96,7 @@ func main() {
 			fmt.Println(et.Cmd())
 
 			if geotag != "" {
-				gt := tagger.NewExifTool(filename)
+				gt := tagger.NewExifTool(exiftoolBinary, filename)
 				gt.GeoTag(geotag)
 				fmt.Println(gt.Cmd())
 			}

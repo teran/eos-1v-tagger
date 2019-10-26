@@ -3,12 +3,18 @@ package tagger
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
+var (
+	exifToolDefaultOpts = []string{"-overwrite_original"}
+)
+
 // NewExifTool creates new ExifTool object
-func NewExifTool(filename string) *ExifTool {
+func NewExifTool(binary, filename string) *ExifTool {
 	return &ExifTool{
+		binary:   binary,
 		filename: filename,
 	}
 }
@@ -140,7 +146,9 @@ func (e *ExifTool) copy(from, to string) {
 
 // Cmd returns complete exiftool command
 func (e *ExifTool) Cmd() string {
-	cmd := exifToolDefaultCmd
+	cmd := e.binary
+	cmd += " " + strings.Join(exifToolDefaultOpts, " ")
+
 	for _, o := range e.options {
 		cmd += " "
 		cmd += strconv.Quote("-" + o.key + o.operator + o.value)

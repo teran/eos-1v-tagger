@@ -17,6 +17,8 @@ This allows to set exposure, focal length, ISO, timestamp, and much more, even G
 Usage: tagger [OPTIONS] file.csv
 
 Options:
+  -exiftool-binary string
+        path to exiftool binary (default "exiftool")
   -filename-pattern string
         filename pattern for generate exiftool command. Available variables: frameNo, cameraID, filmID. More details are available in README. (default "FILM${filmID:d}_${frameNo:05d}.dng")
   -geotag string

@@ -2,6 +2,7 @@ package tagger
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -143,11 +144,11 @@ func TestExiftoolOptions(t *testing.T) {
 	}
 
 	for _, tc := range tcs {
-		e := NewExifTool(tc.fname)
+		e := NewExifTool("exiftool", tc.fname)
 		tc.f(e)
 
 		r.Equalf(
-			fmt.Sprintf("%s %s", exifToolDefaultCmd, tc.expCommand),
+			fmt.Sprintf("exiftool %s %s", strings.Join(exifToolDefaultOpts, " "), tc.expCommand),
 			e.Cmd(),
 			tc.name)
 	}

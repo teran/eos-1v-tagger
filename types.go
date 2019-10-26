@@ -8,8 +8,6 @@ const (
 
 	// TimestampFormatEU ...
 	TimestampFormatEU = "2/1/2006T15:04:05"
-
-	exifToolDefaultCmd = `exiftool -overwrite_original`
 )
 
 type (
@@ -46,6 +44,7 @@ type ExifToolOption struct {
 
 // ExifTool type
 type ExifTool struct {
+	binary   string
 	filename string
 	options  []ExifToolOption
 }
