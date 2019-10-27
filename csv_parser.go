@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -212,6 +211,16 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 		return Frame{}, err
 	}
 
+	timestamp, err := parseTimestamp(ss[15], ss[16], tz, timestampFormat)
+	if err != nil {
+		return Frame{}, err
+	}
+
+	batteryTimestamp, err := parseTimestamp(ss[18], ss[19], tz, timestampFormat)
+	if err != nil {
+		batteryTimestamp = time.Time{}
+	}
+
 	f := Frame{
 		Flag:                 flag,
 		Number:               frameID,
@@ -228,9 +237,9 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 		FilmAdvanceMode:      ss[12],
 		AFMode:               ss[13],
 		BulbExposureTime:     ss[14],
-		Timestamp:            maybeParseTimestamp(ss[15], ss[16], tz, timestampFormat),
+		Timestamp:            timestamp,
 		MultipleExposure:     ss[17],
-		BatteryLoadedDate:    maybeParseTimestamp(ss[18], ss[19], tz, timestampFormat),
+		BatteryLoadedDate:    batteryTimestamp,
 		Remarks:              ss[20],
 	}
 	return f, nil
@@ -245,18 +254,12 @@ func isEmptySliceOfStrings(ss []string) bool {
 	return true
 }
 
-func maybeParseTimestamp(d, t string, tz *time.Location, timestampFormat string) time.Time {
+func parseTimestamp(d, t string, tz *time.Location, timestampFormat string) (time.Time, error) {
 	if d == "" || t == "" {
-		return time.Time{}
+		return time.Time{}, nil
 	}
 
-	ts, err := time.ParseInLocation(timestampFormat, fmt.Sprintf("%vT%v", d, t), tz)
-	if err != nil {
-		log.Printf("error parsing timestamp: `%sT%s`: %s", d, t, err)
-		return time.Time{}
-	}
-
-	return ts
+	return time.ParseInLocation(timestampFormat, fmt.Sprintf("%vT%v", d, t), tz)
 }
 
 func isFilmHeader(s string) bool {

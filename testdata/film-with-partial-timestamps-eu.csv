@@ -1,0 +1,6 @@
+,Film ID,01-139,Title,SampleTest film #139,Date and time film loaded,28/09/2019,10:21:32,Frame count,2,ISO (DX),400
+,Remarks,test remarks data
+
+,Frame No.,Focal length,Max. aperture,Tv,Av,ISO (M),Exposure compensation,Flash exposure compensation,Flash mode,Metering mode,Shooting mode,Film advance mode,AF mode,Bulb exposure time,Date,Time,Multiple exposure,Battery-loaded date,Battery-loaded time,Remarks
+,1,24mm,1.4,="1/40",1.4,,0.0,0.0,OFF,Evaluative,Aperture-priority AE,Single-frame,One-Shot AF,,15/7/2019,20:02:18,OFF,,,test frame #1
+*,2,35mm,1.4,="1/60",1.4,,-5,-4.5,OFF,Evaluative,Aperture-priority AE,Single-frame,One-Shot AF,,16/7/2019,,OFF,,,test frame #2
