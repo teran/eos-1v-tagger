@@ -213,7 +213,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 
 	timestamp, err := parseTimestamp(ss[15], ss[16], tz, timestampFormat)
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, NewErrorWithSuffix(err, "Possible solution: consider using `-timestamp-format` to specify proper format for timestamps")
 	}
 
 	batteryTimestamp, err := parseTimestamp(ss[18], ss[19], tz, timestampFormat)
