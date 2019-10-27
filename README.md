@@ -56,9 +56,55 @@ exiftool -overwrite_original -FocusMode="One-Shot AF" -FNumber="2.5" -ApertureVa
 ```
 
 The tags list generated with exiftool depends on the data present in CSV.
-Then you could check carefully the data provided and run these command to apply EXIF metadata.
+Then you could check carefuly the data provided and run these command to apply EXIF metadata.
 
 *Please note:* you need to have [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) installed on your system.
+
+### The workflow tagger is designed for
+
+#### Making shots
+
+Please always ensure you have proper time set on your EOS 1V. If you have left your camera without battery for some time, please connect it to ES-E1 and set date & time. Otherwise it won't store any date & time data for your shots making impossible to set accurate timestamps and geotaging.
+
+When you making shots to your film camera it's not such a bad idea to run some location tracking software on your smartphone for furter geotagging your shots.
+So tagger supports `-geotag` flag to align the photos against GPS track log and set proper coordinates to each one.
+
+This feature relies on [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) geotagging functionality.
+
+#### Scanning
+
+I'm not going to talk about technical part of the process like film washing to avoid dust, dirt and strawberry jam on the film itself, just pointing what is important for tagger instead: scanning your shots in the order they were captured makes no problems on tagging them. Otherwise it will require to rename the scan files or change order in ES-E1 CSV exported data to match the scans properly.
+
+At the same time EOS 1V provides a set of unique data to identify particular frame in global namespace like camera ID, film ID and frame ID. If you have more than one EOS 1V the best option is to use different camera IDs for them and use respective filenaming scheme for scans.
+
+#### Completing the data in ES-E1 & CSV export
+
+ES-E1 software allows to manually complete the data about your shots if it wasn't done automatically by EOS 1V, normally all the data from CSV should properly be handled by tagger, including timestamps, exposure and much-much more. So here should be no issues.
+
+**Note**: most of timestamps in EXIF have no way to use only date part of the timestamp. So timestamps with date field only are ignored. Please keep it in mind when setting frame timestamp manually and leaving time field unchecked/empty in ES-E1.
+
+To export data in CSV format for tagger just use `Data` menu in the main EOS-1V Memory window, choose `Export` -> `CSV`.
+
+#### Tagging the files
+
+After downloading the latest version of tagger from [releases page](https://github.com/teran/eos-1v-tagger/releases) please make sure you installed it in the place it's accessible via terminal application. Then run your terminal (`Terminal.app` in macOS; `Win`+`R`, then type `cmd` in Windows) and run tagger application. It should print help message like in Usage section on run without any option. Please read it carefuly. Choose the ones you need and point CSV export file. If you have any issues please refer to examples in README.
+
+**Hint**: to avoid copy-pasting huge amount of [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) commands feel free to redirect tagger's output to the file: `> exiftool-commands.bat` (`bat` extension in Windows means batch command file which could be run like a shell script). Please check paths carefuly to avoid updating wrong files. And just that file like any other command.
+**Note**: tagger uses CSV file alone to generate [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) commands, it could run on any system it's compiled for(frankly speaking any system [Go](https://golang.org/) could build for), even without ES-E1 installed.
+**Note**: tagger doesn't use [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) directly it just generates and prints commands. Technically the systems you're running tagger and exiftool could be two different ones.
+**Note**: tagger uses `-geotag` flag to pass it to [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) only as a path. It doesn't parse it or read it. So you need your geotag file to be avaiable on the system you're going to run [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) on.
+
+#### Reviewing results
+
+To ensure the EXIF data was updated you could use [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/):
+
+```shell
+exiftool imagefile.tiff
+```
+
+It will print all the EXIF data from the file.
+
+**Note**: If your scans were added to Adobe Lightroom it's required to read metadata via Lightroom interface to see the changes. Otherwise writing metadata to files from Lightroom will overwrite the changes made by [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/).
 
 ### filename-pattern formatting
 
@@ -109,7 +155,7 @@ go test ./...
 * It's **NOT** going to make any changes to real data: just prints exiftool commands to STDOUT
 * It relies on the data provided by ES-E1 software in CSV format(in EOS 1V Memory just export via `Data` -> `Export` -> `CSV`)
 * Since ES-E1 doesn't mark timezone and uses local regional settings there's no way to determine which date format (dd/mm/yyyy or mm/dd/yyyy) was used on CSV export, please use `-timestamp-format` option to let tagger know if EU timestamp format is set in regional settings.
-* **Always** carefully review exiftool commands *before* applying them.
+* **Always** carefuly review exiftool commands *before* applying them.
 * It allows you to specify timezone set on EOS 1V to properly timestamp scans so please pay attention to `-timezone` flag **which defaults to UTC timezone**
 * Since tagger releases are built on the most recent version of Golang it cannot run on Windows prior to Windows 7. Technically, it should compile fine on Golang v1.10 or earlier but it's unstested and not a part of release procedure. More details could be found at [Golang v1.11 changelog](https://golang.org/doc/go1.11).
 
