@@ -44,6 +44,12 @@ func (e *ExifTool) ExposureCompensation(ec float64) *ExifTool {
 	return e
 }
 
+// FileSource sets File Source field to exiftool command
+func (e *ExifTool) FileSource(fsource string) *ExifTool {
+	e.add("FileSource", fsource)
+	return e
+}
+
 // FocalLength sets Focal length to exiftool command
 func (e *ExifTool) FocalLength(fl int64) *ExifTool {
 	e.add(

@@ -32,6 +32,7 @@ var (
 	displayHelp     bool   = false
 	exiftoolBinary  string = "exiftool"
 	filenamePattern string = `FILM${filmID:d}_${frameNo:05d}.dng`
+	fileSource      string = ""
 	geotag          string = ""
 	make            string = ""
 	model           string = ""
@@ -51,6 +52,7 @@ func parseFlags() {
 	flag.BoolVar(&displayHelp, "help", displayHelp, "display help message")
 	flag.StringVar(&exiftoolBinary, "exiftool-binary", exiftoolBinary, "path to exiftool binary")
 	flag.StringVar(&filenamePattern, "filename-pattern", filenamePattern, "filename pattern for generate exiftool command. Available variables: frameNo, cameraID, filmID. More details are available in README.")
+	flag.StringVar(&fileSource, "file-source", fileSource, "adds file source EXIF tag. Available options: 'Film Scanner', 'Reflection Print Scanner', 'Digital Camera'")
 	flag.StringVar(&geotag, "geotag", geotag, "GPS track log file to set location data, supported formats are the ones supported by exiftool. Please refer to exiftool docs for details.")
 	flag.StringVar(&make, "make", make, "Make tag value. NOTE: it will overwrite the value set by your film scanner software")
 	flag.StringVar(&model, "model", model, "Model tag value. NOTE: it will overwrite the value set by your film scanner software")

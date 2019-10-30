@@ -93,6 +93,13 @@ func main() {
 				et.SerialNumber(serialNumber)
 			}
 
+			if fileSource != "" {
+				if !validateFileSource(fileSource) {
+					log.Fatalf("Bad `file-source` value. Available options: 'Film Scanner', 'Reflection Print Scanner', 'Digital Camera'")
+				}
+				et.FileSource(fileSource)
+			}
+
 			fmt.Println(et.Cmd())
 
 			if geotag != "" {
@@ -113,4 +120,16 @@ func TimestampFormatFactory(tf string) (string, error) {
 		return tagger.TimestampFormatEU, nil
 	}
 	return "", fmt.Errorf("unknown timestamp format: %s", tf)
+}
+
+func validateFileSource(fs string) bool {
+	switch fs {
+	case "Film Scanner":
+		return true
+	case "Reflection Print Scanner":
+		return true
+	case "Digital Camera":
+		return true
+	}
+	return false
 }

@@ -141,6 +141,14 @@ func TestExiftoolOptions(t *testing.T) {
 			},
 			expCommand: `"-SerialNumber=1234567890!" "test-file-with-serial-number"`,
 		},
+		{
+			name:  "file source specified",
+			fname: "test-file-with-file-source",
+			f: func(e *ExifTool) {
+				e.FileSource("Film Scanner")
+			},
+			expCommand: `"-FileSource=Film Scanner" "test-file-with-file-source"`,
+		},
 	}
 
 	for _, tc := range tcs {
