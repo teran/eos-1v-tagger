@@ -135,6 +135,20 @@ This will generate [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) co
 * Timestamps: original photo timetamp to the one set in camera aligned to `Europe/Moscow` timezone, digitized to the one present in `CreateDate` tag
 * All the data present in CSV like aperture, exposure, ISO, focal length, etc.
 
+## Installation
+
+### Binary release
+
+Just refer to [releases page](https://github.com/teran/eos-1v-tagger/releases), choose the latest one, pick the binary package under `Assets` list and unpack it to appropriate place.
+
+### Compile from source
+
+```shell
+go get github.com/teran/eos-1v-tagger/cmd/tagger
+```
+
+**Note**: Golang compiler is required to compile and install tagger from source code
+
 ## Build & test
 
 Since tagger is written in Go the compiler is required and could installed from [Go official website](https://golang.org).
