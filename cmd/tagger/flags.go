@@ -31,7 +31,7 @@ var (
 var (
 	displayHelp     bool   = false
 	exiftoolBinary  string = "exiftool"
-	filenamePattern string = `FILM${filmID:d}_${frameNo:05d}.dng`
+	filenamePattern string = `FILM_${cameraID:02d}${filmID:03d}${frameNo:05d}.dng`
 	fileSource      string = ""
 	geotag          string = ""
 	make            string = ""
