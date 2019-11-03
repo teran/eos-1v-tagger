@@ -4,7 +4,7 @@
 
 Here's Golang library and CLI binary to parse CSV's from Canon ES-E1 software to allow EXIF tagging film scans according to metadata from such CSV's.
 
-**Development status:** Just started
+**Development status:** Alpha
 
 ## What it does
 
@@ -167,7 +167,7 @@ go test ./...
 
 ## NOTICES
 
-* It's in **deep alpha** state
+* It's in **alpha** state
 * It's **NOT** going to make any changes to real data: just prints exiftool commands to STDOUT
 * It relies on the data provided by ES-E1 software in CSV format(in EOS 1V Memory just export via `Data` -> `Export` -> `CSV`)
 * Since ES-E1 doesn't mark timezone and uses local regional settings there's no way to determine which date format (dd/mm/yyyy or mm/dd/yyyy) was used on CSV export, please use `-timestamp-format` option to let tagger know if EU timestamp format is set in regional settings.
