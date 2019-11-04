@@ -18,7 +18,7 @@ var (
 // help message prefix/suffix
 var (
 	usagePrefix = "Usage: tagger [OPTIONS] file.csv\n\nOptions:\n"
-	usageSuffix = fmt.Sprintf("\nVersion: %s, build with %s at %s\n", ldVersion, runtime.Version(), func() string {
+	usageSuffix = fmt.Sprintf("Version: %s, build with %s at %s\n", ldVersion, runtime.Version(), func() string {
 		tsI, err := strconv.ParseInt(ldTimestamp, 10, 64)
 		if err != nil {
 			panic(err)
@@ -40,12 +40,14 @@ var (
 	setDigitized    bool   = false
 	timestampFormat string = "US"
 	timezone        string = "UTC"
+	displayVersion  bool   = false
 )
 
 func parseFlags() {
 	flag.Usage = func() {
 		fmt.Print(usagePrefix)
 		flag.PrintDefaults()
+		fmt.Print("\n")
 		fmt.Print(usageSuffix)
 	}
 
@@ -60,8 +62,14 @@ func parseFlags() {
 	flag.BoolVar(&setDigitized, "set-digitized", setDigitized, "set DateTimeDigitized from CreateDate field")
 	flag.StringVar(&timestampFormat, "timestamp-format", timestampFormat, "the timestamp format in the locale your're using on the system with ES-E1 software. Allowed values: 'US', 'EU'")
 	flag.StringVar(&timezone, "timezone", timezone, "location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow')")
+	flag.BoolVar(&displayVersion, "version", displayVersion, "show program version")
 
 	flag.Parse()
+
+	if displayVersion {
+		fmt.Print(usageSuffix)
+		os.Exit(0)
+	}
 
 	if displayHelp || flag.NArg() != 1 {
 		flag.Usage()
