@@ -1,22 +1,42 @@
+brews:
+  - name: eos-1v-tagger
+    github:
+      owner: teran
+      name: homebrew-tap
+    ids:
+      - default
+    commit_author:
+      name: "Igor Shishkin"
+      email: me@teran.ru
+    url_template: "https://github.com/teran/eos-1v-tagger/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    folder: Formula
+    homepage: "https://github.com/teran/eos-1v-tagger"
+    description: "Canon ES-E1 CSV parsing tool to generate EXIF data for film scans"
+    test: |
+      system "#{bin}/eos-1v-tagger -version"
+    install: |
+      bin.install "eos-1v-tagger"
 builds:
-- env:
-    - CGO_ENABLED=0
-  main: ./cmd/tagger/
-  goos:
-    - darwin
-    - linux
-    - windows
-  goarch:
-    - 386
-    - amd64
-  ldflags:
-    - -s -w -X main.ldVersion={{.Version}} -X main.ldTimestamp={{.Timestamp}}
-archive:
-  replacements:
-    386: i386
-  format_overrides:
-    - goos: windows
-      format: zip
+  - env:
+      - CGO_ENABLED=0
+    main: ./cmd/tagger/
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - 386
+      - amd64
+    ldflags:
+      - -s -w -X main.ldVersion={{.Version}} -X main.ldTimestamp={{.Timestamp}}
+archives:
+  - id: default
+    format_overrides:
+      - goos: windows
+        format: zip
+    replacements:
+      386: i386
+      darwin: macOS
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -25,7 +45,7 @@ changelog:
   sort: asc
   filters:
     exclude:
-    - '^docs:'
-    - '^test:'
-sign:
-  artifacts: checksum
+      - '^docs:'
+      - '^test:'
+signs:
+  - artifacts: checksum
