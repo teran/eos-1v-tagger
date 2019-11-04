@@ -137,7 +137,13 @@ This will generate [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) co
 
 ## Installation
 
-### Binary release
+### macOS with Homebrew
+
+```shell
+brew install teran/homebrew-tap/eos-1v-tagger
+```
+
+### Manually with binary release
 
 Just refer to [releases page](https://github.com/teran/eos-1v-tagger/releases), choose the latest one, pick the binary package under `Assets` list and unpack it to appropriate place.
 
