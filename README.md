@@ -137,7 +137,7 @@ This will generate [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) co
 
 ## Installation
 
-### macOS with Homebrew
+### macOS/Linux/Windows 10 via WSL with Homebrew
 
 ```shell
 brew install teran/homebrew-tap/eos-1v-tagger
