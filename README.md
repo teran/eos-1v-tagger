@@ -46,7 +46,7 @@ Version: undefined, build with go1.13.4 at 1970-01-01T03:00:00+03:00
 So you could try to do the following:
 
 ```shell
-tagger -timezone='Europe/Berlin' -filename-pattern='FILM_${cameraID:02d}_${filmID:03d}_${frameNo:05d}.tiff' Downloads/138.csv
+eos-1v-tagger -timezone='Europe/Berlin' -filename-pattern='FILM_${cameraID:02d}_${filmID:03d}_${frameNo:05d}.tiff' Downloads/138.csv
 ```
 
 ... and it will print you something like this:
@@ -123,7 +123,7 @@ Unfortunately specifying type is required to allow formatting features like `.2f
 ## Some real-life examples
 
 ```shell
-tagger -geotag ~/Downloads/walk-at-21-09-2019.gpx -make="Ilford Delta" -model="Canon EOS 1V" -serial-number="XXXXX" -timezone='Europe/Moscow' -filename-pattern='FILM_${cameraID:02d}_${filmID:03d}_${frameNo:05d}.tiff' -set-digitized ~/Downloads/139.csv
+eos-1v-tagger -geotag ~/Downloads/walk-at-21-09-2019.gpx -make="Ilford Delta" -model="Canon EOS 1V" -serial-number="XXXXX" -timezone='Europe/Moscow' -filename-pattern='FILM_${cameraID:02d}_${filmID:03d}_${frameNo:05d}.tiff' -set-digitized ~/Downloads/139.csv
 ```
 
 This will generate [exiftool](https://www.sno.phy.queensu.ca/~phil/exiftool/) commands to set:
