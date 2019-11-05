@@ -18,29 +18,31 @@ Usage: tagger [OPTIONS] file.csv
 
 Options:
   -exiftool-binary string
-        path to exiftool binary (default "exiftool")
+      path to exiftool binary (default "exiftool")
   -file-source string
-        adds file source EXIF tag. Available options: 'Film Scanner', 'Reflection Print Scanner', 'Digital Camera'
+      adds file source EXIF tag. Available options: 'Film Scanner', 'Reflection Print Scanner', 'Digital Camera'
   -filename-pattern string
-        filename pattern for generate exiftool command. Available variables: frameNo, cameraID, filmID. More details are available in README. (default "FILM_${cameraID:02d}${filmID:03d}${frameNo:05d}.dng")
+      filename pattern for generate exiftool command. Available variables: frameNo, cameraID, filmID. More details are available in README. (default "FILM_${cameraID:02d}${filmID:03d}${frameNo:05d}.dng")
   -geotag string
-        GPS track log file to set location data, supported formats are the ones supported by exiftool. Please refer to exiftool docs for details.
+      GPS track log file to set location data, supported formats are the ones supported by exiftool. Please refer to exiftool docs for details.
   -help
-        display help message
+      display help message
   -make string
-        Make tag value. NOTE: it will overwrite the value set by your film scanner software
+      Make tag value. NOTE: it will overwrite the value set by your film scanner software
   -model string
-        Model tag value. NOTE: it will overwrite the value set by your film scanner software
+      Model tag value. NOTE: it will overwrite the value set by your film scanner software
   -serial-number string
-        SerialNumber tag value. NOTE: it will overwrite the value set by your film scanner software
+      SerialNumber tag value. NOTE: it will overwrite the value set by your film scanner software
   -set-digitized
-        set DateTimeDigitized from CreateDate field
+      set DateTimeDigitized from CreateDate field
   -timestamp-format string
-        the timestamp format in the locale your're using on the system with ES-E1 software. Allowed values: 'US', 'EU' (default "US")
+      the timestamp format in the locale your're using on the system with ES-E1 software. Allowed values: 'US', 'EU' (default "US")
   -timezone string
-        location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow') (default "UTC")
+      location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow') (default "UTC")
+  -version
+      show program version
 
-Version: undefined, build with go1.13.4 at 1970-01-01T03:00:00+03:00
+Version: 0.1-alpha.16, build with go1.13.4 at 2019-11-05T00:24:43+03:00
 ```
 
 So you could try to do the following:
