@@ -144,20 +144,20 @@ func parseFilmData(s string, tz *time.Location, timestmapFormat string) (Film, e
 	return f, nil
 }
 
-func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame, error) {
+func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame, error) {
 	ss := strings.Split(s, ",")
 	if len(ss) != 21 {
-		return Frame{}, fmt.Errorf("wrong amount of columns for frame: %d: `%s`", len(ss), s)
+		return nil, fmt.Errorf("wrong amount of columns for frame: %d: `%s`", len(ss), s)
 	}
 
 	// ss[2:] is everything except flag and number fields
 	if isEmptySliceOfStrings(ss[2:]) {
-		return Frame{}, ErrEmptyFrame
+		return nil, ErrEmptyFrame
 	}
 
 	frameID, err := strconv.ParseInt(ss[1], 10, 64)
 	if err != nil {
-		return Frame{}, errors.Wrap(err, "error parsing frameID value")
+		return nil, errors.Wrap(err, "error parsing frameID value")
 	}
 
 	flag := func() bool {
@@ -172,12 +172,12 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 		return strconv.ParseInt(l, 10, 64)
 	}()
 	if err != nil {
-		return Frame{}, errors.Wrapf(err, "error parsing focal length value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing focal length value; frameNo=%d", frameID)
 	}
 
 	maxAperture, err := strconv.ParseFloat(ss[3], 64)
 	if err != nil {
-		return Frame{}, errors.Wrapf(err, "error parsing max aperture value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing max aperture value; frameNo=%d", frameID)
 	}
 
 	tv, err := func() (string, error) {
@@ -189,7 +189,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 
 	av, err := strconv.ParseFloat(ss[5], 64)
 	if err != nil {
-		return Frame{}, errors.Wrapf(err, "error parsing AV value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing AV value; frameNo=%d", frameID)
 	}
 
 	iso, err := func() (int64, error) {
@@ -199,22 +199,22 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 		return strconv.ParseInt(ss[6], 10, 64)
 	}()
 	if err != nil {
-		return Frame{}, errors.Wrapf(err, "error parsing ISO value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing ISO value; frameNo=%d", frameID)
 	}
 
 	expcomp, err := strconv.ParseFloat(ss[7], 64)
 	if err != nil {
-		return Frame{}, errors.Wrapf(err, "error parsing exposure compensation value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing exposure compensation value; frameNo=%d", frameID)
 	}
 
 	flashcomp, err := strconv.ParseFloat(ss[8], 64)
 	if err != nil {
-		return Frame{}, errors.Wrapf(err, "error parsing flash compensation value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing flash compensation value; frameNo=%d", frameID)
 	}
 
 	timestamp, err := parseTimestamp(ss[15], ss[16], tz, timestampFormat)
 	if err != nil {
-		return Frame{}, NewErrorWithSuffix(err, "Possible solution: consider using `-timestamp-format` to specify proper format for timestamps")
+		return nil, NewErrorWithSuffix(err, "Possible solution: consider using `-timestamp-format` to specify proper format for timestamps")
 	}
 
 	batteryTimestamp, err := parseTimestamp(ss[18], ss[19], tz, timestampFormat)
@@ -222,7 +222,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 		batteryTimestamp = time.Time{}
 	}
 
-	f := Frame{
+	f := &Frame{
 		Flag:                 flag,
 		Number:               frameID,
 		FocalLength:          focalLength,

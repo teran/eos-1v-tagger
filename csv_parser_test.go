@@ -34,7 +34,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 			FrameCount:          2,
 			ISO:                 400,
 			Remarks:             "test remarks data",
-			Frames: []Frame{
+			Frames: []*Frame{
 				{
 					Flag:              false,
 					Number:            1,
@@ -83,7 +83,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 			FrameCount:          2,
 			ISO:                 400,
 			Remarks:             "test remarks data 2",
-			Frames: []Frame{
+			Frames: []*Frame{
 				{
 					Flag:                 false,
 					Number:               1,
@@ -155,7 +155,7 @@ func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 			FrameCount:          2,
 			ISO:                 400,
 			Remarks:             "test remarks data",
-			Frames: []Frame{
+			Frames: []*Frame{
 				{
 					Flag:              false,
 					Number:            1,

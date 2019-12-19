@@ -11,7 +11,7 @@ type Film struct {
 	FrameCount          int64
 	ISO                 int64
 	Remarks             string
-	Frames              []Frame
+	Frames              []*Frame
 }
 
 // IsEmpty checks if Film object is empty
