@@ -2,13 +2,14 @@ package tagger
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 // CSVParser type
@@ -156,7 +157,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 
 	frameID, err := strconv.ParseInt(ss[1], 10, 64)
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, errors.Wrap(err, "error parsing frameID value")
 	}
 
 	flag := func() bool {
@@ -171,12 +172,12 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 		return strconv.ParseInt(l, 10, 64)
 	}()
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, errors.Wrapf(err, "error parsing focal length value; frameNo=%d", frameID)
 	}
 
 	maxAperture, err := strconv.ParseFloat(ss[3], 64)
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, errors.Wrapf(err, "error parsing max aperture value; frameNo=%d", frameID)
 	}
 
 	tv, err := func() (string, error) {
@@ -188,7 +189,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 
 	av, err := strconv.ParseFloat(ss[5], 64)
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, errors.Wrapf(err, "error parsing AV value; frameNo=%d", frameID)
 	}
 
 	iso, err := func() (int64, error) {
@@ -198,17 +199,17 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (Frame,
 		return strconv.ParseInt(ss[6], 10, 64)
 	}()
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, errors.Wrapf(err, "error parsing ISO value; frameNo=%d", frameID)
 	}
 
 	expcomp, err := strconv.ParseFloat(ss[7], 64)
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, errors.Wrapf(err, "error parsing exposure compensation value; frameNo=%d", frameID)
 	}
 
 	flashcomp, err := strconv.ParseFloat(ss[8], 64)
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, errors.Wrapf(err, "error parsing flash compensation value; frameNo=%d", frameID)
 	}
 
 	timestamp, err := parseTimestamp(ss[15], ss[16], tz, timestampFormat)
