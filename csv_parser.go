@@ -22,6 +22,9 @@ type CSVParser struct {
 var (
 	// ErrEmptyFrame ...
 	ErrEmptyFrame = errors.New("frame line contains no data")
+
+	// ErrNotProvided ...
+	ErrNotProvided = errors.New("value is not provided")
 )
 
 // NewCSVParser creates new CSVParser object
@@ -155,60 +158,48 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame
 		return nil, ErrEmptyFrame
 	}
 
-	frameID, err := strconv.ParseInt(ss[1], 10, 64)
+	frameID, err := parseFrameID(ss[1])
 	if err != nil {
 		return nil, errors.Wrap(err, "error parsing frameID value")
 	}
 
-	flag := func() bool {
-		if ss[0] == "*" {
-			return true
-		}
-		return false
-	}()
+	flag, err := parseFlag(ss[0])
+	if err != nil {
+		return nil, errors.Wrapf(err, "error parsing flag value; frameNo=%d", frameID)
+	}
 
-	focalLength, err := func() (int64, error) {
-		l := strings.TrimRight(ss[2], "mm")
-		return strconv.ParseInt(l, 10, 64)
-	}()
+	focalLength, err := parseFocalLength(ss[2])
 	if err != nil {
 		return nil, errors.Wrapf(err, "error parsing focal length value; frameNo=%d", frameID)
 	}
 
-	maxAperture, err := strconv.ParseFloat(ss[3], 64)
+	maxAperture, err := parseAperture(ss[3])
 	if err != nil {
 		return nil, errors.Wrapf(err, "error parsing max aperture value; frameNo=%d", frameID)
 	}
 
-	tv, err := func() (string, error) {
-		tv := ss[4]
-		tv = strings.Replace(tv, `"`, "", -1)
-		tv = strings.Replace(tv, "=", "", -1)
-		return tv, nil
-	}()
+	tv, err := parseExposure(ss[4])
+	if err != nil {
+		return nil, errors.Wrapf(err, "error parsing exposure value; frameNo=%d", frameID)
+	}
 
-	av, err := strconv.ParseFloat(ss[5], 64)
+	av, err := parseAperture(ss[5])
 	if err != nil {
 		return nil, errors.Wrapf(err, "error parsing AV value; frameNo=%d", frameID)
 	}
 
-	iso, err := func() (int64, error) {
-		if ss[6] == "" {
-			return 0, nil
-		}
-		return strconv.ParseInt(ss[6], 10, 64)
-	}()
-	if err != nil {
+	iso, err := parseISO(ss[6])
+	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing ISO value; frameNo=%d", frameID)
 	}
 
-	expcomp, err := strconv.ParseFloat(ss[7], 64)
-	if err != nil {
+	expcomp, err := parseCompensation(ss[7])
+	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing exposure compensation value; frameNo=%d", frameID)
 	}
 
-	flashcomp, err := strconv.ParseFloat(ss[8], 64)
-	if err != nil {
+	flashcomp, err := parseCompensation(ss[8])
+	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing flash compensation value; frameNo=%d", frameID)
 	}
 
@@ -278,4 +269,54 @@ func isFrameHeader(s string) bool {
 func parseFilmRemarks(s string) string {
 	ss := strings.Split(s, ",")
 	return strings.Join(ss[2:], ",")
+}
+
+func parseFrameID(s string) (int64, error) {
+	if s == "" {
+		return 0, ErrNotProvided
+	}
+	return strconv.ParseInt(s, 10, 64)
+}
+
+func parseFlag(s string) (bool, error) {
+	if s == "*" {
+		return true, nil
+	}
+	return false, nil
+}
+
+func parseFocalLength(s string) (int64, error) {
+	l := strings.TrimRight(s, "mm")
+	return strconv.ParseInt(l, 10, 64)
+}
+
+func parseAperture(s string) (float64, error) {
+	if s == "" {
+		return 0, ErrNotProvided
+	}
+	return strconv.ParseFloat(s, 64)
+}
+
+func parseExposure(s string) (string, error) {
+	if s == "" {
+		return "", ErrNotProvided
+	}
+	tv := s
+	tv = strings.Replace(tv, `"`, "", -1)
+	tv = strings.Replace(tv, "=", "", -1)
+	return tv, nil
+}
+
+func parseISO(s string) (int64, error) {
+	if s == "" {
+		return 0, ErrNotProvided
+	}
+	return strconv.ParseInt(s, 10, 64)
+}
+
+func parseCompensation(s string) (float64, error) {
+	if s == "" {
+		return 0.0, ErrNotProvided
+	}
+	return strconv.ParseFloat(s, 64)
 }
