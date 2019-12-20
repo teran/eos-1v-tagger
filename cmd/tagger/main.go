@@ -39,43 +39,7 @@ func main() {
 				"frameNo":  *f.Number,
 			})
 
-			et := tagger.NewExifTool(exiftoolBinary, filename)
-
-			if f.AFMode != nil {
-				et.FocusMode(*f.AFMode)
-			}
-
-			if f.Av != nil {
-				et.Aperture(*f.Av)
-			}
-
-			if f.ExposureCompensation != nil {
-				et.ExposureCompensation(*f.ExposureCompensation)
-			}
-
-			if f.FocalLength != nil {
-				et.FocalLength(*f.FocalLength)
-			}
-
-			if f.ISO != nil {
-				et.ISO(*f.ISO)
-			}
-
-			if f.MeteringMode != nil {
-				et.MeteringMode(*f.MeteringMode)
-			}
-
-			if f.ShootingMode != nil {
-				et.ShootingMode(*f.ShootingMode)
-			}
-
-			if !f.Timestamp.IsZero() {
-				et.Timestamp(*f.Timestamp)
-			}
-
-			if f.Tv != nil {
-				et.Exposure(*f.Tv)
-			}
+			et := tagger.NewExifToolFromFrame(exiftoolBinary, filename, f)
 
 			if setDigitized {
 				et.SetDateTimeDigitizedFromCreateDate()
