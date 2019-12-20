@@ -47,11 +47,11 @@ func (p *CSVParser) Close() error {
 }
 
 // Parse ...
-func (p *CSVParser) Parse() ([]Film, error) {
+func (p *CSVParser) Parse() ([]*Film, error) {
 	rd := bufio.NewReader(p.rc)
 
-	films := []Film{}
-	f := Film{}
+	films := []*Film{}
+	var f *Film
 	for {
 		str, err := rd.ReadString('\n')
 		if err != nil {
@@ -67,7 +67,7 @@ func (p *CSVParser) Parse() ([]Film, error) {
 
 		switch {
 		case isFilmHeader(str):
-			if !f.IsEmpty() {
+			if f != nil && !f.IsEmpty() {
 				films = append(films, f)
 			}
 
@@ -86,7 +86,7 @@ func (p *CSVParser) Parse() ([]Film, error) {
 				return nil, err
 			}
 
-			if fr.ISO == 0 {
+			if fr.ISO == nil {
 				fr.ISO = f.ISO
 			}
 
@@ -101,50 +101,52 @@ func (p *CSVParser) Parse() ([]Film, error) {
 	return films, nil
 }
 
-func parseFilmData(s string, tz *time.Location, timestmapFormat string) (Film, error) {
+func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*Film, error) {
 	ss := strings.Split(s, ",")
 
-	ts := fmt.Sprintf("%sT%s", ss[6], ss[7])
-	tt, err := time.ParseInLocation(timestmapFormat, ts, tz)
-	if err != nil {
-		return Film{}, err
+	tt, err := parseTimestamp(ss[6], ss[7], tz, timestmapFormat)
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrap(err, "error parsing film timestamp value")
 	}
 
-	fc, err := strconv.ParseInt(strings.TrimSpace(ss[9]), 10, 64)
-	if err != nil {
-		return Film{}, err
+	fc, err := parseInt(strings.TrimSpace(ss[9]))
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrap(err, "error parsing film frame count value")
 	}
 
-	iso, err := strconv.ParseInt(strings.TrimSpace(ss[11]), 10, 64)
-	if err != nil {
-		return Film{}, err
+	iso, err := parseInt(strings.TrimSpace(ss[11]))
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrap(err, "error parsing film ISO value")
 	}
 
 	ids := strings.Split(ss[2], "-")
-	if len(ids) != 2 {
-		return Film{}, errors.New("improper film ID data")
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.New("improper film ID data")
 	}
 
-	fID, err := strconv.ParseInt(ids[1], 10, 64)
-	if err != nil {
-		return Film{}, err
+	fID, err := parseInt(ids[1])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrap(err, "error parsing film ID value")
 	}
 
-	cID, err := strconv.ParseInt(ids[0], 10, 64)
-	if err != nil {
-		return Film{}, err
+	cID, err := parseInt(ids[0])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrap(err, "error parsing camera ID value")
 	}
 
-	f := Film{
+	title, err := parseString(ss[4])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrap(err, "error parsing film title")
+	}
+
+	return &Film{
 		ID:                  fID,
 		CameraID:            cID,
-		Title:               ss[4],
+		Title:               title,
 		FilmLoadedTimestamp: tt,
 		FrameCount:          fc,
 		ISO:                 iso,
-	}
-
-	return f, nil
+	}, nil
 }
 
 func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame, error) {
@@ -164,27 +166,27 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame
 	}
 
 	flag, err := parseFlag(ss[0])
-	if err != nil {
+	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing flag value; frameNo=%d", frameID)
 	}
 
 	focalLength, err := parseFocalLength(ss[2])
-	if err != nil {
+	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing focal length value; frameNo=%d", frameID)
 	}
 
 	maxAperture, err := parseAperture(ss[3])
-	if err != nil {
+	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing max aperture value; frameNo=%d", frameID)
 	}
 
 	tv, err := parseExposure(ss[4])
-	if err != nil {
+	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing exposure value; frameNo=%d", frameID)
 	}
 
 	av, err := parseAperture(ss[5])
-	if err != nil {
+	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing AV value; frameNo=%d", frameID)
 	}
 
@@ -204,13 +206,53 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame
 	}
 
 	timestamp, err := parseTimestamp(ss[15], ss[16], tz, timestampFormat)
-	if err != nil {
+	if err != nil && err != ErrNotProvided {
 		return nil, NewErrorWithSuffix(err, "Possible solution: consider using `-timestamp-format` to specify proper format for timestamps")
 	}
 
 	batteryTimestamp, err := parseTimestamp(ss[18], ss[19], tz, timestampFormat)
-	if err != nil {
-		batteryTimestamp = time.Time{}
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing timestamp value; frameNo=%d", frameID)
+	}
+
+	flashMode, err := parseFlashMode(ss[9])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing flash mode value; frameNo=%d", frameID)
+	}
+
+	meteringMode, err := parseMeteringMode(ss[10])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing metering mode value; frameNo=%d", frameID)
+	}
+
+	shootingMode, err := parseShootingMode(ss[11])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing shooting mode value; frameNo=%d", frameID)
+	}
+
+	filmAdvanceMode, err := parseFilmAdvanceMode(ss[12])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing film advance mode value; frameNo=%d", frameID)
+	}
+
+	afMode, err := parseAFMode(ss[13])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing AF mode value; frameNo=%d", frameID)
+	}
+
+	bulbExposureTime, err := parseBulbExposureTime(ss[14])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing AF mode value; frameNo=%d", frameID)
+	}
+
+	multipleExposure, err := parseMultipleExposure(ss[17])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing multiple exposure value; frameNo=%d", frameID)
+	}
+
+	remarks, err := parseRemarks(ss[20])
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrapf(err, "error parsing remarks value; frameNo=%d", frameID)
 	}
 
 	f := &Frame{
@@ -223,16 +265,16 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame
 		ISO:                  iso,
 		ExposureCompensation: expcomp,
 		FlashCompensation:    flashcomp,
-		FlashMode:            ss[9],
-		MeteringMode:         ss[10],
-		ShootingMode:         ss[11],
-		FilmAdvanceMode:      ss[12],
-		AFMode:               ss[13],
-		BulbExposureTime:     ss[14],
+		FlashMode:            flashMode,
+		MeteringMode:         meteringMode,
+		ShootingMode:         shootingMode,
+		FilmAdvanceMode:      filmAdvanceMode,
+		AFMode:               afMode,
+		BulbExposureTime:     bulbExposureTime,
 		Timestamp:            timestamp,
-		MultipleExposure:     ss[17],
+		MultipleExposure:     multipleExposure,
 		BatteryLoadedDate:    batteryTimestamp,
-		Remarks:              ss[20],
+		Remarks:              remarks,
 	}
 	return f, nil
 }
@@ -246,12 +288,15 @@ func isEmptySliceOfStrings(ss []string) bool {
 	return true
 }
 
-func parseTimestamp(d, t string, tz *time.Location, timestampFormat string) (time.Time, error) {
+func parseTimestamp(d, t string, tz *time.Location, timestampFormat string) (*time.Time, error) {
 	if d == "" || t == "" {
-		return time.Time{}, nil
+		return nil, ErrNotProvided
 	}
-
-	return time.ParseInLocation(timestampFormat, fmt.Sprintf("%vT%v", d, t), tz)
+	ts, err := time.ParseInLocation(timestampFormat, fmt.Sprintf("%vT%v", d, t), tz)
+	if err != nil {
+		return nil, err
+	}
+	return &ts, nil
 }
 
 func isFilmHeader(s string) bool {
@@ -266,57 +311,111 @@ func isFrameHeader(s string) bool {
 	return strings.HasPrefix(strings.TrimLeft(s, "*"), ",Frame No.,")
 }
 
-func parseFilmRemarks(s string) string {
+func parseFilmRemarks(s string) *string {
 	ss := strings.Split(s, ",")
-	return strings.Join(ss[2:], ",")
+	sss := strings.Join(ss[2:], ",")
+	return &sss
 }
 
-func parseFrameID(s string) (int64, error) {
+func parseString(s string) (*string, error) {
 	if s == "" {
-		return 0, ErrNotProvided
+		return nil, ErrNotProvided
 	}
-	return strconv.ParseInt(s, 10, 64)
+
+	return &s, nil
 }
 
-func parseFlag(s string) (bool, error) {
+func parseFloat(s string) (*float64, error) {
+	if s == "" {
+		return nil, ErrNotProvided
+	}
+	f, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		return nil, err
+	}
+	return &f, nil
+}
+
+func parseInt(s string) (*int64, error) {
+	if s == "" {
+		return nil, ErrNotProvided
+	}
+
+	i, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	return &i, err
+}
+
+func parseFrameID(s string) (*int64, error) {
+	return parseInt(s)
+}
+
+func parseFlag(s string) (*bool, error) {
+	var t bool
 	if s == "*" {
-		return true, nil
+		t = true
+		return &t, nil
 	}
-	return false, nil
+	return &t, nil
 }
 
-func parseFocalLength(s string) (int64, error) {
+func parseFocalLength(s string) (*int64, error) {
 	l := strings.TrimRight(s, "mm")
-	return strconv.ParseInt(l, 10, 64)
+	return parseInt(l)
 }
 
-func parseAperture(s string) (float64, error) {
-	if s == "" {
-		return 0, ErrNotProvided
-	}
-	return strconv.ParseFloat(s, 64)
+func parseAperture(s string) (*float64, error) {
+	return parseFloat(s)
 }
 
-func parseExposure(s string) (string, error) {
+func parseExposure(s string) (*string, error) {
 	if s == "" {
-		return "", ErrNotProvided
+		return nil, ErrNotProvided
 	}
 	tv := s
 	tv = strings.Replace(tv, `"`, "", -1)
 	tv = strings.Replace(tv, "=", "", -1)
-	return tv, nil
+	return &tv, nil
 }
 
-func parseISO(s string) (int64, error) {
-	if s == "" {
-		return 0, ErrNotProvided
-	}
-	return strconv.ParseInt(s, 10, 64)
+func parseISO(s string) (*int64, error) {
+	return parseInt(s)
 }
 
-func parseCompensation(s string) (float64, error) {
-	if s == "" {
-		return 0.0, ErrNotProvided
-	}
-	return strconv.ParseFloat(s, 64)
+func parseCompensation(s string) (*float64, error) {
+	return parseFloat(s)
+}
+
+func parseFlashMode(s string) (*string, error) {
+	return parseString(s)
+}
+
+func parseMeteringMode(s string) (*string, error) {
+	return parseString(s)
+}
+
+func parseShootingMode(s string) (*string, error) {
+	return parseString(s)
+}
+
+func parseFilmAdvanceMode(s string) (*string, error) {
+	return parseString(s)
+}
+
+func parseAFMode(s string) (*string, error) {
+	return parseString(s)
+}
+
+func parseBulbExposureTime(s string) (*string, error) {
+	return parseString(s)
+}
+
+func parseMultipleExposure(s string) (*string, error) {
+	return parseString(s)
+}
+
+func parseRemarks(s string) (*string, error) {
+	return parseString(s)
 }
