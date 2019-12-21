@@ -64,7 +64,7 @@ func NewFromFrame(binary, filename string, f *types.Frame) *ExifTool {
 	}
 
 	if f.ShootingMode != nil {
-		et.ShootingMode(*f.ShootingMode)
+		et.ShootingMode(f.ShootingMode.String())
 	}
 
 	if !f.Timestamp.IsZero() {

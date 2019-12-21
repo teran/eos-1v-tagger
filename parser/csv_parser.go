@@ -404,8 +404,12 @@ func parseMeteringMode(s string) (*types.MeteringMode, error) {
 	return types.MeteringModeFromString(*mms)
 }
 
-func parseShootingMode(s string) (*string, error) {
-	return parseString(s)
+func parseShootingMode(s string) (*types.ShootingMode, error) {
+	sms, err := parseString(s)
+	if err != nil {
+		return nil, err
+	}
+	return types.ShootingModeFromString(*sms)
 }
 
 func parseFilmAdvanceMode(s string) (*string, error) {
