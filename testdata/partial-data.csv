@@ -1,0 +1,19 @@
+,Film ID,01-119,Title,sample test film#119,Date and time film loaded,9/28/2019,10:21:32,Frame count,2,ISO (DX),400
+,Remarks,test remarks data
+
+,Frame No.,Focal length,Max. aperture,Tv,Av,ISO (M),Exposure compensation,Flash exposure compensation,Flash mode,Metering mode,Shooting mode,Film advance mode,AF mode,Bulb exposure time,Date,Time,Multiple exposure,Battery-loaded date,Battery-loaded time,Remarks
+,1,,,,,,-6.4,,,,,,,,,,,,,
+,2,35mm,,,,,,,,,,,,,,,,,,
+,3,35mm,1.4,,,,,,,,,,,,,,,,,
+,4,35mm,1.4,="1/1000",,,,,,,,,,,,,,,,
+,5,35mm,1.4,="1/1000",1.4,,,,,,,,,,,,,,,
+,6,35mm,1.4,="1/1000",1.4,640,,,,,,,,,,,,,,
+,7,35mm,1.4,="1/1000",1.4,200,1.3,,,,,,,,,,,,,
+,8,35mm,1.4,="1/1000",1.4,100,1.3,-3.2,,,,,,,,,,,,
+,9,35mm,1.4,="1/1000",1.4,50,1.3,-3.2,OFF,,,,,,,,,,,
+,10,35mm,1.4,="1/1000",1.4,500,1.3,-3.2,OFF,Evaluative,,,,,,,,,,
+,11,35mm,1.4,="1/1000",1.4,640,1.3,-3.2,OFF,Evaluative,Aperture-priority AE,,,,,,,,,
+*,12,35mm,1.4,="1/1000",1.4,1280,1.3,-3.2,OFF,Evaluative,Aperture-priority AE,Single-frame,,,,,,,,
+,13,35mm,1.4,="1/1000",1.4,3200,1.3,-3.2,OFF,Evaluative,Aperture-priority AE,Single-frame,One-Shot AF,,,,,,,
+,14,35mm,1.4,="1/1000",1.4,1600,1.3,-3.2,OFF,Evaluative,Aperture-priority AE,Single-frame,One-Shot AF,,10/7/2019,20:02:18,,,,
+*,15,35mm,1.4,="1/1000",1.4,64,1.3,-3.2,OFF,Evaluative,Aperture-priority AE,Single-frame,One-Shot AF,,10/7/2019,20:02:18,OFF,,,test frame #1

@@ -279,6 +279,220 @@ func TestIsFrameHeader(t *testing.T) {
 	}
 }
 
+func TestPartialData(t *testing.T) {
+	r := require.New(t)
+
+	tz, err := LocationByTimeZone("CET")
+	r.NoError(err)
+
+	p, err := NewCSVParser("testdata/partial-data.csv", tz, TimestampFormatUS)
+	r.NoError(err)
+	r.NotNil(p)
+
+	film, err := p.Parse()
+	r.NoError(err)
+	r.Equal([]*Film{
+		{
+			ID:                  ptrInt64(119),
+			CameraID:            ptrInt64(1),
+			Title:               ptrString("sample test film#119"),
+			FilmLoadedTimestamp: mustParseTimestamp(t, "09/28/2019T10:21:32", tz, TimestampFormatUS),
+			FrameCount:          ptrInt64(2),
+			ISO:                 ptrInt64(400),
+			Remarks:             ptrString("test remarks data"),
+			Frames: []*Frame{
+				{
+					Flag:                 ptrBool(false),
+					Number:               ptrInt64(1),
+					ISO:                  ptrInt64(400),
+					ExposureCompensation: ptrFloat64(-6.4),
+				},
+				{
+					Flag:        ptrBool(false),
+					Number:      ptrInt64(2),
+					ISO:         ptrInt64(400),
+					FocalLength: ptrInt64(35),
+				},
+				{
+					Flag:        ptrBool(false),
+					Number:      ptrInt64(3),
+					FocalLength: ptrInt64(35),
+					MaxAperture: ptrFloat64(1.4),
+					ISO:         ptrInt64(400),
+				},
+				{
+					Flag:        ptrBool(false),
+					Number:      ptrInt64(4),
+					FocalLength: ptrInt64(35),
+					MaxAperture: ptrFloat64(1.4),
+					ISO:         ptrInt64(400),
+					Tv:          ptrString("1/1000"),
+				},
+				{
+					Flag:        ptrBool(false),
+					Number:      ptrInt64(5),
+					FocalLength: ptrInt64(35),
+					MaxAperture: ptrFloat64(1.4),
+					ISO:         ptrInt64(400),
+					Tv:          ptrString("1/1000"),
+					Av:          ptrFloat64(1.4),
+				},
+				{
+					Flag:        ptrBool(false),
+					Number:      ptrInt64(6),
+					FocalLength: ptrInt64(35),
+					MaxAperture: ptrFloat64(1.4),
+					ISO:         ptrInt64(640),
+					Tv:          ptrString("1/1000"),
+					Av:          ptrFloat64(1.4),
+				},
+				{
+					Flag:                 ptrBool(false),
+					Number:               ptrInt64(7),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(200),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+				},
+				{
+					Flag:                 ptrBool(false),
+					Number:               ptrInt64(8),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(100),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+					FlashCompensation:    ptrFloat64(-3.2),
+				},
+				{
+					Flag:                 ptrBool(false),
+					Number:               ptrInt64(9),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(50),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+					FlashCompensation:    ptrFloat64(-3.2),
+					FlashMode:            ptrString("OFF"),
+				},
+				{
+					Flag:                 ptrBool(false),
+					Number:               ptrInt64(10),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(500),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+					FlashCompensation:    ptrFloat64(-3.2),
+					FlashMode:            ptrString("OFF"),
+					MeteringMode:         ptrString("Evaluative"),
+				},
+				{
+					Flag:                 ptrBool(false),
+					Number:               ptrInt64(11),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(640),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+					FlashCompensation:    ptrFloat64(-3.2),
+					FlashMode:            ptrString("OFF"),
+					MeteringMode:         ptrString("Evaluative"),
+					ShootingMode:         ptrString("Aperture-priority AE"),
+				},
+				{
+					Flag:                 ptrBool(true),
+					Number:               ptrInt64(12),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(1280),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+					FlashCompensation:    ptrFloat64(-3.2),
+					FlashMode:            ptrString("OFF"),
+					MeteringMode:         ptrString("Evaluative"),
+					ShootingMode:         ptrString("Aperture-priority AE"),
+					FilmAdvanceMode:      ptrString("Single-frame"),
+				},
+				{
+					Flag:                 ptrBool(false),
+					Number:               ptrInt64(13),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(3200),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+					FlashCompensation:    ptrFloat64(-3.2),
+					FlashMode:            ptrString("OFF"),
+					MeteringMode:         ptrString("Evaluative"),
+					ShootingMode:         ptrString("Aperture-priority AE"),
+					FilmAdvanceMode:      ptrString("Single-frame"),
+					AFMode:               ptrString("One-Shot AF"),
+				},
+				{
+					Flag:                 ptrBool(false),
+					Number:               ptrInt64(14),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(1600),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+					FlashCompensation:    ptrFloat64(-3.2),
+					FlashMode:            ptrString("OFF"),
+					MeteringMode:         ptrString("Evaluative"),
+					ShootingMode:         ptrString("Aperture-priority AE"),
+					FilmAdvanceMode:      ptrString("Single-frame"),
+					AFMode:               ptrString("One-Shot AF"),
+					Timestamp:            mustParseTimestamp(t, "07/10/2019T20:02:18", tz, TimestampFormatEU),
+				},
+				{
+					Flag:                 ptrBool(true),
+					Number:               ptrInt64(15),
+					FocalLength:          ptrInt64(35),
+					MaxAperture:          ptrFloat64(1.4),
+					ISO:                  ptrInt64(64),
+					Tv:                   ptrString("1/1000"),
+					Av:                   ptrFloat64(1.4),
+					ExposureCompensation: ptrFloat64(1.3),
+					FlashCompensation:    ptrFloat64(-3.2),
+					FlashMode:            ptrString("OFF"),
+					MeteringMode:         ptrString("Evaluative"),
+					ShootingMode:         ptrString("Aperture-priority AE"),
+					FilmAdvanceMode:      ptrString("Single-frame"),
+					AFMode:               ptrString("One-Shot AF"),
+					MultipleExposure:     ptrString("OFF"),
+					Timestamp:            mustParseTimestamp(t, "07/10/2019T20:02:18", tz, TimestampFormatEU),
+					Remarks:              ptrString("test frame #1"),
+				},
+			},
+		},
+	}, film)
+}
+
+func TestEmptyFrame(t *testing.T) {
+	r := require.New(t)
+
+	tz, err := LocationByTimeZone("CET")
+	r.NoError(err)
+
+	p, err := NewCSVParser("testdata/empty-frame.csv", tz, TimestampFormatUS)
+	r.NoError(err)
+	r.NotNil(p)
+
+	_, err = p.Parse()
+	r.Error(err)
+	r.Equal(ErrEmptyFrame, err)
+}
+
 func mustParseTimestamp(t *testing.T, ts string, tz *time.Location, tf string) *time.Time {
 	r := require.New(t)
 

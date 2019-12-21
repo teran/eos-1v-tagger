@@ -167,42 +167,42 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame
 
 	flag, err := parseFlag(ss[0])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing flag value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing flag value; frameNo=%d", *frameID)
 	}
 
 	focalLength, err := parseFocalLength(ss[2])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing focal length value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing focal length value; frameNo=%d", *frameID)
 	}
 
 	maxAperture, err := parseAperture(ss[3])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing max aperture value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing max aperture value; frameNo=%d", *frameID)
 	}
 
 	tv, err := parseExposure(ss[4])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing exposure value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing exposure value; frameNo=%d", *frameID)
 	}
 
 	av, err := parseAperture(ss[5])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing AV value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing AV value; frameNo=%d", *frameID)
 	}
 
 	iso, err := parseISO(ss[6])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing ISO value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing ISO value; frameNo=%d", *frameID)
 	}
 
 	expcomp, err := parseCompensation(ss[7])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing exposure compensation value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing exposure compensation value; frameNo=%d", *frameID)
 	}
 
 	flashcomp, err := parseCompensation(ss[8])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing flash compensation value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing flash compensation value; frameNo=%d", *frameID)
 	}
 
 	timestamp, err := parseTimestamp(ss[15], ss[16], tz, timestampFormat)
@@ -212,47 +212,47 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame
 
 	batteryTimestamp, err := parseTimestamp(ss[18], ss[19], tz, timestampFormat)
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing timestamp value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing timestamp value; frameNo=%d", *frameID)
 	}
 
 	flashMode, err := parseFlashMode(ss[9])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing flash mode value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing flash mode value; frameNo=%d", *frameID)
 	}
 
 	meteringMode, err := parseMeteringMode(ss[10])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing metering mode value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing metering mode value; frameNo=%d", *frameID)
 	}
 
 	shootingMode, err := parseShootingMode(ss[11])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing shooting mode value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing shooting mode value; frameNo=%d", *frameID)
 	}
 
 	filmAdvanceMode, err := parseFilmAdvanceMode(ss[12])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing film advance mode value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing film advance mode value; frameNo=%d", *frameID)
 	}
 
 	afMode, err := parseAFMode(ss[13])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing AF mode value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing AF mode value; frameNo=%d", *frameID)
 	}
 
 	bulbExposureTime, err := parseBulbExposureTime(ss[14])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing AF mode value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing AF mode value; frameNo=%d", *frameID)
 	}
 
 	multipleExposure, err := parseMultipleExposure(ss[17])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing multiple exposure value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing multiple exposure value; frameNo=%d", *frameID)
 	}
 
 	remarks, err := parseRemarks(ss[20])
 	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrapf(err, "error parsing remarks value; frameNo=%d", frameID)
+		return nil, errors.Wrapf(err, "error parsing remarks value; frameNo=%d", *frameID)
 	}
 
 	f := &Frame{
