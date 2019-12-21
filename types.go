@@ -34,17 +34,3 @@ type (
 		Remarks              *string
 	}
 )
-
-// ExifToolOption type
-type ExifToolOption struct {
-	key      string
-	value    string
-	operator string
-}
-
-// ExifTool type
-type ExifTool struct {
-	binary   string
-	filename string
-	options  []ExifToolOption
-}

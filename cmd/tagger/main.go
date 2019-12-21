@@ -6,6 +6,7 @@ import (
 	"log"
 
 	tagger "github.com/teran/eos-1v-tagger"
+	exiftool "github.com/teran/eos-1v-tagger/exiftool"
 	parser "github.com/teran/eos-1v-tagger/parser"
 )
 
@@ -40,7 +41,7 @@ func main() {
 				"frameNo":  *f.Number,
 			})
 
-			et := tagger.NewExifToolFromFrame(exiftoolBinary, filename, f)
+			et := exiftool.NewExifToolFromFrame(exiftoolBinary, filename, f)
 
 			if setDigitized {
 				et.SetDateTimeDigitizedFromCreateDate()
@@ -68,7 +69,7 @@ func main() {
 			fmt.Println(et.Cmd())
 
 			if geotag != "" {
-				gt := tagger.NewExifTool(exiftoolBinary, filename)
+				gt := exiftool.NewExifTool(exiftoolBinary, filename)
 				gt.GeoTag(geotag)
 				fmt.Println(gt.Cmd())
 			}

@@ -5,7 +5,23 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	tagger "github.com/teran/eos-1v-tagger"
 )
+
+// ExifToolOption type
+type ExifToolOption struct {
+	key      string
+	value    string
+	operator string
+}
+
+// ExifTool type
+type ExifTool struct {
+	binary   string
+	filename string
+	options  []ExifToolOption
+}
 
 var (
 	exifToolDefaultOpts = []string{"-overwrite_original"}
@@ -20,7 +36,7 @@ func NewExifTool(binary, filename string) *ExifTool {
 }
 
 // NewExifToolFromFrame creates exiftool command right from frame object
-func NewExifToolFromFrame(binary, filename string, f *Frame) *ExifTool {
+func NewExifToolFromFrame(binary, filename string, f *tagger.Frame) *ExifTool {
 	et := NewExifTool(binary, filename)
 
 	if f.AFMode != nil {
