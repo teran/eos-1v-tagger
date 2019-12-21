@@ -416,8 +416,12 @@ func parseFilmAdvanceMode(s string) (*string, error) {
 	return parseString(s)
 }
 
-func parseAFMode(s string) (*string, error) {
-	return parseString(s)
+func parseAFMode(s string) (*types.AFMode, error) {
+	ams, err := parseString(s)
+	if err != nil {
+		return nil, err
+	}
+	return types.AFModeFromString(*ams)
 }
 
 func parseBulbExposureTime(s string) (*string, error) {

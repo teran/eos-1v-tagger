@@ -40,7 +40,7 @@ func NewFromFrame(binary, filename string, f *types.Frame) *ExifTool {
 	et := New(binary, filename)
 
 	if f.AFMode != nil {
-		et.FocusMode(*f.AFMode)
+		et.FocusMode(f.AFMode.String())
 	}
 
 	if f.Av != nil {
