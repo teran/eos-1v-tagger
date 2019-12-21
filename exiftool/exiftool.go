@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	tagger "github.com/teran/eos-1v-tagger"
+	types "github.com/teran/eos-1v-tagger/types"
 )
 
 // ExifToolOption type
@@ -36,7 +36,7 @@ func NewExifTool(binary, filename string) *ExifTool {
 }
 
 // NewExifToolFromFrame creates exiftool command right from frame object
-func NewExifToolFromFrame(binary, filename string, f *tagger.Frame) *ExifTool {
+func NewExifToolFromFrame(binary, filename string, f *types.Frame) *ExifTool {
 	et := NewExifTool(binary, filename)
 
 	if f.AFMode != nil {

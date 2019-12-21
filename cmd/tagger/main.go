@@ -9,6 +9,7 @@ import (
 	exiftool "github.com/teran/eos-1v-tagger/exiftool"
 	format "github.com/teran/eos-1v-tagger/format"
 	parser "github.com/teran/eos-1v-tagger/parser"
+	types "github.com/teran/eos-1v-tagger/types"
 )
 
 func main() {
@@ -82,9 +83,9 @@ func main() {
 func TimestampFormatFactory(tf string) (string, error) {
 	switch tf {
 	case "US":
-		return tagger.TimestampFormatUS, nil
+		return types.TimestampFormatUS, nil
 	case "EU":
-		return tagger.TimestampFormatEU, nil
+		return types.TimestampFormatEU, nil
 	}
 	return "", fmt.Errorf("unknown timestamp format: %s", tf)
 }

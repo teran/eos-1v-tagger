@@ -1,4 +1,4 @@
-package tagger
+package types
 
 import "time"
 

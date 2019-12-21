@@ -12,6 +12,7 @@ import (
 	"github.com/pkg/errors"
 
 	tagger "github.com/teran/eos-1v-tagger"
+	types "github.com/teran/eos-1v-tagger/types"
 )
 
 // CSVParser type
@@ -49,11 +50,11 @@ func (p *CSVParser) Close() error {
 }
 
 // Parse ...
-func (p *CSVParser) Parse() ([]*tagger.Film, error) {
+func (p *CSVParser) Parse() ([]*types.Film, error) {
 	rd := bufio.NewReader(p.rc)
 
-	films := []*tagger.Film{}
-	var f *tagger.Film
+	films := []*types.Film{}
+	var f *types.Film
 	for {
 		str, err := rd.ReadString('\n')
 		if err != nil {
@@ -103,7 +104,7 @@ func (p *CSVParser) Parse() ([]*tagger.Film, error) {
 	return films, nil
 }
 
-func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*tagger.Film, error) {
+func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*types.Film, error) {
 	ss := strings.Split(s, ",")
 
 	tt, err := parseTimestamp(ss[6], ss[7], tz, timestmapFormat)
@@ -141,7 +142,7 @@ func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*tagger
 		return nil, errors.Wrap(err, "error parsing film title")
 	}
 
-	return &tagger.Film{
+	return &types.Film{
 		ID:                  fID,
 		CameraID:            cID,
 		Title:               title,
@@ -151,7 +152,7 @@ func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*tagger
 	}, nil
 }
 
-func parseFrameData(s string, tz *time.Location, timestampFormat string) (*tagger.Frame, error) {
+func parseFrameData(s string, tz *time.Location, timestampFormat string) (*types.Frame, error) {
 	ss := strings.Split(s, ",")
 	if len(ss) != 21 {
 		return nil, fmt.Errorf("wrong amount of columns for frame: %d: `%s`", len(ss), s)
@@ -258,7 +259,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*tagge
 		return nil, errors.Wrapf(err, "error parsing remarks value; frameNo=%d", *frameID)
 	}
 
-	f := &tagger.Frame{
+	f := &types.Frame{
 		Flag:                 flag,
 		Number:               frameID,
 		FocalLength:          focalLength,
