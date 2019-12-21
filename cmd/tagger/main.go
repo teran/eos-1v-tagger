@@ -7,6 +7,7 @@ import (
 
 	tagger "github.com/teran/eos-1v-tagger"
 	exiftool "github.com/teran/eos-1v-tagger/exiftool"
+	format "github.com/teran/eos-1v-tagger/format"
 	parser "github.com/teran/eos-1v-tagger/parser"
 )
 
@@ -35,7 +36,7 @@ func main() {
 
 	for _, film := range films {
 		for _, f := range film.Frames {
-			filename := tagger.Format(filenamePattern, map[string]interface{}{
+			filename := format.Format(filenamePattern, map[string]interface{}{
 				"filmID":   *film.ID,
 				"cameraID": *film.CameraID,
 				"frameNo":  *f.Number,
