@@ -43,7 +43,7 @@ func main() {
 				"frameNo":  *f.Number,
 			})
 
-			et := exiftool.NewExifToolFromFrame(exiftoolBinary, filename, f)
+			et := exiftool.NewFromFrame(exiftoolBinary, filename, f)
 
 			if setDigitized {
 				et.SetDateTimeDigitizedFromCreateDate()
@@ -71,7 +71,7 @@ func main() {
 			fmt.Println(et.Cmd())
 
 			if geotag != "" {
-				gt := exiftool.NewExifTool(exiftoolBinary, filename)
+				gt := exiftool.New(exiftoolBinary, filename)
 				gt.GeoTag(geotag)
 				fmt.Println(gt.Cmd())
 			}

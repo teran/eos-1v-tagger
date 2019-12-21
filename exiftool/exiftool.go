@@ -27,17 +27,17 @@ var (
 	exifToolDefaultOpts = []string{"-overwrite_original"}
 )
 
-// NewExifTool creates new ExifTool object
-func NewExifTool(binary, filename string) *ExifTool {
+// New creates new ExifTool object
+func New(binary, filename string) *ExifTool {
 	return &ExifTool{
 		binary:   binary,
 		filename: filename,
 	}
 }
 
-// NewExifToolFromFrame creates exiftool command right from frame object
-func NewExifToolFromFrame(binary, filename string, f *types.Frame) *ExifTool {
-	et := NewExifTool(binary, filename)
+// NewFromFrame creates exiftool command right from frame object
+func NewFromFrame(binary, filename string, f *types.Frame) *ExifTool {
+	et := New(binary, filename)
 
 	if f.AFMode != nil {
 		et.FocusMode(*f.AFMode)

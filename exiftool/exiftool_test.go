@@ -152,7 +152,7 @@ func TestExiftoolOptions(t *testing.T) {
 	}
 
 	for _, tc := range tcs {
-		e := NewExifTool("exiftool", tc.fname)
+		e := New("exiftool", tc.fname)
 		tc.f(e)
 
 		r.Equalf(
