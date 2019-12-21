@@ -293,7 +293,7 @@ func isEmptySliceOfStrings(ss []string) bool {
 }
 
 func parseTimestamp(d, t string, tz *time.Location, timestampFormat string) (*time.Time, error) {
-	if d == "" || t == "" {
+	if strings.TrimSpace(d) == "" || strings.TrimSpace(t) == "" {
 		return nil, ErrNotProvided
 	}
 	ts, err := time.ParseInLocation(timestampFormat, fmt.Sprintf("%vT%v", d, t), tz)
@@ -322,7 +322,7 @@ func parseFilmRemarks(s string) *string {
 }
 
 func parseString(s string) (*string, error) {
-	if s == "" {
+	if strings.TrimSpace(s) == "" {
 		return nil, ErrNotProvided
 	}
 
@@ -330,7 +330,7 @@ func parseString(s string) (*string, error) {
 }
 
 func parseFloat(s string) (*float64, error) {
-	if s == "" {
+	if strings.TrimSpace(s) == "" {
 		return nil, ErrNotProvided
 	}
 	f, err := strconv.ParseFloat(s, 64)
@@ -341,7 +341,7 @@ func parseFloat(s string) (*float64, error) {
 }
 
 func parseInt(s string) (*int64, error) {
-	if s == "" {
+	if strings.TrimSpace(s) == "" {
 		return nil, ErrNotProvided
 	}
 
@@ -375,7 +375,7 @@ func parseAperture(s string) (*float64, error) {
 }
 
 func parseExposure(s string) (*string, error) {
-	if s == "" {
+	if strings.TrimSpace(s) == "" {
 		return nil, ErrNotProvided
 	}
 	tv := s
