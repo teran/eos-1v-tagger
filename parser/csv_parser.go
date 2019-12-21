@@ -392,8 +392,12 @@ func parseCompensation(s string) (*float64, error) {
 	return parseFloat(s)
 }
 
-func parseFlashMode(s string) (*string, error) {
-	return parseString(s)
+func parseFlashMode(s string) (*types.FlashMode, error) {
+	fms, err := parseString(s)
+	if err != nil {
+		return nil, err
+	}
+	return types.FlashModeFromString(*fms)
 }
 
 func parseMeteringMode(s string) (*types.MeteringMode, error) {

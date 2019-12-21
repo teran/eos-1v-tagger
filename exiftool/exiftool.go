@@ -9,6 +9,8 @@ import (
 	types "github.com/teran/eos-1v-tagger/types"
 )
 
+// FIXME: handle flash data
+
 // ExifToolOption type
 type ExifToolOption struct {
 	key      string

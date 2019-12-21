@@ -13,7 +13,7 @@ type Frame struct {
 	ISO                  *int64
 	ExposureCompensation *float64
 	FlashCompensation    *float64
-	FlashMode            *string
+	FlashMode            *FlashMode
 	MeteringMode         *MeteringMode
 	ShootingMode         *ShootingMode
 	FilmAdvanceMode      *string
