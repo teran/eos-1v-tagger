@@ -6,6 +6,7 @@ import (
 	"log"
 
 	tagger "github.com/teran/eos-1v-tagger"
+	parser "github.com/teran/eos-1v-tagger/parser"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 		log.Fatalf("error loading timestamp format: %s", err)
 	}
 
-	t, err := tagger.NewCSVParser(flag.Arg(0), tz, tf)
+	t, err := parser.NewCSVParser(flag.Arg(0), tz, tf)
 	if err != nil {
 		log.Fatalf("error initializing CSV parser: %s", err)
 	}

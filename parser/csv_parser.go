@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+
+	tagger "github.com/teran/eos-1v-tagger"
 )
 
 // CSVParser type
@@ -47,11 +49,11 @@ func (p *CSVParser) Close() error {
 }
 
 // Parse ...
-func (p *CSVParser) Parse() ([]*Film, error) {
+func (p *CSVParser) Parse() ([]*tagger.Film, error) {
 	rd := bufio.NewReader(p.rc)
 
-	films := []*Film{}
-	var f *Film
+	films := []*tagger.Film{}
+	var f *tagger.Film
 	for {
 		str, err := rd.ReadString('\n')
 		if err != nil {
@@ -101,7 +103,7 @@ func (p *CSVParser) Parse() ([]*Film, error) {
 	return films, nil
 }
 
-func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*Film, error) {
+func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*tagger.Film, error) {
 	ss := strings.Split(s, ",")
 
 	tt, err := parseTimestamp(ss[6], ss[7], tz, timestmapFormat)
@@ -139,7 +141,7 @@ func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*Film, 
 		return nil, errors.Wrap(err, "error parsing film title")
 	}
 
-	return &Film{
+	return &tagger.Film{
 		ID:                  fID,
 		CameraID:            cID,
 		Title:               title,
@@ -149,7 +151,7 @@ func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*Film, 
 	}, nil
 }
 
-func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame, error) {
+func parseFrameData(s string, tz *time.Location, timestampFormat string) (*tagger.Frame, error) {
 	ss := strings.Split(s, ",")
 	if len(ss) != 21 {
 		return nil, fmt.Errorf("wrong amount of columns for frame: %d: `%s`", len(ss), s)
@@ -207,7 +209,8 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame
 
 	timestamp, err := parseTimestamp(ss[15], ss[16], tz, timestampFormat)
 	if err != nil && err != ErrNotProvided {
-		return nil, NewErrorWithSuffix(err, "Possible solution: consider using `-timestamp-format` to specify proper format for timestamps")
+		return nil, tagger.NewErrorWithSuffix(
+			err, "Possible solution: consider using `-timestamp-format` to specify proper format for timestamps")
 	}
 
 	batteryTimestamp, err := parseTimestamp(ss[18], ss[19], tz, timestampFormat)
@@ -255,7 +258,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*Frame
 		return nil, errors.Wrapf(err, "error parsing remarks value; frameNo=%d", *frameID)
 	}
 
-	f := &Frame{
+	f := &tagger.Frame{
 		Flag:                 flag,
 		Number:               frameID,
 		FocalLength:          focalLength,

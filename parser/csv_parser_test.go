@@ -6,15 +6,17 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
+
+	tagger "github.com/teran/eos-1v-tagger"
 )
 
 func TestTwoFilmsInSingleCSV(t *testing.T) {
 	r := require.New(t)
 
-	tz, err := LocationByTimeZone("CET")
+	tz, err := tagger.LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/two-films.csv", tz, TimestampFormatUS)
+	p, err := NewCSVParser("testdata/two-films.csv", tz, tagger.TimestampFormatUS)
 	r.NoError(err)
 	r.NotNil(p)
 
@@ -25,16 +27,16 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 
 	film, err := p.Parse()
 	r.NoError(err)
-	r.Equal([]*Film{
+	r.Equal([]*tagger.Film{
 		{
 			ID:                  ptrInt64(139),
 			CameraID:            ptrInt64(1),
 			Title:               ptrString("SampleTest film #139"),
-			FilmLoadedTimestamp: mustParseTimestamp(t, "09/28/2019T10:21:32", tz, TimestampFormatUS),
+			FilmLoadedTimestamp: mustParseTimestamp(t, "09/28/2019T10:21:32", tz, tagger.TimestampFormatUS),
 			FrameCount:          ptrInt64(2),
 			ISO:                 ptrInt64(400),
 			Remarks:             ptrString("test remarks data"),
-			Frames: []*Frame{
+			Frames: []*tagger.Frame{
 				{
 					Flag:                 ptrBool(false),
 					Number:               ptrInt64(1),
@@ -50,7 +52,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					FlashCompensation:    ptrFloat64(0),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
-					Timestamp:            mustParseTimestamp(t, "10/7/2019T20:02:18", tz, TimestampFormatUS),
+					Timestamp:            mustParseTimestamp(t, "10/7/2019T20:02:18", tz, tagger.TimestampFormatUS),
 					MultipleExposure:     ptrString("OFF"),
 					BatteryLoadedDate:    nil,
 					Remarks:              ptrString("test frame #1"),
@@ -68,7 +70,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
-					Timestamp:            mustParseTimestamp(t, "10/7/2019T20:02:29", tz, TimestampFormatUS),
+					Timestamp:            mustParseTimestamp(t, "10/7/2019T20:02:29", tz, tagger.TimestampFormatUS),
 					MultipleExposure:     ptrString("OFF"),
 					BatteryLoadedDate:    nil,
 					ExposureCompensation: ptrFloat64(-5),
@@ -81,11 +83,11 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 			ID:                  ptrInt64(140),
 			CameraID:            ptrInt64(1),
 			Title:               ptrString("SampleTest film #139 part II"),
-			FilmLoadedTimestamp: mustParseTimestamp(t, "10/07/2019T22:55:58", tz, TimestampFormatUS),
+			FilmLoadedTimestamp: mustParseTimestamp(t, "10/07/2019T22:55:58", tz, tagger.TimestampFormatUS),
 			FrameCount:          ptrInt64(2),
 			ISO:                 ptrInt64(400),
 			Remarks:             ptrString("test remarks data 2"),
-			Frames: []*Frame{
+			Frames: []*tagger.Frame{
 				{
 					Flag:                 ptrBool(false),
 					Number:               ptrInt64(1),
@@ -99,7 +101,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					ShootingMode:         ptrString("Program AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
-					Timestamp:            mustParseTimestamp(t, "10/13/2019T14:55:38", tz, TimestampFormatUS),
+					Timestamp:            mustParseTimestamp(t, "10/13/2019T14:55:38", tz, tagger.TimestampFormatUS),
 					MultipleExposure:     ptrString("OFF"),
 					BatteryLoadedDate:    nil,
 					ExposureCompensation: ptrFloat64(1),
@@ -119,7 +121,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
-					Timestamp:            mustParseTimestamp(t, "10/13/2019T14:55:55", tz, TimestampFormatUS),
+					Timestamp:            mustParseTimestamp(t, "10/13/2019T14:55:55", tz, tagger.TimestampFormatUS),
 					MultipleExposure:     ptrString("OFF"),
 					BatteryLoadedDate:    nil,
 					ExposureCompensation: ptrFloat64(-1),
@@ -134,10 +136,10 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 	r := require.New(t)
 
-	tz, err := LocationByTimeZone("CET")
+	tz, err := tagger.LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/film-with-partial-timestamps-eu.csv", tz, TimestampFormatEU)
+	p, err := NewCSVParser("testdata/film-with-partial-timestamps-eu.csv", tz, tagger.TimestampFormatEU)
 	r.NoError(err)
 	r.NotNil(p)
 
@@ -148,16 +150,16 @@ func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 
 	film, err := p.Parse()
 	r.NoError(err)
-	r.Equal([]*Film{
+	r.Equal([]*tagger.Film{
 		{
 			ID:                  ptrInt64(139),
 			CameraID:            ptrInt64(1),
 			Title:               ptrString("SampleTest film #139"),
-			FilmLoadedTimestamp: mustParseTimestamp(t, "28/09/2019T10:21:32", tz, TimestampFormatEU),
+			FilmLoadedTimestamp: mustParseTimestamp(t, "28/09/2019T10:21:32", tz, tagger.TimestampFormatEU),
 			FrameCount:          ptrInt64(2),
 			ISO:                 ptrInt64(400),
 			Remarks:             ptrString("test remarks data"),
-			Frames: []*Frame{
+			Frames: []*tagger.Frame{
 				{
 					Flag:                 ptrBool(false),
 					Number:               ptrInt64(1),
@@ -173,7 +175,7 @@ func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
-					Timestamp:            mustParseTimestamp(t, "15/07/2019T20:02:18", tz, TimestampFormatEU),
+					Timestamp:            mustParseTimestamp(t, "15/07/2019T20:02:18", tz, tagger.TimestampFormatEU),
 					MultipleExposure:     ptrString("OFF"),
 					BatteryLoadedDate:    nil,
 					Remarks:              ptrString("test frame #1"),
@@ -282,25 +284,25 @@ func TestIsFrameHeader(t *testing.T) {
 func TestPartialData(t *testing.T) {
 	r := require.New(t)
 
-	tz, err := LocationByTimeZone("CET")
+	tz, err := tagger.LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/partial-data.csv", tz, TimestampFormatUS)
+	p, err := NewCSVParser("testdata/partial-data.csv", tz, tagger.TimestampFormatUS)
 	r.NoError(err)
 	r.NotNil(p)
 
 	film, err := p.Parse()
 	r.NoError(err)
-	r.Equal([]*Film{
+	r.Equal([]*tagger.Film{
 		{
 			ID:                  ptrInt64(119),
 			CameraID:            ptrInt64(1),
 			Title:               ptrString("sample test film#119"),
-			FilmLoadedTimestamp: mustParseTimestamp(t, "09/28/2019T10:21:32", tz, TimestampFormatUS),
+			FilmLoadedTimestamp: mustParseTimestamp(t, "09/28/2019T10:21:32", tz, tagger.TimestampFormatUS),
 			FrameCount:          ptrInt64(2),
 			ISO:                 ptrInt64(400),
 			Remarks:             ptrString("test remarks data"),
-			Frames: []*Frame{
+			Frames: []*tagger.Frame{
 				{
 					Flag:                 ptrBool(false),
 					Number:               ptrInt64(1),
@@ -452,7 +454,7 @@ func TestPartialData(t *testing.T) {
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
-					Timestamp:            mustParseTimestamp(t, "07/10/2019T20:02:18", tz, TimestampFormatEU),
+					Timestamp:            mustParseTimestamp(t, "07/10/2019T20:02:18", tz, tagger.TimestampFormatEU),
 				},
 				{
 					Flag:                 ptrBool(true),
@@ -470,7 +472,7 @@ func TestPartialData(t *testing.T) {
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
 					MultipleExposure:     ptrString("OFF"),
-					Timestamp:            mustParseTimestamp(t, "07/10/2019T20:02:18", tz, TimestampFormatEU),
+					Timestamp:            mustParseTimestamp(t, "07/10/2019T20:02:18", tz, tagger.TimestampFormatEU),
 					Remarks:              ptrString("test frame #1"),
 				},
 			},
@@ -481,10 +483,10 @@ func TestPartialData(t *testing.T) {
 func TestEmptyFrame(t *testing.T) {
 	r := require.New(t)
 
-	tz, err := LocationByTimeZone("CET")
+	tz, err := tagger.LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/empty-frame.csv", tz, TimestampFormatUS)
+	p, err := NewCSVParser("testdata/empty-frame.csv", tz, tagger.TimestampFormatUS)
 	r.NoError(err)
 	r.NotNil(p)
 
