@@ -30,8 +30,8 @@ var (
 	ErrNotProvided = errors.New("value is not provided")
 )
 
-// NewCSVParser creates new CSVParser object
-func NewCSVParser(fn string, tz *time.Location, timestampFormat string) (*CSVParser, error) {
+// New creates new CSVParser object
+func New(fn string, tz *time.Location, timestampFormat string) (*CSVParser, error) {
 	fp, err := os.Open(fn)
 	if err != nil {
 		return nil, err

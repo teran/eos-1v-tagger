@@ -17,7 +17,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 	tz, err := tagger.LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/two-films.csv", tz, types.TimestampFormatUS)
+	p, err := New("testdata/two-films.csv", tz, types.TimestampFormatUS)
 	r.NoError(err)
 	r.NotNil(p)
 
@@ -140,7 +140,7 @@ func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 	tz, err := tagger.LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/film-with-partial-timestamps-eu.csv", tz, types.TimestampFormatEU)
+	p, err := New("testdata/film-with-partial-timestamps-eu.csv", tz, types.TimestampFormatEU)
 	r.NoError(err)
 	r.NotNil(p)
 
@@ -288,7 +288,7 @@ func TestPartialData(t *testing.T) {
 	tz, err := tagger.LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/partial-data.csv", tz, types.TimestampFormatUS)
+	p, err := New("testdata/partial-data.csv", tz, types.TimestampFormatUS)
 	r.NoError(err)
 	r.NotNil(p)
 
@@ -487,7 +487,7 @@ func TestEmptyFrame(t *testing.T) {
 	tz, err := tagger.LocationByTimeZone("CET")
 	r.NoError(err)
 
-	p, err := NewCSVParser("testdata/empty-frame.csv", tz, types.TimestampFormatUS)
+	p, err := New("testdata/empty-frame.csv", tz, types.TimestampFormatUS)
 	r.NoError(err)
 	r.NotNil(p)
 

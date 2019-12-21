@@ -25,7 +25,7 @@ func main() {
 		log.Fatalf("error loading timestamp format: %s", err)
 	}
 
-	t, err := parser.NewCSVParser(flag.Arg(0), tz, tf)
+	t, err := parser.New(flag.Arg(0), tz, tf)
 	if err != nil {
 		log.Fatalf("error initializing CSV parser: %s", err)
 	}
