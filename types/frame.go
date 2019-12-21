@@ -16,7 +16,7 @@ type Frame struct {
 	FlashMode            *FlashMode
 	MeteringMode         *MeteringMode
 	ShootingMode         *ShootingMode
-	FilmAdvanceMode      *string
+	FilmAdvanceMode      *FilmAdvanceMode
 	AFMode               *AFMode
 	BulbExposureTime     *string
 	Timestamp            *time.Time

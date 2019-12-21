@@ -416,8 +416,12 @@ func parseShootingMode(s string) (*types.ShootingMode, error) {
 	return types.ShootingModeFromString(*sms)
 }
 
-func parseFilmAdvanceMode(s string) (*string, error) {
-	return parseString(s)
+func parseFilmAdvanceMode(s string) (*types.FilmAdvanceMode, error) {
+	fams, err := parseString(s)
+	if err != nil {
+		return nil, err
+	}
+	return types.FilmAdvanceModeFromString(*fams)
 }
 
 func parseAFMode(s string) (*types.AFMode, error) {
