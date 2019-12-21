@@ -396,8 +396,12 @@ func parseFlashMode(s string) (*string, error) {
 	return parseString(s)
 }
 
-func parseMeteringMode(s string) (*string, error) {
-	return parseString(s)
+func parseMeteringMode(s string) (*types.MeteringMode, error) {
+	mms, err := parseString(s)
+	if err != nil {
+		return nil, err
+	}
+	return types.MeteringModeFromString(*mms)
 }
 
 func parseShootingMode(s string) (*string, error) {

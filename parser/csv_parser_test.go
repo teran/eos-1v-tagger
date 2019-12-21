@@ -47,7 +47,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					Av:                   ptrFloat64(1.4),
 					ISO:                  ptrInt64(400),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					ExposureCompensation: ptrFloat64(0),
 					FlashCompensation:    ptrFloat64(0),
@@ -67,7 +67,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					Av:                   ptrFloat64(1.4),
 					ISO:                  ptrInt64(400),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
@@ -98,7 +98,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					Av:                   ptrFloat64(1.4),
 					ISO:                  ptrInt64(200),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Program AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
@@ -118,7 +118,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					Av:                   ptrFloat64(1.4),
 					ISO:                  ptrInt64(800),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
@@ -170,7 +170,7 @@ func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 					Av:                   ptrFloat64(1.4),
 					ISO:                  ptrInt64(400),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ExposureCompensation: ptrFloat64(0),
 					FlashCompensation:    ptrFloat64(0),
 					ShootingMode:         ptrString("Aperture-priority AE"),
@@ -190,7 +190,7 @@ func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 					Av:                   ptrFloat64(1.4),
 					ISO:                  ptrInt64(400),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
@@ -393,7 +393,7 @@ func TestPartialData(t *testing.T) {
 					ExposureCompensation: ptrFloat64(1.3),
 					FlashCompensation:    ptrFloat64(-3.2),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 				},
 				{
 					Flag:                 ptrBool(false),
@@ -406,7 +406,7 @@ func TestPartialData(t *testing.T) {
 					ExposureCompensation: ptrFloat64(1.3),
 					FlashCompensation:    ptrFloat64(-3.2),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 				},
 				{
@@ -420,7 +420,7 @@ func TestPartialData(t *testing.T) {
 					ExposureCompensation: ptrFloat64(1.3),
 					FlashCompensation:    ptrFloat64(-3.2),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 				},
@@ -435,7 +435,7 @@ func TestPartialData(t *testing.T) {
 					ExposureCompensation: ptrFloat64(1.3),
 					FlashCompensation:    ptrFloat64(-3.2),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
@@ -451,7 +451,7 @@ func TestPartialData(t *testing.T) {
 					ExposureCompensation: ptrFloat64(1.3),
 					FlashCompensation:    ptrFloat64(-3.2),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
@@ -468,7 +468,7 @@ func TestPartialData(t *testing.T) {
 					ExposureCompensation: ptrFloat64(1.3),
 					FlashCompensation:    ptrFloat64(-3.2),
 					FlashMode:            ptrString("OFF"),
-					MeteringMode:         ptrString("Evaluative"),
+					MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
 					ShootingMode:         ptrString("Aperture-priority AE"),
 					FilmAdvanceMode:      ptrString("Single-frame"),
 					AFMode:               ptrString("One-Shot AF"),
@@ -508,7 +508,8 @@ func mustParseTimestamp(t *testing.T, ts string, tz *time.Location, tf string) *
 	return tt
 }
 
-func ptrInt64(i int64) *int64       { return &i }
-func ptrFloat64(f float64) *float64 { return &f }
-func ptrString(s string) *string    { return &s }
-func ptrBool(b bool) *bool          { return &b }
+func ptrInt64(i int64) *int64                                   { return &i }
+func ptrFloat64(f float64) *float64                             { return &f }
+func ptrString(s string) *string                                { return &s }
+func ptrBool(b bool) *bool                                      { return &b }
+func ptrMeteringMode(mm types.MeteringMode) *types.MeteringMode { return &mm }

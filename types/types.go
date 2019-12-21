@@ -14,7 +14,7 @@ type Frame struct {
 	ExposureCompensation *float64
 	FlashCompensation    *float64
 	FlashMode            *string
-	MeteringMode         *string
+	MeteringMode         *MeteringMode
 	ShootingMode         *string
 	FilmAdvanceMode      *string
 	AFMode               *string
