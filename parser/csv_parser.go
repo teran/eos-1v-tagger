@@ -436,8 +436,12 @@ func parseBulbExposureTime(s string) (*string, error) {
 	return parseString(s)
 }
 
-func parseMultipleExposure(s string) (*string, error) {
-	return parseString(s)
+func parseMultipleExposure(s string) (*types.MultipleExposure, error) {
+	mes, err := parseString(s)
+	if err != nil {
+		return nil, err
+	}
+	return types.MultipleExposureFromString(*mes)
 }
 
 func parseRemarks(s string) (*string, error) {

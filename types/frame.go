@@ -20,7 +20,7 @@ type Frame struct {
 	AFMode               *AFMode
 	BulbExposureTime     *string
 	Timestamp            *time.Time
-	MultipleExposure     *string
+	MultipleExposure     *MultipleExposure
 	BatteryLoadedDate    *time.Time
 	Remarks              *string
 }

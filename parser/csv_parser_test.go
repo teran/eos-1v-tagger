@@ -54,7 +54,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					FilmAdvanceMode:      ptrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
 					AFMode:               ptrAFMode(types.AFModeOneShotAF),
 					Timestamp:            mustParseTimestamp(t, "10/7/2019T20:02:18", tz, types.TimestampFormatUS),
-					MultipleExposure:     ptrString("OFF"),
+					MultipleExposure:     ptrMultipleExposure(types.MultipleExposureOff),
 					BatteryLoadedDate:    nil,
 					Remarks:              ptrString("test frame #1"),
 				},
@@ -72,7 +72,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					FilmAdvanceMode:      ptrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
 					AFMode:               ptrAFMode(types.AFModeOneShotAF),
 					Timestamp:            mustParseTimestamp(t, "10/7/2019T20:02:29", tz, types.TimestampFormatUS),
-					MultipleExposure:     ptrString("OFF"),
+					MultipleExposure:     ptrMultipleExposure(types.MultipleExposureOff),
 					BatteryLoadedDate:    nil,
 					ExposureCompensation: ptrFloat64(-5),
 					FlashCompensation:    ptrFloat64(-4.5),
@@ -103,7 +103,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					FilmAdvanceMode:      ptrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
 					AFMode:               ptrAFMode(types.AFModeOneShotAF),
 					Timestamp:            mustParseTimestamp(t, "10/13/2019T14:55:38", tz, types.TimestampFormatUS),
-					MultipleExposure:     ptrString("OFF"),
+					MultipleExposure:     ptrMultipleExposure(types.MultipleExposureOff),
 					BatteryLoadedDate:    nil,
 					ExposureCompensation: ptrFloat64(1),
 					FlashCompensation:    ptrFloat64(2),
@@ -123,7 +123,7 @@ func TestTwoFilmsInSingleCSV(t *testing.T) {
 					FilmAdvanceMode:      ptrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
 					AFMode:               ptrAFMode(types.AFModeOneShotAF),
 					Timestamp:            mustParseTimestamp(t, "10/13/2019T14:55:55", tz, types.TimestampFormatUS),
-					MultipleExposure:     ptrString("OFF"),
+					MultipleExposure:     ptrMultipleExposure(types.MultipleExposureOff),
 					BatteryLoadedDate:    nil,
 					ExposureCompensation: ptrFloat64(-1),
 					FlashCompensation:    ptrFloat64(-2),
@@ -177,7 +177,7 @@ func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 					FilmAdvanceMode:      ptrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
 					AFMode:               ptrAFMode(types.AFModeOneShotAF),
 					Timestamp:            mustParseTimestamp(t, "15/07/2019T20:02:18", tz, types.TimestampFormatEU),
-					MultipleExposure:     ptrString("OFF"),
+					MultipleExposure:     ptrMultipleExposure(types.MultipleExposureOff),
 					BatteryLoadedDate:    nil,
 					Remarks:              ptrString("test frame #1"),
 				},
@@ -195,7 +195,7 @@ func TestFilmWithPartialTimestampsEUFormatted(t *testing.T) {
 					FilmAdvanceMode:      ptrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
 					AFMode:               ptrAFMode(types.AFModeOneShotAF),
 					Timestamp:            nil,
-					MultipleExposure:     ptrString("OFF"),
+					MultipleExposure:     ptrMultipleExposure(types.MultipleExposureOff),
 					BatteryLoadedDate:    nil,
 					ExposureCompensation: ptrFloat64(-5),
 					FlashCompensation:    ptrFloat64(-4.5),
@@ -472,7 +472,7 @@ func TestPartialData(t *testing.T) {
 					ShootingMode:         ptrShootingMode(types.ShootingModeAperturePriorityAE),
 					FilmAdvanceMode:      ptrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
 					AFMode:               ptrAFMode(types.AFModeOneShotAF),
-					MultipleExposure:     ptrString("OFF"),
+					MultipleExposure:     ptrMultipleExposure(types.MultipleExposureOff),
 					Timestamp:            mustParseTimestamp(t, "07/10/2019T20:02:18", tz, types.TimestampFormatEU),
 					Remarks:              ptrString("test frame #1"),
 				},
@@ -508,12 +508,13 @@ func mustParseTimestamp(t *testing.T, ts string, tz *time.Location, tf string) *
 	return tt
 }
 
-func ptrInt64(i int64) *int64                                             { return &i }
-func ptrFloat64(f float64) *float64                                       { return &f }
-func ptrString(s string) *string                                          { return &s }
-func ptrBool(b bool) *bool                                                { return &b }
-func ptrMeteringMode(mm types.MeteringMode) *types.MeteringMode           { return &mm }
-func ptrShootingMode(sm types.ShootingMode) *types.ShootingMode           { return &sm }
-func ptrAFMode(am types.AFMode) *types.AFMode                             { return &am }
-func ptrFlashMode(fm types.FlashMode) *types.FlashMode                    { return &fm }
-func ptrFilmAdvanceMode(fam types.FilmAdvanceMode) *types.FilmAdvanceMode { return &fam }
+func ptrInt64(i int64) *int64                                               { return &i }
+func ptrFloat64(f float64) *float64                                         { return &f }
+func ptrString(s string) *string                                            { return &s }
+func ptrBool(b bool) *bool                                                  { return &b }
+func ptrMeteringMode(mm types.MeteringMode) *types.MeteringMode             { return &mm }
+func ptrShootingMode(sm types.ShootingMode) *types.ShootingMode             { return &sm }
+func ptrAFMode(am types.AFMode) *types.AFMode                               { return &am }
+func ptrFlashMode(fm types.FlashMode) *types.FlashMode                      { return &fm }
+func ptrFilmAdvanceMode(fam types.FilmAdvanceMode) *types.FilmAdvanceMode   { return &fam }
+func ptrMultipleExposure(me types.MultipleExposure) *types.MultipleExposure { return &me }
