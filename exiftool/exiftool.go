@@ -62,7 +62,9 @@ func NewFromFrame(binary, filename string, f *types.Frame) *ExifTool {
 	}
 
 	if f.MeteringMode != nil {
-		et.MeteringMode(f.MeteringMode.String())
+		for k, v := range f.MeteringMode.EXIFValue() {
+			et.add(k, v)
+		}
 	}
 
 	if f.ShootingMode != nil {

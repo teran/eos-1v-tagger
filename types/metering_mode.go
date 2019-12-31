@@ -6,6 +6,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+var _ EXIFValuer = (*MeteringMode)(nil)
+
 // MeteringMode ...
 type MeteringMode string
 
@@ -46,4 +48,41 @@ func MeteringModeFromString(s string) (mm *MeteringMode, err error) {
 
 func (mm *MeteringMode) String() string {
 	return string(*mm)
+}
+
+// EXIFValue ...
+func (mm *MeteringMode) EXIFValue() EXIFValue {
+	return EXIFValue{
+		"ExifIFD:MeteringMode":                mm.exifIFDValue(),
+		"Canon:MeteringMode":                  mm.exifCanonValue(),
+		"CanonCustom:PF2DisableMeteringModes": "Off",
+	}
+}
+
+func (mm *MeteringMode) exifIFDValue() string {
+	switch *mm {
+	case MeteringModeEvaluative:
+		return "Multi-Segment"
+	case MeteringModePartial:
+		return "Partial"
+	case MeteringModeSpot:
+		return "Spot"
+	case MeteringModeCenterAveraging:
+		return "Center-weighted average"
+	}
+	return "Unknown"
+}
+
+func (mm *MeteringMode) exifCanonValue() string {
+	switch *mm {
+	case MeteringModeEvaluative:
+		return "Evaluative"
+	case MeteringModePartial:
+		return "Partial"
+	case MeteringModeSpot:
+		return "Spot"
+	case MeteringModeCenterAveraging:
+		return "Center-weighted average"
+	}
+	return "Unknown"
 }
