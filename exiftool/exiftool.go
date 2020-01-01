@@ -197,6 +197,14 @@ func (e *ExifTool) Timestamp(t time.Time) *ExifTool {
 	return e
 }
 
+// GeoTime sets Geotime tag to align against GPS tracking files
+func (e *ExifTool) GeoTime(t time.Time) *ExifTool {
+	ts := t.Format(types.GeoTimeFormat)
+	e.add("GeoTime", ts)
+
+	return e
+}
+
 func (e *ExifTool) add(k, v string) {
 	e.options = append(e.options, ExifToolOption{
 		key:      k,

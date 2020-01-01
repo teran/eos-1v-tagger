@@ -110,6 +110,15 @@ func TestExiftoolOptions(t *testing.T) {
 			expCommand: `"-GeoTag=blah.log" "test-file-with-geotag"`,
 		},
 		{
+			name:  "geotime specified",
+			fname: "test-file-with-geotime",
+			f: func(e *ExifTool) {
+				ts := time.Date(2001, 3, 14, 15, 32, 53, 0, time.UTC)
+				e.GeoTime(ts)
+			},
+			expCommand: `"-GeoTime=2001:03:14 15:32:53Z" "test-file-with-geotime"`,
+		},
+		{
 			name:  "DateTimeDigitized copied from CreateDate",
 			fname: "test-file-with-date-time-digitized",
 			f: func(e *ExifTool) {

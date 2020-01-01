@@ -68,13 +68,12 @@ func main() {
 				et.FileSource(fileSource)
 			}
 
-			fmt.Println(et.Cmd())
-
 			if geotag != "" {
-				gt := exiftool.New(exiftoolBinary, filename)
-				gt.GeoTag(geotag)
-				fmt.Println(gt.Cmd())
+				et.GeoTime(*f.Timestamp)
+				et.GeoTag(geotag)
 			}
+
+			fmt.Println(et.Cmd())
 		}
 	}
 }
