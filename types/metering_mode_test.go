@@ -24,7 +24,7 @@ func TestMeteringMode(t *testing.T) {
 			input:     "Evaluative",
 			expOutput: ptrMeteringMode(MeteringModeEvaluative),
 			expEXIFValue: EXIFValue{
-				"ExifIFD:MeteringMode":                "Multi-segment",
+				"ExifIFD:MeteringMode":                "Multi-Segment",
 				"Canon:MeteringMode":                  "Evaluative",
 				"CanonCustom:PF2DisableMeteringModes": "Off",
 			},
@@ -85,6 +85,7 @@ func TestMeteringMode(t *testing.T) {
 		sm, err := MeteringModeFromString(tc.input)
 		if tc.expError == nil {
 			r.Equalf(tc.expOutput, sm, tc.name)
+			r.Equalf(tc.expEXIFValue, sm.EXIFValue(), tc.name)
 			r.NoErrorf(err, tc.name)
 		} else {
 			r.Errorf(err, tc.name)
