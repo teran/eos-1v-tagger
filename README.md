@@ -1,8 +1,8 @@
 # EOS 1V Tagger
 
-![GitHub](https://img.shields.io/github/license/teran/eos-1v-tagger)
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/teran/eos-1v-tagger?include_prereleases)
-![GitHub last commit](https://img.shields.io/github/last-commit/teran/eos-1v-tagger)
+[![GitHub](https://img.shields.io/github/license/teran/eos-1v-tagger)](https://github.com/teran/eos-1v-tagger/blob/master/LICENSE)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/teran/eos-1v-tagger?include_prereleases)](https://github.com/teran/eos-1v-tagger/releases)
+[![GitHub last commit](https://img.shields.io/github/last-commit/teran/eos-1v-tagger)](https://github.com/teran/eos-1v-tagger/commit/HEAD)
 
 ## Intro
 
