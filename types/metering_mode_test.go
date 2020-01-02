@@ -15,6 +15,7 @@ func TestMeteringMode(t *testing.T) {
 		input        string
 		expOutput    *MeteringMode
 		expEXIFValue EXIFValue
+		expString    string
 		expError     error
 	}
 
@@ -23,6 +24,7 @@ func TestMeteringMode(t *testing.T) {
 			name:      "Evaluative",
 			input:     "Evaluative",
 			expOutput: ptrMeteringMode(MeteringModeEvaluative),
+			expString: "Evaluative",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Multi-Segment",
 				"Canon:MeteringMode":                  "Evaluative",
@@ -33,6 +35,7 @@ func TestMeteringMode(t *testing.T) {
 			name:      "Partial",
 			input:     "Partial",
 			expOutput: ptrMeteringMode(MeteringModePartial),
+			expString: "Partial",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Partial",
 				"Canon:MeteringMode":                  "Partial",
@@ -43,6 +46,7 @@ func TestMeteringMode(t *testing.T) {
 			name:      "Spot",
 			input:     "Spot",
 			expOutput: ptrMeteringMode(MeteringModeSpot),
+			expString: "Spot",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Spot",
 				"Canon:MeteringMode":                  "Spot",
@@ -53,6 +57,7 @@ func TestMeteringMode(t *testing.T) {
 			name:      "Center Averaging",
 			input:     "Center Averaging",
 			expOutput: ptrMeteringMode(MeteringModeCenterAveraging),
+			expString: "Center Averaging",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Center-weighted average",
 				"Canon:MeteringMode":                  "Center-weighted average",
@@ -63,6 +68,7 @@ func TestMeteringMode(t *testing.T) {
 			name:      "Center Averaging with spaces",
 			input:     "      Center Averaging    ",
 			expOutput: ptrMeteringMode(MeteringModeCenterAveraging),
+			expString: "Center Averaging",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Center-weighted average",
 				"Canon:MeteringMode":                  "Center-weighted average",
@@ -85,6 +91,7 @@ func TestMeteringMode(t *testing.T) {
 		sm, err := MeteringModeFromString(tc.input)
 		if tc.expError == nil {
 			r.Equalf(tc.expOutput, sm, tc.name)
+			r.Equalf(tc.expString, sm.String(), tc.name)
 			r.Equalf(tc.expEXIFValue, sm.EXIFValue(), tc.name)
 			r.NoErrorf(err, tc.name)
 		} else {
