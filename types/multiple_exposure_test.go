@@ -14,6 +14,7 @@ func TestMultipleExposure(t *testing.T) {
 		name      string
 		input     string
 		expOutput *MultipleExposure
+		expString string
 		expError  error
 	}
 
@@ -21,16 +22,19 @@ func TestMultipleExposure(t *testing.T) {
 		{
 			name:      "ON",
 			input:     "ON",
+			expString: "ON",
 			expOutput: ptrMultipleExposure(MultipleExposureOn),
 		},
 		{
 			name:      "OFF",
 			input:     "OFF",
+			expString: "OFF",
 			expOutput: ptrMultipleExposure(MultipleExposureOff),
 		},
 		{
 			name:      "OFF with spaces",
 			input:     "      OFF    ",
+			expString: "OFF",
 			expOutput: ptrMultipleExposure(MultipleExposureOff),
 		},
 		{
@@ -49,6 +53,7 @@ func TestMultipleExposure(t *testing.T) {
 		sm, err := MultipleExposureFromString(tc.input)
 		if tc.expError == nil {
 			r.Equalf(tc.expOutput, sm, tc.name)
+			r.Equalf(tc.expString, sm.String(), tc.name)
 			r.NoErrorf(err, tc.name)
 		} else {
 			r.Errorf(err, tc.name)
