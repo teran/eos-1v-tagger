@@ -257,8 +257,23 @@ func TestFromFrame(t *testing.T) {
 					operator: "=",
 				},
 				{
-					key:      "ShootingMode",
+					key:      "ExifIFD:ExposureProgram",
 					value:    "Program AE",
+					operator: "=",
+				},
+				{
+					key:      "Canon:CanonExposureMode",
+					value:    "Program AE",
+					operator: "=",
+				},
+				{
+					key:      "CanonCustom:PF1DisableShootingModes",
+					value:    "Off",
+					operator: "=",
+				},
+				{
+					key:      "CanonCustom:PF6PresetShootingModes",
+					value:    "Off",
 					operator: "=",
 				},
 				{

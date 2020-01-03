@@ -6,6 +6,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+var _ EXIFValuer = (*ShootingMode)(nil)
+
 // ShootingMode ...
 type ShootingMode string
 
@@ -56,4 +58,50 @@ func ShootingModeFromString(s string) (sm *ShootingMode, err error) {
 
 func (sm *ShootingMode) String() string {
 	return string(*sm)
+}
+
+// EXIFValue ...
+func (sm *ShootingMode) EXIFValue() EXIFValue {
+	return EXIFValue{
+		"ExifIFD:ExposureProgram":             sm.exifIFDValue(),
+		"Canon:CanonExposureMode":             sm.exifCanonValue(),
+		"CanonCustom:PF1DisableShootingModes": "Off",
+		"CanonCustom:PF6PresetShootingModes":  "Off",
+	}
+}
+
+func (sm *ShootingMode) exifIFDValue() string {
+	switch *sm {
+	case ShootingModeProgramAE:
+		return "Program AE"
+	case ShootingModeShutterSpeedPriorityAE:
+		return "Shutter speed priority AE"
+	case ShootingModeAperturePriorityAE:
+		return "Aperture-priority AE"
+	case ShootingModeDepthOfFieldAE:
+		return "Not Defined"
+	case ShootingModeManualExposure:
+		return "Manual"
+	case ShootingModeBulb:
+		return "Bulb"
+	}
+	return "Not Defined"
+}
+
+func (sm *ShootingMode) exifCanonValue() string {
+	switch *sm {
+	case ShootingModeProgramAE:
+		return "Program AE"
+	case ShootingModeShutterSpeedPriorityAE:
+		return "Shutter speed priority AE"
+	case ShootingModeAperturePriorityAE:
+		return "Aperture-priority AE"
+	case ShootingModeDepthOfFieldAE:
+		return "Depth-of-field AE"
+	case ShootingModeManualExposure:
+		return "Manual"
+	case ShootingModeBulb:
+		return "Bulb"
+	}
+	return "Easy"
 }
