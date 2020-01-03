@@ -71,7 +71,7 @@ func NewFromFrame(binary, filename string, f *types.Frame) *ExifTool {
 		et.ShootingMode(f.ShootingMode.String())
 	}
 
-	if !f.Timestamp.IsZero() {
+	if f.Timestamp != nil && !f.Timestamp.IsZero() {
 		et.Timestamp(*f.Timestamp)
 	}
 
@@ -226,7 +226,7 @@ func (e *ExifTool) Cmd() string {
 	cmd := e.binary
 	cmd += " " + strings.Join(exifToolDefaultOpts, " ")
 
-	for _, o := range e.options {
+	for _, o := range e.Options() {
 		cmd += " "
 		cmd += strconv.Quote("-" + o.key + o.operator + o.value)
 	}
@@ -234,4 +234,9 @@ func (e *ExifTool) Cmd() string {
 	cmd += fmt.Sprintf(` "%s"`, e.filename)
 
 	return cmd
+}
+
+// Options returns options list
+func (e *ExifTool) Options() []ExifToolOption {
+	return e.options
 }
