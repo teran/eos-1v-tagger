@@ -6,6 +6,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+var _ EXIFValuer = (*AFMode)(nil)
+
 // AFMode ...
 type AFMode string
 
@@ -41,4 +43,11 @@ func AFModeFromString(s string) (am *AFMode, err error) {
 
 func (am *AFMode) String() string {
 	return string(*am)
+}
+
+// EXIFValue ...
+func (am *AFMode) EXIFValue() EXIFValue {
+	return EXIFValue{
+		"Canon:FocusMode": am.String(),
+	}
 }

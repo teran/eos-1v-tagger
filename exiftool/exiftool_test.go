@@ -207,7 +207,7 @@ func TestFromFrame(t *testing.T) {
 			},
 			expOptions: []ExifToolOption{
 				{
-					key:      "FocusMode",
+					key:      "Canon:FocusMode",
 					value:    "One-Shot AF",
 					operator: "=",
 				},
