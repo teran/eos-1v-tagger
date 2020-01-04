@@ -127,13 +127,6 @@ func (e *ExifTool) FocalLength(fl int64) *ExifTool {
 	return e
 }
 
-// FocusMode sets Focus mode parameters to exiftool command
-func (e *ExifTool) FocusMode(m string) *ExifTool {
-	e.add("FocusMode", m)
-
-	return e
-}
-
 // GeoTag adds `-geotag` to exiftool command
 func (e *ExifTool) GeoTag(filename string) *ExifTool {
 	e.add("GeoTag", filename)
@@ -164,13 +157,6 @@ func (e *ExifTool) Model(m string) *ExifTool {
 	return e
 }
 
-// MeteringMode sets metering mode parameters to exiftool command
-func (e *ExifTool) MeteringMode(m string) *ExifTool {
-	e.add("MeteringMode", m)
-
-	return e
-}
-
 // SerialNumber sets SerialNumber parameters to exiftool command
 func (e *ExifTool) SerialNumber(sn string) *ExifTool {
 	e.add("SerialNumber", sn)
@@ -181,13 +167,6 @@ func (e *ExifTool) SerialNumber(sn string) *ExifTool {
 // SetDateTimeDigitizedFromCreateDate sets SetDateTimeDigitized from CreateDate field
 func (e *ExifTool) SetDateTimeDigitizedFromCreateDate() *ExifTool {
 	e.copy("CreateDate", "DateTimeDigitized")
-
-	return e
-}
-
-// ShootingMode sets shooting mode parameters to exiftool command
-func (e *ExifTool) ShootingMode(m string) *ExifTool {
-	e.add("ShootingMode", m)
 
 	return e
 }

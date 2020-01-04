@@ -68,30 +68,6 @@ func TestExiftoolOptions(t *testing.T) {
 			expCommand: `"-ExposureCompensation=0.5" "test-file-with-exposure-compensation"`,
 		},
 		{
-			name:  "metering mode specified",
-			fname: "test-file-with-metering-mode",
-			f: func(e *ExifTool) {
-				e.MeteringMode("Evaluative")
-			},
-			expCommand: `"-MeteringMode=Evaluative" "test-file-with-metering-mode"`,
-		},
-		{
-			name:  "shooting mode specified",
-			fname: "test-file-with-shooting-mode",
-			f: func(e *ExifTool) {
-				e.ShootingMode("Aperture-priority AE")
-			},
-			expCommand: `"-ShootingMode=Aperture-priority AE" "test-file-with-shooting-mode"`,
-		},
-		{
-			name:  "focus mode specified",
-			fname: "test-file-with-focus-mode",
-			f: func(e *ExifTool) {
-				e.FocusMode("One-Shot AF")
-			},
-			expCommand: `"-FocusMode=One-Shot AF" "test-file-with-focus-mode"`,
-		},
-		{
 			name:  "timestamp specified",
 			fname: "test-file-with-timestamp",
 			f: func(e *ExifTool) {
