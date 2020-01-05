@@ -1,9 +1,14 @@
 package types
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
+)
+
+var (
+	_ fmt.Stringer = (*MultipleExposure)(nil)
 )
 
 // MultipleExposure ...

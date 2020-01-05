@@ -6,7 +6,10 @@ import (
 	"strings"
 )
 
-var _ EXIFValuer = (*Aperture)(nil)
+var (
+	_ EXIFValuer   = (*Aperture)(nil)
+	_ fmt.Stringer = (*Aperture)(nil)
+)
 
 // Aperture ...
 type Aperture float64

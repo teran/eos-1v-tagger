@@ -1,12 +1,16 @@
 package types
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
 )
 
-var _ EXIFValuer = (*FlashMode)(nil)
+var (
+	_ EXIFValuer   = (*FlashMode)(nil)
+	_ fmt.Stringer = (*FlashMode)(nil)
+)
 
 // FlashMode ...
 type FlashMode string

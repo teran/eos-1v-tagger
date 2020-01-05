@@ -1,12 +1,16 @@
 package types
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
 )
 
-var _ EXIFValuer = (*MeteringMode)(nil)
+var (
+	_ EXIFValuer   = (*MeteringMode)(nil)
+	_ fmt.Stringer = (*MeteringMode)(nil)
+)
 
 // MeteringMode ...
 type MeteringMode string

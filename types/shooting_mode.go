@@ -1,12 +1,16 @@
 package types
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
 )
 
-var _ EXIFValuer = (*ShootingMode)(nil)
+var (
+	_ EXIFValuer   = (*ShootingMode)(nil)
+	_ fmt.Stringer = (*ShootingMode)(nil)
+)
 
 // ShootingMode ...
 type ShootingMode string
