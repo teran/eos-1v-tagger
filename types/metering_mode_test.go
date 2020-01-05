@@ -100,3 +100,16 @@ func TestMeteringMode(t *testing.T) {
 		}
 	}
 }
+
+func TestMeteringModeWithUnexpectedValue(t *testing.T) {
+	r := require.New(t)
+
+	v := MeteringMode("blah")
+
+	r.Equal("blah", v.String())
+	r.Equal(EXIFValue{
+		"Canon:MeteringMode":                  "Unknown",
+		"CanonCustom:PF2DisableMeteringModes": "Off",
+		"ExifIFD:MeteringMode":                "Unknown",
+	}, v.EXIFValue())
+}
