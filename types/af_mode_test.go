@@ -22,7 +22,7 @@ func TestAFMode(t *testing.T) {
 		{
 			name:      "One-Shot AF",
 			input:     "One-Shot AF",
-			expOutput: ptrAFMode(AFModeOneShotAF),
+			expOutput: PtrAFMode(AFModeOneShotAF),
 			expEXIFValue: EXIFValue{
 				"Canon:FocusMode": "One-Shot AF",
 			},
@@ -30,7 +30,7 @@ func TestAFMode(t *testing.T) {
 		{
 			name:      "AI Servo AF",
 			input:     "AI Servo AF",
-			expOutput: ptrAFMode(AFModeAIServoAF),
+			expOutput: PtrAFMode(AFModeAIServoAF),
 			expEXIFValue: EXIFValue{
 				"Canon:FocusMode": "AI Servo AF",
 			},
@@ -38,7 +38,7 @@ func TestAFMode(t *testing.T) {
 		{
 			name:      "Manual focus",
 			input:     "Manual focus",
-			expOutput: ptrAFMode(AFModeManualFocus),
+			expOutput: PtrAFMode(AFModeManualFocus),
 			expEXIFValue: EXIFValue{
 				"Canon:FocusMode": "Manual focus",
 			},
@@ -46,7 +46,7 @@ func TestAFMode(t *testing.T) {
 		{
 			name:      "Manual focus with spaces",
 			input:     "      Manual focus    ",
-			expOutput: ptrAFMode(AFModeManualFocus),
+			expOutput: PtrAFMode(AFModeManualFocus),
 			expEXIFValue: EXIFValue{
 				"Canon:FocusMode": "Manual focus",
 			},
@@ -74,11 +74,4 @@ func TestAFMode(t *testing.T) {
 			r.Equalf(tc.expError.Error(), err.Error(), tc.name)
 		}
 	}
-}
-
-func ptrAFMode(am AFMode) *AFMode {
-	if am == "" {
-		return nil
-	}
-	return &am
 }

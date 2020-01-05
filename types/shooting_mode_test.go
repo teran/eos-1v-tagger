@@ -23,7 +23,7 @@ func TestShootingMode(t *testing.T) {
 		{
 			name:      "Program AE",
 			input:     "Program AE",
-			expOutput: ptrShootingMode(ShootingModeProgramAE),
+			expOutput: PtrShootingMode(ShootingModeProgramAE),
 			expEXIFValue: EXIFValue{
 				"ExifIFD:ExposureProgram":             "Program AE",
 				"Canon:CanonExposureMode":             "Program AE",
@@ -35,7 +35,7 @@ func TestShootingMode(t *testing.T) {
 		{
 			name:      "Shutter-speed-priority AE",
 			input:     "Shutter-speed-priority AE",
-			expOutput: ptrShootingMode(ShootingModeShutterSpeedPriorityAE),
+			expOutput: PtrShootingMode(ShootingModeShutterSpeedPriorityAE),
 			expEXIFValue: EXIFValue{
 				"ExifIFD:ExposureProgram":             "Shutter speed priority AE",
 				"Canon:CanonExposureMode":             "Shutter speed priority AE",
@@ -47,7 +47,7 @@ func TestShootingMode(t *testing.T) {
 		{
 			name:      "Aperture-priority AE",
 			input:     "Aperture-priority AE",
-			expOutput: ptrShootingMode(ShootingModeAperturePriorityAE),
+			expOutput: PtrShootingMode(ShootingModeAperturePriorityAE),
 			expEXIFValue: EXIFValue{
 				"ExifIFD:ExposureProgram":             "Aperture-priority AE",
 				"Canon:CanonExposureMode":             "Aperture-priority AE",
@@ -59,7 +59,7 @@ func TestShootingMode(t *testing.T) {
 		{
 			name:      "Depth-of-field AE",
 			input:     "Depth-of-field AE",
-			expOutput: ptrShootingMode(ShootingModeDepthOfFieldAE),
+			expOutput: PtrShootingMode(ShootingModeDepthOfFieldAE),
 			expEXIFValue: EXIFValue{
 				"ExifIFD:ExposureProgram":             "Not Defined",
 				"Canon:CanonExposureMode":             "Depth-of-field AE",
@@ -71,7 +71,7 @@ func TestShootingMode(t *testing.T) {
 		{
 			name:      "Manual exposure",
 			input:     "Manual exposure",
-			expOutput: ptrShootingMode(ShootingModeManualExposure),
+			expOutput: PtrShootingMode(ShootingModeManualExposure),
 			expEXIFValue: EXIFValue{
 				"ExifIFD:ExposureProgram":             "Manual",
 				"Canon:CanonExposureMode":             "Manual",
@@ -83,7 +83,7 @@ func TestShootingMode(t *testing.T) {
 		{
 			name:      "Bulb",
 			input:     "Bulb",
-			expOutput: ptrShootingMode(ShootingModeBulb),
+			expOutput: PtrShootingMode(ShootingModeBulb),
 			expEXIFValue: EXIFValue{
 				"ExifIFD:ExposureProgram":             "Bulb",
 				"Canon:CanonExposureMode":             "Bulb",
@@ -95,7 +95,7 @@ func TestShootingMode(t *testing.T) {
 		{
 			name:      "Program AE with spaces",
 			input:     "      Program AE    ",
-			expOutput: ptrShootingMode(ShootingModeProgramAE),
+			expOutput: PtrShootingMode(ShootingModeProgramAE),
 			expEXIFValue: EXIFValue{
 				"ExifIFD:ExposureProgram":             "Program AE",
 				"Canon:CanonExposureMode":             "Program AE",
@@ -128,11 +128,4 @@ func TestShootingMode(t *testing.T) {
 			r.Equalf(tc.expError.Error(), err.Error(), tc.name)
 		}
 	}
-}
-
-func ptrShootingMode(sm ShootingMode) *ShootingMode {
-	if sm == "" {
-		return nil
-	}
-	return &sm
 }

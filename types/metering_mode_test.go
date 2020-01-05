@@ -23,7 +23,7 @@ func TestMeteringMode(t *testing.T) {
 		{
 			name:      "Evaluative",
 			input:     "Evaluative",
-			expOutput: ptrMeteringMode(MeteringModeEvaluative),
+			expOutput: PtrMeteringMode(MeteringModeEvaluative),
 			expString: "Evaluative",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Multi-Segment",
@@ -34,7 +34,7 @@ func TestMeteringMode(t *testing.T) {
 		{
 			name:      "Partial",
 			input:     "Partial",
-			expOutput: ptrMeteringMode(MeteringModePartial),
+			expOutput: PtrMeteringMode(MeteringModePartial),
 			expString: "Partial",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Partial",
@@ -45,7 +45,7 @@ func TestMeteringMode(t *testing.T) {
 		{
 			name:      "Spot",
 			input:     "Spot",
-			expOutput: ptrMeteringMode(MeteringModeSpot),
+			expOutput: PtrMeteringMode(MeteringModeSpot),
 			expString: "Spot",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Spot",
@@ -56,7 +56,7 @@ func TestMeteringMode(t *testing.T) {
 		{
 			name:      "Center Averaging",
 			input:     "Center Averaging",
-			expOutput: ptrMeteringMode(MeteringModeCenterAveraging),
+			expOutput: PtrMeteringMode(MeteringModeCenterAveraging),
 			expString: "Center Averaging",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Center-weighted average",
@@ -67,7 +67,7 @@ func TestMeteringMode(t *testing.T) {
 		{
 			name:      "Center Averaging with spaces",
 			input:     "      Center Averaging    ",
-			expOutput: ptrMeteringMode(MeteringModeCenterAveraging),
+			expOutput: PtrMeteringMode(MeteringModeCenterAveraging),
 			expString: "Center Averaging",
 			expEXIFValue: EXIFValue{
 				"ExifIFD:MeteringMode":                "Center-weighted average",
@@ -99,11 +99,4 @@ func TestMeteringMode(t *testing.T) {
 			r.Equalf(tc.expError.Error(), err.Error(), tc.name)
 		}
 	}
-}
-
-func ptrMeteringMode(mm MeteringMode) *MeteringMode {
-	if mm == "" {
-		return nil
-	}
-	return &mm
 }

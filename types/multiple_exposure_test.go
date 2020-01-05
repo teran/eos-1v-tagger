@@ -23,19 +23,19 @@ func TestMultipleExposure(t *testing.T) {
 			name:      "ON",
 			input:     "ON",
 			expString: "ON",
-			expOutput: ptrMultipleExposure(MultipleExposureOn),
+			expOutput: PtrMultipleExposure(MultipleExposureOn),
 		},
 		{
 			name:      "OFF",
 			input:     "OFF",
 			expString: "OFF",
-			expOutput: ptrMultipleExposure(MultipleExposureOff),
+			expOutput: PtrMultipleExposure(MultipleExposureOff),
 		},
 		{
 			name:      "OFF with spaces",
 			input:     "      OFF    ",
 			expString: "OFF",
-			expOutput: ptrMultipleExposure(MultipleExposureOff),
+			expOutput: PtrMultipleExposure(MultipleExposureOff),
 		},
 		{
 			name:     "some random text",
@@ -60,11 +60,4 @@ func TestMultipleExposure(t *testing.T) {
 			r.Equalf(tc.expError.Error(), err.Error(), tc.name)
 		}
 	}
-}
-
-func ptrMultipleExposure(me MultipleExposure) *MultipleExposure {
-	if me == "" {
-		return nil
-	}
-	return &me
 }

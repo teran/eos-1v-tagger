@@ -21,42 +21,42 @@ func TestFilmAdvanceMode(t *testing.T) {
 		{
 			name:      "Single-frame",
 			input:     "Single-frame",
-			expOutput: ptrFilmAdvanceMode(FilmAdvanceModeSingleFrame),
+			expOutput: PtrFilmAdvanceMode(FilmAdvanceModeSingleFrame),
 		},
 		{
 			name:      "Continuous (body only)",
 			input:     "Continuous (body only)",
-			expOutput: ptrFilmAdvanceMode(FilmAdvanceModeContinuousBodyOnly),
+			expOutput: PtrFilmAdvanceMode(FilmAdvanceModeContinuousBodyOnly),
 		},
 		{
 			name:      "Low-speed continuous",
 			input:     "Low-speed continuous",
-			expOutput: ptrFilmAdvanceMode(FilmAdvanceModeLowSpeedContinuous),
+			expOutput: PtrFilmAdvanceMode(FilmAdvanceModeLowSpeedContinuous),
 		},
 		{
 			name:      "High-speed continuous",
 			input:     "High-speed continuous",
-			expOutput: ptrFilmAdvanceMode(FilmAdvanceModeHighSpeedContinuous),
+			expOutput: PtrFilmAdvanceMode(FilmAdvanceModeHighSpeedContinuous),
 		},
 		{
 			name:      "Ultra-high-speed continuous",
 			input:     "Ultra-high-speed continuous",
-			expOutput: ptrFilmAdvanceMode(FilmAdvanceModeUltraHighSpeedContinuous),
+			expOutput: PtrFilmAdvanceMode(FilmAdvanceModeUltraHighSpeedContinuous),
 		},
 		{
 			name:      "2-sec. self-timer",
 			input:     "2-sec. self-timer",
-			expOutput: ptrFilmAdvanceMode(FilmAdvanceMode2secSelfTimer),
+			expOutput: PtrFilmAdvanceMode(FilmAdvanceMode2secSelfTimer),
 		},
 		{
 			name:      "10-sec. self-timer",
 			input:     "10-sec. self-timer",
-			expOutput: ptrFilmAdvanceMode(FilmAdvanceMode10secSelfTimer),
+			expOutput: PtrFilmAdvanceMode(FilmAdvanceMode10secSelfTimer),
 		},
 		{
 			name:      "Ultra-high-speed continuous with spaces",
 			input:     "      Ultra-high-speed continuous    ",
-			expOutput: ptrFilmAdvanceMode(FilmAdvanceModeUltraHighSpeedContinuous),
+			expOutput: PtrFilmAdvanceMode(FilmAdvanceModeUltraHighSpeedContinuous),
 		},
 		{
 			name:     "some random text",
@@ -80,11 +80,4 @@ func TestFilmAdvanceMode(t *testing.T) {
 			r.Equalf(tc.expError.Error(), err.Error(), tc.name)
 		}
 	}
-}
-
-func ptrFilmAdvanceMode(fam FilmAdvanceMode) *FilmAdvanceMode {
-	if fam == "" {
-		return nil
-	}
-	return &fam
 }

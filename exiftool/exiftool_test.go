@@ -161,25 +161,25 @@ func TestFromFrame(t *testing.T) {
 		{
 			name: "filled frame",
 			frame: types.Frame{
-				Flag:                 ptrBool(true),
-				Number:               ptrInt64(23),
-				FocalLength:          ptrInt64(123),
-				MaxAperture:          ptrFloat64(1.4),
-				Tv:                   ptrString("1/300"),
-				Av:                   ptrFloat64(1.5),
-				ISO:                  ptrInt64(400),
-				ExposureCompensation: ptrFloat64(3.2),
-				FlashCompensation:    ptrFloat64(-3.2),
-				FlashMode:            ptrFlashMode(types.FlashModeOff),
-				MeteringMode:         ptrMeteringMode(types.MeteringModeEvaluative),
-				ShootingMode:         ptrShootingMode(types.ShootingModeProgramAE),
-				FilmAdvanceMode:      ptrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
-				AFMode:               ptrAFMode(types.AFModeOneShotAF),
-				BulbExposureTime:     ptrString("1/300"),
-				Timestamp:            ptrTime(time.Date(2009, 2, 12, 15, 34, 23, 0, time.UTC)),
-				MultipleExposure:     ptrMultipleExposure(types.MultipleExposureOff),
-				BatteryLoadedDate:    ptrTime(time.Date(2008, 1, 5, 11, 58, 14, 0, time.UTC)),
-				Remarks:              ptrString("blah!"),
+				Flag:                 types.PtrBool(true),
+				Number:               types.PtrInt64(23),
+				FocalLength:          types.PtrInt64(123),
+				MaxAperture:          types.PtrFloat64(1.4),
+				Tv:                   types.PtrString("1/300"),
+				Av:                   types.PtrFloat64(1.5),
+				ISO:                  types.PtrInt64(400),
+				ExposureCompensation: types.PtrFloat64(3.2),
+				FlashCompensation:    types.PtrFloat64(-3.2),
+				FlashMode:            types.PtrFlashMode(types.FlashModeOff),
+				MeteringMode:         types.PtrMeteringMode(types.MeteringModeEvaluative),
+				ShootingMode:         types.PtrShootingMode(types.ShootingModeProgramAE),
+				FilmAdvanceMode:      types.PtrFilmAdvanceMode(types.FilmAdvanceModeSingleFrame),
+				AFMode:               types.PtrAFMode(types.AFModeOneShotAF),
+				BulbExposureTime:     types.PtrString("1/300"),
+				Timestamp:            types.PtrTime(time.Date(2009, 2, 12, 15, 34, 23, 0, time.UTC)),
+				MultipleExposure:     types.PtrMultipleExposure(types.MultipleExposureOff),
+				BatteryLoadedDate:    types.PtrTime(time.Date(2008, 1, 5, 11, 58, 14, 0, time.UTC)),
+				Remarks:              types.PtrString("blah!"),
 			},
 			expOptions: []ExifToolOption{
 				{
@@ -301,15 +301,3 @@ func TestFromFrame(t *testing.T) {
 		r.ElementsMatchf(tc.expOptions, e.Options(), tc.name)
 	}
 }
-
-func ptrBool(t bool) *bool                                                 { return &t }
-func ptrInt64(t int64) *int64                                              { return &t }
-func ptrFloat64(t float64) *float64                                        { return &t }
-func ptrString(t string) *string                                           { return &t }
-func ptrTime(t time.Time) *time.Time                                       { return &t }
-func ptrFlashMode(t types.FlashMode) *types.FlashMode                      { return &t }
-func ptrMeteringMode(t types.MeteringMode) *types.MeteringMode             { return &t }
-func ptrShootingMode(t types.ShootingMode) *types.ShootingMode             { return &t }
-func ptrFilmAdvanceMode(t types.FilmAdvanceMode) *types.FilmAdvanceMode    { return &t }
-func ptrAFMode(t types.AFMode) *types.AFMode                               { return &t }
-func ptrMultipleExposure(t types.MultipleExposure) *types.MultipleExposure { return &t }

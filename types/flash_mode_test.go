@@ -22,7 +22,7 @@ func TestFlashMode(t *testing.T) {
 		{
 			name:      "ON",
 			input:     "ON",
-			expOutput: ptrFlashMode(FlashModeOn),
+			expOutput: PtrFlashMode(FlashModeOn),
 			expEXIFValue: EXIFValue{
 				"Canon:CanonFlashMode": "On",
 				"Canon:FlashBits":      "(none)",
@@ -32,7 +32,7 @@ func TestFlashMode(t *testing.T) {
 		{
 			name:      "OFF",
 			input:     "OFF",
-			expOutput: ptrFlashMode(FlashModeOff),
+			expOutput: PtrFlashMode(FlashModeOff),
 			expEXIFValue: EXIFValue{
 				"Canon:CanonFlashMode": "Off",
 				"Canon:FlashBits":      "(none)",
@@ -42,7 +42,7 @@ func TestFlashMode(t *testing.T) {
 		{
 			name:      "E-TTL",
 			input:     "E-TTL",
-			expOutput: ptrFlashMode(FlashModeETTL),
+			expOutput: PtrFlashMode(FlashModeETTL),
 			expEXIFValue: EXIFValue{
 				"Canon:CanonFlashMode": "On",
 				"Canon:FlashBits":      "E-TTL",
@@ -52,7 +52,7 @@ func TestFlashMode(t *testing.T) {
 		{
 			name:      "A-TTL",
 			input:     "A-TTL",
-			expOutput: ptrFlashMode(FlashModeATTL),
+			expOutput: PtrFlashMode(FlashModeATTL),
 			expEXIFValue: EXIFValue{
 				"Canon:CanonFlashMode": "On",
 				"Canon:FlashBits":      "A-TTL",
@@ -62,7 +62,7 @@ func TestFlashMode(t *testing.T) {
 		{
 			name:      "TTL autoflash",
 			input:     "TTL autoflash",
-			expOutput: ptrFlashMode(FlashModeTTLAutoflash),
+			expOutput: PtrFlashMode(FlashModeTTLAutoflash),
 			expEXIFValue: EXIFValue{
 				"Canon:CanonFlashMode": "Auto",
 				"Canon:FlashBits":      "TTL",
@@ -72,7 +72,7 @@ func TestFlashMode(t *testing.T) {
 		{
 			name:      "Manual flash",
 			input:     "Manual flash",
-			expOutput: ptrFlashMode(FlashModeManualFlash),
+			expOutput: PtrFlashMode(FlashModeManualFlash),
 			expEXIFValue: EXIFValue{
 				"Canon:CanonFlashMode": "On",
 				"Canon:FlashBits":      "Manual",
@@ -82,7 +82,7 @@ func TestFlashMode(t *testing.T) {
 		{
 			name:      "TTL autoflash with spaces",
 			input:     "      TTL autoflash    ",
-			expOutput: ptrFlashMode(FlashModeTTLAutoflash),
+			expOutput: PtrFlashMode(FlashModeTTLAutoflash),
 			expEXIFValue: EXIFValue{
 				"Canon:CanonFlashMode": "Auto",
 				"Canon:FlashBits":      "TTL",
@@ -112,11 +112,4 @@ func TestFlashMode(t *testing.T) {
 			r.Equalf(tc.expError.Error(), err.Error(), tc.name)
 		}
 	}
-}
-
-func ptrFlashMode(fm FlashMode) *FlashMode {
-	if fm == "" {
-		return nil
-	}
-	return &fm
 }

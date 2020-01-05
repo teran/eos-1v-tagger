@@ -19,37 +19,37 @@ func TestFilmIsEmpty(t *testing.T) {
 	tcs := []testCase{
 		{
 			name:       "id filled",
-			filmSample: Film{ID: ptrInt64(1234)},
+			filmSample: Film{ID: PtrInt64(1234)},
 			expResult:  false,
 		},
 		{
 			name:       "camera id filled",
-			filmSample: Film{CameraID: ptrInt64(1234)},
+			filmSample: Film{CameraID: PtrInt64(1234)},
 			expResult:  false,
 		},
 		{
 			name:       "title filled",
-			filmSample: Film{Title: ptrString("test titme")},
+			filmSample: Film{Title: PtrString("test titme")},
 			expResult:  false,
 		},
 		{
 			name:       "timestamp filled",
-			filmSample: Film{FilmLoadedTimestamp: ptrTime(time.Now())},
+			filmSample: Film{FilmLoadedTimestamp: PtrTime(time.Now())},
 			expResult:  false,
 		},
 		{
 			name:       "frame count filled",
-			filmSample: Film{FrameCount: ptrInt64(1234)},
+			filmSample: Film{FrameCount: PtrInt64(1234)},
 			expResult:  false,
 		},
 		{
 			name:       "iso filled",
-			filmSample: Film{ISO: ptrInt64(1234)},
+			filmSample: Film{ISO: PtrInt64(1234)},
 			expResult:  false,
 		},
 		{
 			name:       "string filled",
-			filmSample: Film{Remarks: ptrString("blah")},
+			filmSample: Film{Remarks: PtrString("blah")},
 			expResult:  false,
 		},
 		{
@@ -68,7 +68,3 @@ func TestFilmIsEmpty(t *testing.T) {
 		r.Equalf(tc.expResult, tc.filmSample.IsEmpty(), tc.name)
 	}
 }
-
-func ptrInt64(t int64) *int64        { return &t }
-func ptrString(t string) *string     { return &t }
-func ptrTime(t time.Time) *time.Time { return &t }
