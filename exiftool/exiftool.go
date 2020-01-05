@@ -46,7 +46,9 @@ func NewFromFrame(binary, filename string, f *types.Frame) *ExifTool {
 	}
 
 	if f.Av != nil {
-		et.Aperture(*f.Av)
+		for k, v := range f.Av.EXIFValue() {
+			et.add(k, v)
+		}
 	}
 
 	if f.ExposureCompensation != nil {

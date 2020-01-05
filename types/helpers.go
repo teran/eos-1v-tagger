@@ -64,3 +64,9 @@ func PtrShootingMode(sm ShootingMode) *ShootingMode {
 	}
 	return &sm
 }
+
+// PtrAperture ...
+func PtrAperture(av float64) *Aperture {
+	f := Aperture(av)
+	return &f
+}

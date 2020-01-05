@@ -370,8 +370,8 @@ func parseFocalLength(s string) (*int64, error) {
 	return parseInt(l)
 }
 
-func parseAperture(s string) (*float64, error) {
-	return parseFloat(s)
+func parseAperture(s string) (*types.Aperture, error) {
+	return types.ApertureFromString(s)
 }
 
 func parseExposure(s string) (*string, error) {

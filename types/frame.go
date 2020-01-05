@@ -7,9 +7,9 @@ type Frame struct {
 	Flag                 *bool
 	Number               *int64
 	FocalLength          *int64
-	MaxAperture          *float64
+	MaxAperture          *Aperture
 	Tv                   *string
-	Av                   *float64
+	Av                   *Aperture
 	ISO                  *int64
 	ExposureCompensation *float64
 	FlashCompensation    *float64
