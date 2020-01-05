@@ -1,11 +1,11 @@
-name: Tests on Go v1.13
+name: CI
 on:
 - push
 - pull_request
 jobs:
 
   build:
-    name: Build
+    name: Test
     runs-on: ubuntu-latest
     steps:
 
