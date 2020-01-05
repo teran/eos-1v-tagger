@@ -34,6 +34,9 @@ const (
 // ShootingModeFromString ...
 func ShootingModeFromString(s string) (sm *ShootingMode, err error) {
 	s = strings.TrimSpace(s)
+	if s == "" {
+		return nil, ErrEmptyValue
+	}
 
 	var smv ShootingMode
 	switch ShootingMode(s) {

@@ -179,7 +179,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*types
 	}
 
 	maxAperture, err := parseAperture(ss[3])
-	if err != nil && err != ErrNotProvided {
+	if err != nil && err != types.ErrEmptyValue {
 		return nil, errors.Wrapf(err, "error parsing max aperture value; frameNo=%d", *frameID)
 	}
 
@@ -189,7 +189,7 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*types
 	}
 
 	av, err := parseAperture(ss[5])
-	if err != nil && err != ErrNotProvided {
+	if err != nil && err != types.ErrEmptyValue {
 		return nil, errors.Wrapf(err, "error parsing AV value; frameNo=%d", *frameID)
 	}
 

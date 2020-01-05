@@ -35,6 +35,9 @@ const (
 // FilmAdvanceModeFromString ...
 func FilmAdvanceModeFromString(s string) (fam *FilmAdvanceMode, err error) {
 	s = strings.TrimSpace(s)
+	if s == "" {
+		return nil, ErrEmptyValue
+	}
 
 	var famv FilmAdvanceMode
 	switch FilmAdvanceMode(s) {

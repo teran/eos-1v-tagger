@@ -28,6 +28,9 @@ const (
 // MeteringModeFromString ...
 func MeteringModeFromString(s string) (mm *MeteringMode, err error) {
 	s = strings.TrimSpace(s)
+	if s == "" {
+		return nil, ErrEmptyValue
+	}
 
 	var mmv MeteringMode
 	switch MeteringMode(s) {

@@ -19,6 +19,9 @@ const (
 // MultipleExposureFromString ...
 func MultipleExposureFromString(s string) (me *MultipleExposure, err error) {
 	s = strings.TrimSpace(s)
+	if s == "" {
+		return nil, ErrEmptyValue
+	}
 
 	var mev MultipleExposure
 	switch MultipleExposure(s) {

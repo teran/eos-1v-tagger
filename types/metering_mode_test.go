@@ -83,7 +83,7 @@ func TestMeteringMode(t *testing.T) {
 		{
 			name:     "empty string",
 			input:    "",
-			expError: errors.New("error parsing MeteringMode: unknown value ``"),
+			expError: errors.New("empty value"),
 		},
 	}
 

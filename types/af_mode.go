@@ -25,6 +25,9 @@ const (
 // AFModeFromString ...
 func AFModeFromString(s string) (am *AFMode, err error) {
 	s = strings.TrimSpace(s)
+	if s == "" {
+		return nil, ErrEmptyValue
+	}
 
 	var amv AFMode
 	switch AFMode(s) {

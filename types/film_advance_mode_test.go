@@ -66,7 +66,7 @@ func TestFilmAdvanceMode(t *testing.T) {
 		{
 			name:     "empty string",
 			input:    "",
-			expError: errors.New("error parsing FilmAdvanceMode: unknown value ``"),
+			expError: errors.New("empty value"),
 		},
 	}
 

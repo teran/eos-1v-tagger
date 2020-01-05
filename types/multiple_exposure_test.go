@@ -45,7 +45,7 @@ func TestMultipleExposure(t *testing.T) {
 		{
 			name:     "empty string",
 			input:    "",
-			expError: errors.New("error parsing MultipleExposure: unknown value ``"),
+			expError: errors.New("empty value"),
 		},
 	}
 

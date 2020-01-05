@@ -112,7 +112,7 @@ func TestShootingMode(t *testing.T) {
 		{
 			name:     "empty string",
 			input:    "",
-			expError: errors.New("error parsing ShootingMode: unknown value ``"),
+			expError: errors.New("empty value"),
 		},
 	}
 

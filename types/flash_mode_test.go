@@ -97,7 +97,7 @@ func TestFlashMode(t *testing.T) {
 		{
 			name:     "empty string",
 			input:    "",
-			expError: errors.New("error parsing FlashMode: unknown value ``"),
+			expError: errors.New("empty value"),
 		},
 	}
 

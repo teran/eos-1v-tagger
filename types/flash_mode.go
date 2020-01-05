@@ -34,6 +34,9 @@ const (
 // FlashModeFromString ...
 func FlashModeFromString(s string) (fm *FlashMode, err error) {
 	s = strings.TrimSpace(s)
+	if s == "" {
+		return nil, ErrEmptyValue
+	}
 
 	var fmv FlashMode
 	switch FlashMode(s) {
