@@ -27,7 +27,7 @@ func findTokens(s string) map[string]string {
 
 	for _, o := range openers[1:] {
 		closer := strings.Split(o, "}")
-		if len(closer) < 1 {
+		if len(closer) < 2 {
 			continue
 		}
 

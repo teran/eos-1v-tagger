@@ -47,6 +47,30 @@ func TestFormatter(t *testing.T) {
 			subst:     map[string]interface{}{"var1": "test1", "var2": 3975},
 			expResult: `TEST_test1_3975_test`,
 		},
+		{
+			name:      "wrong variable name (opener only)",
+			sample:    "test_${blah_test",
+			subst:     map[string]interface{}{"blah": 2},
+			expResult: "test_${blah_test",
+		},
+		{
+			name:      "wrong variable name (closer only)",
+			sample:    "test_blah}_test",
+			subst:     map[string]interface{}{"blah": 2},
+			expResult: "test_blah}_test",
+		},
+		{
+			name:      "wrong variable name (missed closer with type)",
+			sample:    "blah_${blah:05d_test",
+			subst:     map[string]interface{}{"blah": 2},
+			expResult: "blah_${blah:05d_test",
+		},
+		{
+			name:      "wrong variable name with additional tokens",
+			sample:    "blah_${blah:05d:test}_test",
+			subst:     map[string]interface{}{"blah": 2},
+			expResult: "blah_${blah:05d:test}_test",
+		},
 	}
 
 	for _, tc := range tcs {
