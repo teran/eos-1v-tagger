@@ -6,6 +6,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+var _ EXIFValuer = (*FlashMode)(nil)
+
 // FlashMode ...
 type FlashMode string
 
@@ -56,4 +58,49 @@ func FlashModeFromString(s string) (fm *FlashMode, err error) {
 
 func (fm *FlashMode) String() string {
 	return string(*fm)
+}
+
+func (fm *FlashMode) canonFlashMode() string {
+	switch *fm {
+	case FlashModeOff:
+		return "Off"
+	case FlashModeTTLAutoflash:
+		return "Auto"
+	}
+	return "On"
+}
+
+func (fm *FlashMode) exifFlash() string {
+	switch *fm {
+	case FlashModeOff:
+		return "Off, Did not fire"
+	case FlashModeOn:
+		return "On, Fired"
+	case FlashModeManualFlash:
+		return "On, Fired"
+	}
+	return "Auto, Fired"
+}
+
+func (fm *FlashMode) canonFlashBits() string {
+	switch *fm {
+	case FlashModeETTL:
+		return "E-TTL"
+	case FlashModeATTL:
+		return "A-TTL"
+	case FlashModeTTLAutoflash:
+		return "TTL"
+	case FlashModeManualFlash:
+		return "Manual"
+	}
+	return "(none)"
+}
+
+// EXIFValue ...
+func (fm *FlashMode) EXIFValue() EXIFValue {
+	return EXIFValue{
+		"ExifIFD:Flash":        fm.exifFlash(),
+		"Canon:FlashBits":      fm.canonFlashBits(),
+		"Canon:CanonFlashMode": fm.canonFlashMode(),
+	}
 }

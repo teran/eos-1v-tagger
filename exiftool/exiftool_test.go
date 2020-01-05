@@ -218,6 +218,21 @@ func TestFromFrame(t *testing.T) {
 					operator: "=",
 				},
 				{
+					key:      "ExifIFD:Flash",
+					value:    "Off, Did not fire",
+					operator: "=",
+				},
+				{
+					key:      "Canon:FlashBits",
+					value:    "(none)",
+					operator: "=",
+				},
+				{
+					key:      "Canon:CanonFlashMode",
+					value:    "Off",
+					operator: "=",
+				},
+				{
 					key:      "CanonCustom:PF2DisableMeteringModes",
 					value:    "Off",
 					operator: "=",

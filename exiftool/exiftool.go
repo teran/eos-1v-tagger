@@ -9,8 +9,6 @@ import (
 	types "github.com/teran/eos-1v-tagger/types"
 )
 
-// FIXME: handle flash data
-
 // ExifToolOption type
 type ExifToolOption struct {
 	key      string
@@ -81,6 +79,12 @@ func NewFromFrame(binary, filename string, f *types.Frame) *ExifTool {
 
 	if f.Tv != nil {
 		et.Exposure(*f.Tv)
+	}
+
+	if f.FlashMode != nil {
+		for k, v := range f.FlashMode.EXIFValue() {
+			et.add(k, v)
+		}
 	}
 
 	return et
