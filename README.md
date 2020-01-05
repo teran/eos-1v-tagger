@@ -1,6 +1,6 @@
 # EOS 1V Tagger
 
-[![Travis (.org)](https://img.shields.io/travis/teran/eos-1v-tagger)](https://travis-ci.org/teran/eos-1v-tagger)
+[![Travis (.org)](https://img.shields.io/github/workflow/status/teran/eos-1v-tagger/CI)](https://github.com/teran/eos-1v-tagger/actions?query=workflow%3ACI)
 [![GitHub](https://img.shields.io/github/license/teran/eos-1v-tagger)](https://github.com/teran/eos-1v-tagger/blob/master/LICENSE)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/teran/eos-1v-tagger?include_prereleases)](https://github.com/teran/eos-1v-tagger/releases)
 [![GitHub last commit](https://img.shields.io/github/last-commit/teran/eos-1v-tagger)](https://github.com/teran/eos-1v-tagger/commit/HEAD)
