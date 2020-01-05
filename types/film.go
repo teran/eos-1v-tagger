@@ -23,7 +23,7 @@ func (f *Film) IsEmpty() bool {
 		return false
 	case f.Title != nil:
 		return false
-	case !f.FilmLoadedTimestamp.IsZero():
+	case f.FilmLoadedTimestamp != nil && !f.FilmLoadedTimestamp.IsZero():
 		return false
 	case f.FrameCount != nil:
 		return false
