@@ -30,6 +30,7 @@ var (
 // Flags
 var (
 	displayHelp     bool   = false
+	copyright       string = ""
 	exiftoolBinary  string = "exiftool"
 	filenamePattern string = `FILM_${cameraID:02d}${filmID:03d}${frameNo:05d}.dng`
 	fileSource      string = ""
@@ -52,6 +53,7 @@ func parseFlags() {
 	}
 
 	flag.BoolVar(&displayHelp, "help", displayHelp, "display help message")
+	flag.StringVar(&copyright, "copyright", copyright, "copyright notice for images")
 	flag.StringVar(&exiftoolBinary, "exiftool-binary", exiftoolBinary, "path to exiftool binary")
 	flag.StringVar(&filenamePattern, "filename-pattern", filenamePattern, "filename pattern for generate exiftool command. Available variables: frameNo, cameraID, filmID. More details are available in README.")
 	flag.StringVar(&fileSource, "file-source", fileSource, "adds file source EXIF tag. Available options: 'Film Scanner', 'Reflection Print Scanner', 'Digital Camera'")

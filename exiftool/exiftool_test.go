@@ -135,6 +135,14 @@ func TestExiftoolOptions(t *testing.T) {
 			},
 			expCommand: `"-FileSource=Film Scanner" "test-file-with-file-source"`,
 		},
+		{
+			name:  "copyright specified",
+			fname: "test-file-with-copyright",
+			f: func(e *ExifTool) {
+				e.Copyright("Test Copyright © 2020")
+			},
+			expCommand: `"-IFD0:Artist=Test Copyright © 2020" "-IFD0:Copyright=Test Copyright © 2020" "test-file-with-copyright"`,
+		},
 	}
 
 	for _, tc := range tcs {

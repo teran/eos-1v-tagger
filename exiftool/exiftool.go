@@ -92,6 +92,14 @@ func NewFromFrame(binary, filename string, f *types.Frame) *ExifTool {
 	return et
 }
 
+// Copyright sets EXIF copyright values
+func (e *ExifTool) Copyright(cr string) *ExifTool {
+	e.add("IFD0:Artist", cr)
+	e.add("IFD0:Copyright", cr)
+
+	return e
+}
+
 // Aperture sets Aperture parameters to exiftool command
 func (e *ExifTool) Aperture(v float64) *ExifTool {
 	vs := strconv.FormatFloat(v, 'f', -1, 64)

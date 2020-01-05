@@ -68,6 +68,10 @@ func main() {
 				et.FileSource(fileSource)
 			}
 
+			if copyright != "" {
+				et.Copyright(copyright)
+			}
+
 			if geotag != "" {
 				et.GeoTime(*f.Timestamp)
 				et.GeoTag(geotag)
