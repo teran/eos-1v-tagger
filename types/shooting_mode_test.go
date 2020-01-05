@@ -129,3 +129,17 @@ func TestShootingMode(t *testing.T) {
 		}
 	}
 }
+
+func TestShootingModeWithUnexpectedValue(t *testing.T) {
+	r := require.New(t)
+
+	v := ShootingMode("blah")
+
+	r.Equal("blah", v.String())
+	r.Equal(EXIFValue{
+		"ExifIFD:ExposureProgram":             "Not Defined",
+		"Canon:CanonExposureMode":             "Easy",
+		"CanonCustom:PF1DisableShootingModes": "Off",
+		"CanonCustom:PF6PresetShootingModes":  "Off",
+	}, v.EXIFValue())
+}
