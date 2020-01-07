@@ -70,3 +70,16 @@ func PtrAperture(av float64) *Aperture {
 	f := Aperture(av)
 	return &f
 }
+
+// PtrFileSource ...
+func PtrFileSource(fs FileSource) *FileSource {
+	return &fs
+}
+
+// PtrTimestampFormat ...
+func PtrTimestampFormat(tf TimestampFormat) *TimestampFormat {
+	return &tf
+}
+
+// PtrUint8 ...
+func PtrUint8(u uint8) *uint8 { return &u }

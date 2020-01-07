@@ -5,7 +5,7 @@ import "time"
 // Film model to store all the data about the film itself
 type Film struct {
 	ID                  *int64
-	CameraID            *int64
+	CameraID            *uint8
 	Title               *string
 	FilmLoadedTimestamp *time.Time
 	FrameCount          *int64

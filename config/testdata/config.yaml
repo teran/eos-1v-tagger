@@ -1,0 +1,16 @@
+---
+copyright: "Test Copyright Value"
+exiftool-binary: "/usr/local/bin/exiftool"
+filename-pattern: "XXX_${cameraID:02d}${filmID:03d}${frameNo:05d}.dng"
+file-source: "Film Scanner"
+make:
+    09: "Canon"
+model:
+    09: "Canon EOS 1V"
+serial-number:
+    09: "XXXYYYZZZ"
+set-digitized: true
+timestamp-format: "EU"
+timezone:
+    0: "Europe/Paris"
+    9: "Europe/Moscow"

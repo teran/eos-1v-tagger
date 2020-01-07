@@ -18,7 +18,7 @@ import (
 // CSVParser type
 type CSVParser struct {
 	rc              io.ReadCloser
-	tz              *time.Location
+	tzfn            func(uint8) *time.Location
 	timestampFormat string
 }
 
@@ -31,7 +31,7 @@ var (
 )
 
 // New creates new CSVParser object
-func New(fn string, tz *time.Location, timestampFormat string) (*CSVParser, error) {
+func New(fn string, timestampFormat string, tzfn func(uint8) *time.Location) (*CSVParser, error) {
 	fp, err := os.Open(fn)
 	if err != nil {
 		return nil, err
@@ -39,7 +39,7 @@ func New(fn string, tz *time.Location, timestampFormat string) (*CSVParser, erro
 
 	return &CSVParser{
 		rc:              fp,
-		tz:              tz,
+		tzfn:            tzfn,
 		timestampFormat: timestampFormat,
 	}, nil
 }
@@ -74,7 +74,7 @@ func (p *CSVParser) Parse() ([]*types.Film, error) {
 				films = append(films, f)
 			}
 
-			f, err = parseFilmData(str, p.tz, p.timestampFormat)
+			f, err = parseFilmData(str, p.timestampFormat, p.tzfn)
 			if err != nil {
 				return nil, err
 			}
@@ -84,7 +84,7 @@ func (p *CSVParser) Parse() ([]*types.Film, error) {
 		case isFrameHeader(str):
 			continue
 		default:
-			fr, err := parseFrameData(str, p.tz, p.timestampFormat)
+			fr, err := parseFrameData(str, f, p.timestampFormat, p.tzfn)
 			if err != nil {
 				return nil, err
 			}
@@ -104,13 +104,8 @@ func (p *CSVParser) Parse() ([]*types.Film, error) {
 	return films, nil
 }
 
-func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*types.Film, error) {
+func parseFilmData(s string, timestampFormat string, tzfn func(uint8) *time.Location) (*types.Film, error) {
 	ss := strings.Split(s, ",")
-
-	tt, err := parseTimestamp(ss[6], ss[7], tz, timestmapFormat)
-	if err != nil && err != ErrNotProvided {
-		return nil, errors.Wrap(err, "error parsing film timestamp value")
-	}
 
 	fc, err := parseInt(strings.TrimSpace(ss[9]))
 	if err != nil && err != ErrNotProvided {
@@ -132,7 +127,7 @@ func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*types.
 		return nil, errors.Wrap(err, "error parsing film ID value")
 	}
 
-	cID, err := parseInt(ids[0])
+	cID, err := parseUint8(ids[0])
 	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrap(err, "error parsing camera ID value")
 	}
@@ -140,6 +135,11 @@ func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*types.
 	title, err := parseString(ss[4])
 	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrap(err, "error parsing film title")
+	}
+
+	tt, err := parseTimestamp(ss[6], ss[7], tzfn(*cID), timestampFormat)
+	if err != nil && err != ErrNotProvided {
+		return nil, errors.Wrap(err, "error parsing film timestamp value")
 	}
 
 	return &types.Film{
@@ -152,7 +152,7 @@ func parseFilmData(s string, tz *time.Location, timestmapFormat string) (*types.
 	}, nil
 }
 
-func parseFrameData(s string, tz *time.Location, timestampFormat string) (*types.Frame, error) {
+func parseFrameData(s string, film *types.Film, timestampFormat string, tzfn func(uint8) *time.Location) (*types.Frame, error) {
 	ss := strings.Split(s, ",")
 	if len(ss) != 21 {
 		return nil, fmt.Errorf("wrong amount of columns for frame: %d: `%s`", len(ss), s)
@@ -208,13 +208,13 @@ func parseFrameData(s string, tz *time.Location, timestampFormat string) (*types
 		return nil, errors.Wrapf(err, "error parsing flash compensation value; frameNo=%d", *frameID)
 	}
 
-	timestamp, err := parseTimestamp(ss[15], ss[16], tz, timestampFormat)
+	timestamp, err := parseTimestamp(ss[15], ss[16], tzfn(*film.CameraID), timestampFormat)
 	if err != nil && err != ErrNotProvided {
 		return nil, tagger.NewErrorWithSuffix(
 			err, "Possible solution: consider using `-timestamp-format` to specify proper format for timestamps")
 	}
 
-	batteryTimestamp, err := parseTimestamp(ss[18], ss[19], tz, timestampFormat)
+	batteryTimestamp, err := parseTimestamp(ss[18], ss[19], tzfn(*film.CameraID), timestampFormat)
 	if err != nil && err != ErrNotProvided {
 		return nil, errors.Wrapf(err, "error parsing timestamp value; frameNo=%d", *frameID)
 	}
@@ -350,6 +350,20 @@ func parseInt(s string) (*int64, error) {
 		return nil, err
 	}
 	return &i, err
+}
+
+func parseUint8(s string) (*uint8, error) {
+	if strings.TrimSpace(s) == "" {
+		return nil, ErrNotProvided
+	}
+
+	u64, err := strconv.ParseUint(s, 10, 8)
+	if err != nil {
+		return nil, err
+	}
+	u8 := uint8(u64)
+
+	return &u8, nil
 }
 
 func parseFrameID(s string) (*int64, error) {

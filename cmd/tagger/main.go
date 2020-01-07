@@ -1,31 +1,67 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
+	"os"
+	"time"
 
-	tagger "github.com/teran/eos-1v-tagger"
+	config "github.com/teran/eos-1v-tagger/config"
 	exiftool "github.com/teran/eos-1v-tagger/exiftool"
 	format "github.com/teran/eos-1v-tagger/format"
 	parser "github.com/teran/eos-1v-tagger/parser"
-	types "github.com/teran/eos-1v-tagger/types"
+)
+
+// LD vars
+var (
+	ldVersion   = "undefined"
+	ldTimestamp = "0"
 )
 
 func main() {
-	parseFlags()
+	cfg := config.NewDefaultConfig()
 
-	tz, err := tagger.LocationByTimeZone(timezone)
-	if err != nil {
-		log.Fatalf("error looking up timezone: %s", err)
+	err := cfg.FillFromYaml("~/.tagger/config.yaml")
+	if err != nil && !os.IsNotExist(err) {
+		log.Fatalf("error reading config file: %s", err)
 	}
 
-	tf, err := TimestampFormatFactory(timestampFormat)
-	if err != nil {
-		log.Fatalf("error loading timestamp format: %s", err)
+	if len(os.Args) < 1 {
+		log.Fatalf("looks like programmer error: os.Args is less than 1 in length")
 	}
 
-	t, err := parser.New(flag.Arg(0), tz, tf)
+	f := config.NewFlags(os.Args[0], ldVersion, ldTimestamp)
+	err = cfg.FillFromFlags(f)
+	if err != nil {
+		log.Fatalf("error handling CLI flags: %s", err)
+	}
+
+	if cfg.GetDisplayHelp() {
+		f.PrintUsageString()
+		os.Exit(1)
+	}
+
+	if cfg.GetDisplayVersion() {
+		f.PrintVersionString()
+		os.Exit(1)
+	}
+
+	lookupTzFn := func(cID uint8) *time.Location {
+		tzname := cfg.GetTimezoneByCameraID(cID)
+		location, err := time.LoadLocation(tzname)
+		if err != nil {
+			log.Printf("ERROR: error looking up timezone: %s; Switching to default: UTC", err)
+			return time.UTC
+		}
+
+		return location
+	}
+
+	if f.GetCSVPath() == "" {
+		log.Fatal("CSV file is required to specify")
+	}
+
+	t, err := parser.New(f.GetCSVPath(), cfg.GetTimestampFormat().TimeLayout(), lookupTzFn)
 	if err != nil {
 		log.Fatalf("error initializing CSV parser: %s", err)
 	}
@@ -37,70 +73,51 @@ func main() {
 
 	for _, film := range films {
 		for _, f := range film.Frames {
-			filename := format.Format(filenamePattern, map[string]interface{}{
+			filename := format.Format(cfg.GetFilenamePattern(), map[string]interface{}{
 				"filmID":   *film.ID,
 				"cameraID": *film.CameraID,
 				"frameNo":  *f.Number,
 			})
 
-			et := exiftool.NewFromFrame(exiftoolBinary, filename, f)
+			et := exiftool.NewFromFrame(cfg.GetExiftoolBinary(), filename, f)
 
-			if setDigitized {
+			if cfg.GetSetDigitized() {
 				et.SetDateTimeDigitizedFromCreateDate()
 			}
 
-			if make != "" {
-				et.Make(make)
+			if cfg.GetMakeByCameraID(*film.CameraID) != nil {
+				v := cfg.GetMakeByCameraID(*film.CameraID)
+				et.Make(*v)
 			}
 
-			if model != "" {
-				et.Model(model)
+			if cfg.GetModelByCameraID(*film.CameraID) != nil {
+				v := cfg.GetModelByCameraID(*film.CameraID)
+				et.Model(*v)
 			}
 
-			if serialNumber != "" {
-				et.SerialNumber(serialNumber)
+			if cfg.GetSerialNumberByCameraID(*film.CameraID) != nil {
+				v := cfg.GetSerialNumberByCameraID(*film.CameraID)
+				et.SerialNumber(*v)
 			}
 
-			if fileSource != "" {
-				if !validateFileSource(fileSource) {
-					log.Fatalf("Bad `file-source` value. Available options: 'Film Scanner', 'Reflection Print Scanner', 'Digital Camera'")
-				}
-				et.FileSource(fileSource)
+			if cfg.GetFileSource() != nil {
+				v := cfg.GetFileSource()
+				et.FileSource(v.String())
 			}
 
-			if copyright != "" {
-				et.Copyright(copyright)
+			if cfg.GetCopyright() != nil {
+				v := cfg.GetCopyright()
+				et.Copyright(*v)
 			}
 
-			if geotag != "" {
+			if cfg.GetGeotag() != nil {
+				v := cfg.GetGeotag()
+
 				et.GeoTime(*f.Timestamp)
-				et.GeoTag(geotag)
+				et.GeoTag(*v)
 			}
 
 			fmt.Println(et.Cmd())
 		}
 	}
-}
-
-// TimestampFormatFactory provides timestamp format depending on settings
-func TimestampFormatFactory(tf string) (string, error) {
-	switch tf {
-	case "US":
-		return types.TimestampFormatUS, nil
-	case "EU":
-		return types.TimestampFormatEU, nil
-	}
-	return "", fmt.Errorf("unknown timestamp format: %s", tf)
-}
-
-func validateFileSource(fs string) bool {
-	switch fs {
-	case "Film Scanner":
-		return true
-	case "Reflection Print Scanner":
-		return true
-	case "Digital Camera":
-		return true
-	}
-	return false
 }

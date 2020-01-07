@@ -24,7 +24,7 @@ func TestFilmIsEmpty(t *testing.T) {
 		},
 		{
 			name:       "camera id filled",
-			filmSample: Film{CameraID: PtrInt64(1234)},
+			filmSample: Film{CameraID: PtrUint8(254)},
 			expResult:  false,
 		},
 		{

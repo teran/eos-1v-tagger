@@ -90,7 +90,10 @@ func TestExiftoolOptions(t *testing.T) {
 			name:  "geotime specified",
 			fname: "test-file-with-geotime",
 			f: func(e *ExifTool) {
-				ts := time.Date(2001, 3, 14, 15, 32, 53, 0, time.UTC)
+				tz, err := time.LoadLocation("CET")
+				r.NoError(err)
+
+				ts := time.Date(2001, 3, 14, 15, 32, 53, 0, tz)
 				e.GeoTime(ts)
 			},
 			expCommand: `"-GeoTime=2001:03:14 15:32:53Z" "test-file-with-geotime"`,
