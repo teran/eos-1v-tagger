@@ -96,10 +96,12 @@ func TestTimestampFormatViaSetter(t *testing.T) {
 		tsf := new(TimestampFormat)
 		err := tsf.Set(tc.input)
 		if tc.expError == nil {
+			r.NoError(err)
 			r.Equalf(tc.expOutput, *tsf, tc.name)
 			r.Equalf(tc.expLayout, tsf.TimeLayout(), tc.name)
 			r.Equalf(tc.expString, tsf.String(), tc.name)
 		} else {
+			r.Error(err)
 			r.Equalf(tc.expError.Error(), err.Error(), tc.name)
 		}
 	}
