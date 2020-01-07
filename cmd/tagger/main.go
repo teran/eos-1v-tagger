@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 	"time"
 
 	config "github.com/teran/eos-1v-tagger/config"
@@ -21,7 +22,11 @@ var (
 func main() {
 	cfg := config.NewDefaultConfig()
 
-	err := cfg.FillFromYaml("~/.tagger/config.yaml")
+	home, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalf("error obtaining user home directory: %s", err)
+	}
+	err = cfg.FillFromYaml(path.Join(home, ".tagger", "config.yaml"))
 	if err != nil && !os.IsNotExist(err) {
 		log.Fatalf("error reading config file: %s", err)
 	}
