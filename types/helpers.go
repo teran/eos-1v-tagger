@@ -73,11 +73,17 @@ func PtrAperture(av float64) *Aperture {
 
 // PtrFileSource ...
 func PtrFileSource(fs FileSource) *FileSource {
+	if fs == "" {
+		return nil
+	}
 	return &fs
 }
 
 // PtrTimestampFormat ...
 func PtrTimestampFormat(tf TimestampFormat) *TimestampFormat {
+	if tf == "" {
+		return nil
+	}
 	return &tf
 }
 
