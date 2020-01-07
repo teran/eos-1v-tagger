@@ -60,7 +60,7 @@ func NewFlags(binary, version, timestamp string) types.Flags {
 	flag.StringVar(&f.serialNumber, "serial-number", "", "SerialNumber tag value. NOTE: it will overwrite the value set by your film scanner software")
 	flag.BoolVar(&f.setDigitized, "set-digitized", false, "set DateTimeDigitized from CreateDate field")
 	flag.Var(&f.timestampFormat, "timestamp-format", "the timestamp format in the locale your're using on the system with ES-E1 software. Allowed values: 'US', 'EU'")
-	flag.StringVar(&f.timezone, "timezone", "UTC", "location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow')")
+	flag.StringVar(&f.timezone, "timezone", "", "location or timezone name used while setting time on EOS 1V, will be used for proper scans timestamping (example: 'Europe/Moscow'; default: 'UTC')")
 	flag.BoolVar(&f.displayVersion, "version", false, "show program version")
 
 	flag.Parse()
