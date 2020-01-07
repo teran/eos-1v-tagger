@@ -51,6 +51,11 @@ func main() {
 		os.Exit(1)
 	}
 
+	if f.GetCSVPath() == "" {
+		f.PrintUsageString()
+		os.Exit(1)
+	}
+
 	lookupTzFn := func(cID uint8) *time.Location {
 		tzname := cfg.GetTimezoneByCameraID(cID)
 		location, err := time.LoadLocation(tzname)
@@ -60,10 +65,6 @@ func main() {
 		}
 
 		return location
-	}
-
-	if f.GetCSVPath() == "" {
-		log.Fatal("CSV file is required to specify")
 	}
 
 	t, err := parser.New(f.GetCSVPath(), cfg.GetTimestampFormat().TimeLayout(), lookupTzFn)
