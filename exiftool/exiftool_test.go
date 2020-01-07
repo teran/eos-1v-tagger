@@ -96,7 +96,7 @@ func TestExiftoolOptions(t *testing.T) {
 				ts := time.Date(2001, 3, 14, 15, 32, 53, 0, tz)
 				e.GeoTime(ts)
 			},
-			expCommand: `"-GeoTime=2001:03:14 15:32:53Z" "test-file-with-geotime"`,
+			expCommand: `"-GeoTime=2001:03:14 15:32:53+0100" "test-file-with-geotime"`,
 		},
 		{
 			name:  "DateTimeDigitized copied from CreateDate",
