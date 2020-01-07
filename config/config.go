@@ -210,23 +210,26 @@ func (c *config) GetGeotag() *string {
 }
 
 func (c *config) GetMakeByCameraID(cameraID uint8) *string {
-	if m, ok := c.make[cameraID]; ok {
-		return &m
+	v := getOrDefault(c.make, cameraID, 0, "")
+	if v == "" {
+		return nil
 	}
-	return nil
+	return &v
 }
 
 func (c *config) GetModelByCameraID(cameraID uint8) *string {
-	if m, ok := c.make[cameraID]; ok {
-		return &m
+	v := getOrDefault(c.model, cameraID, 0, "")
+	if v == "" {
+		return nil
 	}
-	return nil
+	return &v
 }
 func (c *config) GetSerialNumberByCameraID(cameraID uint8) *string {
-	if sn, ok := c.make[cameraID]; ok {
-		return &sn
+	v := getOrDefault(c.serialNumber, cameraID, 0, "")
+	if v == "" {
+		return nil
 	}
-	return nil
+	return &v
 }
 
 func (c *config) GetSetDigitized() bool {
@@ -237,13 +240,17 @@ func (c *config) GetTimestampFormat() *types.TimestampFormat {
 	return &c.timestampFormat
 }
 func (c *config) GetTimezoneByCameraID(cameraID uint8) types.Timezone {
-	if tz, ok := c.timezone[cameraID]; ok {
-		return tz
+	return getOrDefault(c.timezone, cameraID, 0, "UTC")
+}
+
+func getOrDefault(d map[uint8]string, key, defaultKey uint8, defaultValue string) string {
+	if k, ok := d[key]; ok {
+		return k
 	}
 
-	if defaultTz, ok := c.timezone[0]; ok {
-		return defaultTz
+	if dk, ok := d[defaultKey]; ok {
+		return dk
 	}
 
-	return "UTC"
+	return defaultValue
 }
