@@ -22,31 +22,26 @@ func TestFileSourceViaSetter(t *testing.T) {
 	tcs := []testCase{
 		{
 			name:      "Digital Camera",
-			input:     `"Digital Camera"`,
+			input:     "Digital Camera",
 			expOutput: FileSourceDigitalCamera,
 			expString: "Digital Camera",
 		},
 		{
 			name:      "Reflection Print Scanner",
-			input:     `"Reflection Print Scanner"`,
+			input:     "Reflection Print Scanner",
 			expOutput: FileSourceReflectionPrintScanner,
 			expString: "Reflection Print Scanner",
 		},
 		{
 			name:      "Film Scanner",
-			input:     `"Film Scanner"`,
+			input:     "Film Scanner",
 			expOutput: FileSourceFilmScanner,
 			expString: "Film Scanner",
 		},
 		{
 			name:     "undefined value",
-			input:    `"blah"`,
-			expError: errors.New("Unknown value `\"blah\"` for time format"),
-		},
-		{
-			name:     "no quotes",
 			input:    "blah",
-			expError: errors.New("invalid syntax"),
+			expError: errors.New("Unknown value `blah` for time format"),
 		},
 	}
 

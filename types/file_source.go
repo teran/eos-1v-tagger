@@ -3,7 +3,6 @@ package types
 import (
 	"flag"
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -30,13 +29,9 @@ const (
 
 // Set is a part of flag.Value implementation
 func (fs *FileSource) Set(value string) error {
-	v, err := strconv.Unquote(value)
-	if err != nil {
-		return err
-	}
-	v = strings.TrimSpace(v)
+	value = strings.TrimSpace(value)
 
-	switch FileSource(v) {
+	switch FileSource(value) {
 	case FileSourceFilmScanner:
 		*fs = FileSourceFilmScanner
 	case FileSourceReflectionPrintScanner:

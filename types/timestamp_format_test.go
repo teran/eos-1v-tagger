@@ -68,27 +68,22 @@ func TestTimestampFormatViaSetter(t *testing.T) {
 	tcs := []testCase{
 		{
 			name:      "timestmap format EU",
-			input:     `"EU"`,
+			input:     "EU",
 			expOutput: TimestampFormatEU,
 			expString: "EU",
 			expLayout: "2/1/2006T15:04:05",
 		},
 		{
 			name:      "timestmap format US",
-			input:     `"US"`,
+			input:     "US",
 			expOutput: TimestampFormatUS,
 			expString: "US",
 			expLayout: "1/2/2006T15:04:05",
 		},
 		{
 			name:     "unexpected value",
-			input:    `"blah"`,
-			expError: errors.New("Unknown value `\"blah\"` for time format"),
-		},
-		{
-			name:     "no quotes",
 			input:    "blah",
-			expError: errors.New("invalid syntax"),
+			expError: errors.New("Unknown value `blah` for time format"),
 		},
 	}
 

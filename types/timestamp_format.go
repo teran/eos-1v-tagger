@@ -3,7 +3,6 @@ package types
 import (
 	"flag"
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -40,13 +39,9 @@ func NewTimestampFormat(s string) (*TimestampFormat, error) {
 
 // Set ...
 func (tf *TimestampFormat) Set(value string) error {
-	v, err := strconv.Unquote(value)
-	if err != nil {
-		return err
-	}
-	v = strings.TrimSpace(v)
+	value = strings.TrimSpace(value)
 
-	switch TimestampFormat(v) {
+	switch TimestampFormat(value) {
 	case TimestampFormatEU:
 		*tf = TimestampFormatEU
 	case TimestampFormatUS:
