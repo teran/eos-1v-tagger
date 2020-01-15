@@ -91,30 +91,39 @@ func (f *flags) GetCopyright() string {
 func (f *flags) GetExiftoolBinary() string {
 	return f.exiftoolBinary
 }
+
 func (f *flags) GetFilenamePattern() string {
 	return f.filenamePattern
 }
+
 func (f *flags) GetFileSource() types.FileSource {
 	return f.fileSource
 }
+
 func (f *flags) GetGeotag() string {
 	return f.geotag
 }
+
 func (f *flags) GetMake() string {
 	return f.make
 }
+
 func (f *flags) GetModel() string {
 	return f.model
 }
+
 func (f *flags) GetSerialNumber() string {
 	return f.serialNumber
 }
+
 func (f *flags) GetSetDigitized() bool {
 	return f.setDigitized
 }
+
 func (f *flags) GetTimestampFormat() types.TimestampFormat {
 	return f.timestampFormat
 }
+
 func (f *flags) GetTimezone() types.Timezone {
 	return f.timezone
 }
