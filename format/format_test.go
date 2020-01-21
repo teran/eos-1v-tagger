@@ -1,4 +1,4 @@
-package tagger
+package format
 
 import (
 	"testing"
