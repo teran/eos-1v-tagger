@@ -14,12 +14,32 @@ brews:
     description: "Canon ES-E1 CSV parsing tool to generate EXIF data for film scans"
     test: |
       system "#{bin}/eos-1v-tagger -version"
+      system "#{bin}/eos-1v-fpt -version"
     install: |
       bin.install "eos-1v-tagger"
+      bin.install "eos-1v-fpt"
 builds:
-  - env:
+  - id: eos-1v-tagger
+    binary: eos-1v-tagger
+    env:
       - CGO_ENABLED=0
-    main: ./cmd/tagger/
+    main:
+        ./cmd/tagger/main.go
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - 386
+      - amd64
+    ldflags:
+      - -s -w -X main.ldVersion={{.Version}} -X main.ldTimestamp={{.Timestamp}}
+  - id: eos-1v-fpt
+    binary: eos-1v-fpt
+    env:
+      - CGO_ENABLED=0
+    main:
+        ./cmd/filename-pattern-tester/main.go
     goos:
       - darwin
       - linux
